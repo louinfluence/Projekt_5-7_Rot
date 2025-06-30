@@ -49,16 +49,30 @@
       nav ul {
         list-style: none;
         padding: 0;
-        margin: 20px 0;
+        margin: 20px 0 0 0;
         display: flex;
         gap: 15px;
         justify-content: center;
+        background-color: rgba(255, 255, 255, 0.7); /* hell, halbtransparent */
+        border-radius: 10px;
+        padding: 10px 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
       }
 
       nav a {
+        color: #003366; /* dunkles Blau */
+        font-weight: bold;
         text-decoration: none;
-        color: #007acc;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+        
       }
+      header nav a:hover,
+      header nav a:focus {
+        background-color: #0059b3; /* dunkleres Blau beim Hover */
+        color: white;
+        }
 
       main {
         padding: 20px;
@@ -126,11 +140,6 @@
   <header>
     <h1>Projekt 5-7 Rot</h1>
     <p>Schritt für Schritt zum eigenen Projekt</p>
-   
-
-    
-  <!-- <img src="Projektarbeit an der WIR.png" alt="Bild zur Projektarbeit" width="600"> 
-  
     <nav>
       <ul>
         <li><a href="index.html">👋 Start</a></li>
@@ -142,6 +151,12 @@
       </ul>
     </nav>
   </header>
+   
+
+    
+  <!-- <img src="Projektarbeit an der WIR.png" alt="Bild zur Projektarbeit" width="600"> 
+  
+
     
     
     }
