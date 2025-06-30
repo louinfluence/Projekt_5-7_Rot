@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">    <title>🖐️ Haptik trifft auf KI 🤖</title>
+          <script src="common.js" defer></script>
+  </head>
+  <body>
+
+  <header>
+    <h1>Haptik trifft auf KI</h1>
+    <p>Praktische Impulse zum Ausprobieren</p>
+    <nav>
+      <ul>
+        <li><a href="index.html">👋 Start</a></li>
+        <li><a href="1.html">💡 Brainstorming</a></li>
+        <li><a href="2.html">🎲 Zufallsgenerator</a></li>
+        <li><a href="3.html">👤 Persona-Entwicklung</a></li>
+            <li><a href="4.html">🙃 Kopfstand mit Lego</a></li>
+             <li><a href="5.html">⁉️ Sokrates Post-It</a></li>
+    
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>🎲 Zufallsgenerator</h2> 
+ <p>Jetzt kann es losgehen. Eine Person Eurer Gruppe sollte dazu diesen Prompt kopieren und in ein Sprachmodell Eurer Wahl einfügen. Danach seid ihr immer abwechselnd an der Reihe: Ihr würfelt und erhaltet eine Herausforderung des KI-Sprachmodells. Lasst euch durch den Prozess führen.</p>
+ <hr>
+ 
+   <div id="resultContainer">
+      <p id="resultText">Prompt wird geladen...</p>
+    </div>
+
+    <button id="copyButton">Text kopieren</button>
+
+    <hr>
+
+<p>
+    <p><a href="index.html"><button>⬅ Zurück zur Übersicht</button></a></p>
+    
+    
+ 
+
+  </main>
+
+<footer>
+  <p>Erstellt von Nele Hirsch <a href="https://ebildungslabor.de">(eBildungslabor)</a> für die <a href="https://edunautika.de">edunautika 2025</a> | Lizenz: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a></p>
+</footer>
+
+
+ <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const challenge = localStorage.getItem('challenge') || '[keine Herausforderung eingegeben]';
+    const prompt = `Wir spielen ein Spiel als Gruppe, um uns in das Thema '${challenge}' einzustimmen.
+Du forderst die erste Person der Gruppe auf zu würfeln und den passenden Aspekt zu der gewürfelten Zahl von unserer vorbereiteten Liste zu suchen und diesen Aspekt mit dir zu teilen. Du schreibst dieser Person daraufhin eine Herausforderung, die sowohl das Thema als auch den gewürfelten Aspekt berücksichtigt. Die Person soll sie reflektieren und ihre Überlegung mit der Gruppe teilen. Du kannst zum Beispiel nach einer Frage fragen, nach einer guten oder schlechten Erfahrung, nach einer Idee, die sie teilen will, aber frage keine Fakten oder Wissen ab, sondern orientiere auf Ideen/ Erfahrungen/ Überlegungen / Erlebnisse ... Lade uns dazu ein, Bescheid zu geben, wenn die Person die Herausforderung gelöst hat und du die nächste Person in der Runde auffordern kannst, zu würfeln und den gewürfelten Aspekt mit dir zu teilen, um für sie eine weitere Herausforderung zu formulieren. Wiederhole dieses Vorgehen so lange, bis wir aufhören zu spielen. Achte darauf, inspirierende und immer wieder unterschiedliche Herausforderungen zu generieren und diese kurz und prägnant zu formulieren.`;
+
+    document.getElementById('resultText').textContent = prompt;
+  });
+</script>
+
+  
+
+
+  </body>
+</html>
