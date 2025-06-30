@@ -1,1 +1,70 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">    <title>🖐️ Haptik trifft auf KI 🤖</title>
+          <script src="common.js" defer></script>
+  </head>
+  <body>
 
+  <header>
+    <h1>Haptik trifft auf KI</h1>
+    <p>Praktische Impulse zum Ausprobieren</p>
+    <nav>
+      <ul>
+        <li><a href="index.html">👋 Start</a></li>
+        <li><a href="1.html">💡 Brainstorming</a></li>
+        <li><a href="2.html">🎲 Zufallsgenerator</a></li>
+        <li><a href="3.html">👤 Persona-Entwicklung</a></li>
+            <li><a href="4.html">🙃 Kopfstand mit Lego</a></li>
+             <li><a href="5.html">⁉️ Sokrates Post-It</a></li>
+    
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>💡 Brainstorming</h2> 
+ <p>Jetzt kann es losgehen. Eine Person Eurer Gruppe sollte dazu diesen Prompt kopieren und in ein Sprachmodell Eurer Wahl einfüge. Lasst euch dann durch den weiteren Prozess führen.</p>
+ <hr>
+ 
+   <div id="resultContainer">
+      <p id="resultText">Prompt wird geladen...</p>
+    </div>
+
+    <button id="copyButton">Text kopieren</button>
+
+    <hr>
+
+<p>
+    <p><a href="index.html"><button>⬅ Zurück zur Übersicht</button></a></p>
+    
+    
+ 
+
+  </main>
+
+<footer>
+  <p>Erstellt von Nele Hirsch <a href="https://ebildungslabor.de">(eBildungslabor)</a> für die <a href="https://edunautika.de">edunautika 2025</a> | Lizenz: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a></p>
+</footer>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const challenge = localStorage.getItem('challenge') || '[keine Herausforderung eingegeben]';
+      const prompt = `Wir spielen ein kreatives Ideen-PingPong. Wir spielen als Gruppe und nutzen dazu Gegenstände, die vor uns auf dem Tisch liegen. Du spielst allein und immer im Wechsel mit uns.
+Die Herausforderung lautet: ${challenge}.
+Du beginnst, indem du uns bittest, eine erste Idee zu nennen und dazu den ersten Gegenstand zu nutzen, der vor uns auf dem Tisch liegt. Wir sollen uns also als Gruppe überlegen, auf welche Idee uns dieser Gegenstand bringt. Rege uns dazu an, uns den Gegenstand genau anzuschauen und vielleicht auch zu erfühlen - und dann die gefundene Idee mit dir teilen. Erst danach nennst du selbst eine Idee.
+Dann forderst du uns direkt zur nächsten Idee auf mit dem nächsten Gegenstand, der vor uns liegt – und so weiter.
+Die Ideen sollen möglichst kurz, überraschend und unterschiedlich sein.
+Wiederhole den Wechsel so lange, bis wir aufhören zu spielen.`;
+
+      document.getElementById('resultText').textContent = prompt;
+    });
+  </script>
+  
+
+
+  </body>
+</html>
