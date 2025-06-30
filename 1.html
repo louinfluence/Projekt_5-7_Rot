@@ -1,78 +1,72 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">    <title>🖐️ Haptik trifft auf KI 🤖</title>
-          <script src="common.js" defer></script>
-  </head>
-  <body>
-    <header>
-    <h1>Projekt 5-7 Rot</h1>
-    <p>Schritt für Schritt zum eigenen Projekt</p>
-    <nav>
-      <ul>
-        <li><a href="index.html">👋 Start</a></li>
-        <li><a href="1.html">🔍 Forscherfrage</a></li>
-        <li><a href="2.html">🌱 Nachhaltigkeitsziele</a></li>
-        <li><a href="3.html">🎯 Zielgruppen & Nutzen</a></li>
-        <li><a href="4.html">🧰 Mögliche Produkte</a></li>
-        <li><a href="5.html">🗺️ Nächste Schritte planen</a></li>
-      </ul>
-    </nav>
-  </header>
+<head>
+  <meta charset="UTF-8">
+  <title>🎲 Forscherfragen mit dem Zufallsgenerator entwickeln</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 1em;
+      background-color: #eee;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    li {
+      margin-bottom: 0.5em;
+    }
+  </style>
+</head>
+<body>
 
 <main>
-    <h2>🔍 Was ist eine Forscherfrage?</h2>
-    <p>Eine gute Forscherfrage ist der Startpunkt für ein spannendes Projekt. Sie hilft dir dabei, ein Thema zu strukturieren, kritisch zu denken und verschiedene Quellen einzubeziehen.</p>
+  <h2>🎲 Forscherfragen mit dem Zufallsgenerator entwickeln</h2>
+  <p>Der Zufall kann ein guter Einstieg sein, um erste Ideen für spannende Forscherfragen zu finden. So geht ihr vor:</p>
 
-    <h3>✅ Eine gute Forscherfrage ...</h3>
-    <ul>
-      <li>… lässt sich **nicht mit Ja/Nein oder einer Zahl beantworten**.</li>
-      <li>… regt zum **Nachdenken und Weiterforschen** an.</li>
-      <li>… lässt sich in **Teilfragen unterteilen**.</li>
-      <li>… kann mit Hilfe von **verschiedenen Quellen** beantwortet werden.</li>
-    </ul>
+  <ol>
+    <li>Nehmt euer Thema und Erstellt eine Mindmap. Durch die Äste kommt ihr vielleicht schon auf Unterthemen, die euch an eurem Hauptthema interessieren. </li>
+    <li>Erstellt eine nummerierte Liste mit 6 Aspekten, die euch zu diesem Thema wichtig oder spannend erscheinen.<br>
+        Beispiel zum Thema *Freundschaft*: Vertrauen, Konflikte, soziale Medien, Nähe & Distanz, Gruppen, Regeln</li>
+    <li>Besorgt euch einen Würfel. Jede Person würfelt und greift den gewürfelten Aspekt auf.</li>
+    <li>Nun denkt jede Person über eine passende **Forscherfrage** zu diesem Aspekt nach. Tipp: Gute Forscherfragen beginnen oft mit *Wie…?*, *Warum…?* oder *Was bedeutet…?*</li>
+    <li>Formuliert eure Frage möglichst klar und gebt sie in das folgende Formular ein. Ihr bekommt einen Vorschlag, wie ihr mit der Frage weiterarbeiten könnt.</li>
+  </ol>
 
-    <h3>💬 Beispielhafte Forscherfragen</h3>
-    <ul>
-      <li>Wie beeinflusst der Einsatz von KI das Lernen in der Schule?</li>
-      <li>Wie können Städte klimafreundlicher gestaltet werden?</li>
-      <li>Wie verändert sich Freundschaft durch soziale Medien?</li>
-    </ul>
+  <form id="frageForm" data-target="1-result.html">
+    <label for="frage">Eure Forscherfrage:</label>
+    <textarea 
+      id="frage" 
+      name="frage" 
+      placeholder="Wie ...? Warum ...? Was bedeutet ...?" 
+      required
+      rows="3"></textarea>
 
-    <h3>✍️ Formuliere deine eigene Forscherfrage</h3>
-    <p>Nutze die folgende Eingabe, um eine erste Version deiner Forscherfrage festzuhalten:</p>
+    <p><button type="submit">Prompt generieren</button></p>
+  </form>
 
-      <form id="challengeForm" data-target="1-result.html">
-  <label for="challenge">Idee für eine Forscherfrage:</label>
-  <textarea 
-    id="challenge" 
-    name="challenge" 
-    placeholder="Wie ...? Warum...? Was bedeutet...?" 
-    required
-    rows="2">
-  </textarea>
+  <p>💡 zur Recherche können euch übrigens folgene Websites oder Suchmaschienen unterstützen:</p>
+  <ul>
+    <li><a href="https://klexikon.zum.de/" target="_blank">Klexikon</a></li>
+    <li><a href="https://www.fragfinn.de/" target="_blank">Frag Finn</a></li>
+    <li><a href="https://www.planet-schule.de/" target="_blank">Planet Schule</a></li>
+    <li><a href="https://forscherwelt.de/" target="_blank">Forscherwelt</a></li>
+    
+    
+  </ul>
+</main>
 
-  <p><button type="submit">Prompt generieren</button></p>
-</form>
-   
-
-    <h3>🌐 Inspiration & Recherche</h3>
-    <p>Wenn du noch keine Idee hast, kannst du auf diesen Seiten stöbern:</p>
-    <ul>
-      <li><a href="https://www.zeit.de/zeit-fuer-schulen" target="_blank">Zeit für Schulen</a></li>
-      <li><a href="https://forscherwelt.de" target="_blank">Forscherwelt</a></li>
-      <li><a href="https://www.planet-schule.de" target="_blank">Planet Schule</a></li>
-      <!-- Du kannst hier weitere Links einfügen -->
-    </ul>
-
-    <p>Wenn du willst, kannst du auch ein KI-Modell bitten, dir beim Finden einer Frage zu helfen. Wichtig ist: Die Frage muss für dich spannend sein!</p>
-  </main>
-
-  <footer>
-    <p>Erstellt von Louis Birk- von Brook | Lizenz: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a></p>
-  </footer>
+<footer>
+  <p>Erstellt von Louis Birk- von Brook | Lizenz: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a></p>
+</footer>
 
 </body>
 </html>
+
