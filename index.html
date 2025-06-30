@@ -1,4 +1,119 @@
 <!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple-v1.css"> 
+    <title>Projekt 5-7 rot</title>
+    <script src="common.js" defer></script>
+
+    <style>
+      /* Bereich für das Hintergrundbild im oberen Teil */
+      header {
+        height: 40vh; /* 40% der Höhe des Viewports */
+        background-image: url('Projektarbeit%20an%20der%20WIR.png');
+        background-repeat: no-repeat;
+        background-position: center top; /* oben zentriert */
+        background-size: contain; /* Ganzes Bild sichtbar, keine Beschnitt */
+        position: relative;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        /* Optional: dunkler Overlay für bessere Lesbarkeit */
+      }
+
+      header::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: rgba(0,0,0,0.5); /* halbtransparentes Schwarz */
+        z-index: 0;
+      }
+
+      header * {
+        position: relative;
+        z-index: 1; /* Text über Overlay */
+      }
+
+      /* Rest der Seite ohne Hintergrundbild */
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Navigation und Overlay kannst du so lassen oder anpassen */
+      nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: #007acc;
+      }
+
+      main {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      footer {
+        text-align: center;
+        padding: 10px;
+        font-size: 0.9em;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <h1>Projekt 5-7 Rot</h1>
+      <p>Schritt für Schritt zum eigenen Projekt</p>
+
+      <nav>
+        <ul>
+          <li><a href="index.html">👋 Start</a></li>
+          <li><a href="1.html">🔍 Forscherfrage</a></li>
+          <li><a href="2.html">🌱 Nachhaltigkeitsziele</a></li>
+          <li><a href="3.html">🎯 Zielgruppen & Nutzen</a></li>
+          <li><a href="4.html">🧰 Mögliche Produkte</a></li>
+          <li><a href="5.html">🗺️ Nächste Schritte planen</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h2>👋 Willkommen zur Entwicklung deines eigenen Projekts!</h2>
+      <p>In fünf Schritten kannst du von der ersten Idee bis zur konkreten Projektplanung gelangen. Klicke dich durch die einzelnen Etappen:</p>
+
+      <p><a class="button" href="1.html">🔍 Was ist eine Forscherfrage?</a></p>
+      <p><a class="button" href="2.html">🌱 Was sind Nachhaltigkeitsziele?</a></p>
+      <p><a class="button" href="3.html">🎯 Wer ist meine Zielgruppe? Was ist der Nutzen?</a></p>
+      <p><a class="button" href="4.html">🧰 Was ist ein Produkt? Was kann ich herstellen oder zeigen?</a></p>
+      <p><a class="button" href="5.html">🗺️ Wie plane ich mein weiteres Vorgehen?</a></p>
+      <p><a class="button" href="6.html">🗺️ Mein Vorgehen als Projektrat</a></p>
+
+      <p>Die Leitfragen helfen dir, dein Projekt strukturiert zu entwickeln – von der Idee bis zur Umsetzung.</p>
+    </main>
+
+    <footer>
+      <p>Erstellt von Louis Birk- von Brook Lizenz: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a></p>
+    </footer>
+  </body>
+</html>
+
+
+<!-- <!doctype html>
 <html lang"=de">
   <head>
     <meta charset="utf-8">
@@ -40,7 +155,7 @@
   <div class="overlay"> 
 
     
-  <!-- <img src="Projektarbeit an der WIR.png" alt="Bild zur Projektarbeit" width="600"> -->
+  <!-- <img src="Projektarbeit an der WIR.png" alt="Bild zur Projektarbeit" width="600"> 
   
     <nav>
       <ul>
@@ -76,4 +191,4 @@
     <p>Erstellt von Louis Birk- von Brook Lizenz: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a></p>
   </footer>
 </body>
-</html>
+</html> -->
