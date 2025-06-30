@@ -10,90 +10,86 @@
     <style>
       /* Bereich für das Hintergrundbild im oberen Teil */
       header {
-        height: 40vh; /* 40% der Höhe des Viewports */
-        background-image: url('Projektarbeit%20an%20der%20WIR.png');
-        background-repeat: no-repeat;
-        background-position: center top; /* oben zentriert */
-        background-size: contain; /* Ganzes Bild sichtbar, keine Beschnitt */
-        position: relative;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 20px;
-        /* Optional: dunkler Overlay für bessere Lesbarkeit */
-      }
+  height: 40vh; /* Höhe des Bild-Hintergrunds */
+  background-image: url('Projektarbeit%20an%20der%20WIR.png');
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: contain;
+  position: relative;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Menü unten ausrichten */
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
 
-      header::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background-color: rgba(0,0,0,0.5); /* halbtransparentes Schwarz */
-        z-index: 0;
-      }
+header::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 0;
+}
 
-      header * {
-        position: relative;
-        z-index: 1; /* Text über Overlay */
-      }
+header * {
+  position: relative;
+  z-index: 1;
+}
 
-      /* Rest der Seite ohne Hintergrundbild */
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-      }
+header nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  /* Weißer Kasten weg */
+  background: none;
+  box-shadow: none;
+}
 
-      /* Navigation und Overlay kannst du so lassen oder anpassen */
-      nav ul {
-        list-style: none;
-        padding: 0;
-        margin: 20px 0 0 0;
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        background-color: rgba(255, 255, 255, 0.7); /* hell, halbtransparent */
-        border-radius: 10px;
-        padding: 10px 20px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      }
+header nav a {
+  color: #003366; /* dunkles Blau */
+  font-weight: bold;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 0;
+  transition: color 0.3s ease;
+}
 
-      nav a {
-        color: #003366; /* dunkles Blau */
-        font-weight: bold;
-        text-decoration: none;
-        padding: 6px 12px;
-        border-radius: 6px;
-        transition: background-color 0.3s ease;
-        
-      }
-      header nav a:hover,
-      header nav a:focus {
-        background-color: #0059b3; /* dunkleres Blau beim Hover */
-        color: white;
-        }
+header nav a:hover,
+header nav a:focus {
+  color: #0059b3; /* dunkleres Blau beim Hover */
+}
 
-      main {
-        padding: 20px;
-        max-width: 800px;
-        margin: 0 auto;
-      }
+/* Gesamte Seite mittig ausrichten */
 
-      footer {
-        text-align: center;
-        padding: 10px;
-        font-size: 0.9em;
-        color: #555;
-      }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  text-align: center; /* Texte mittig */
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9em;
+  color: #555;
+}
     </style>
   </head>
   <body>
 
     <header>
-      <h1>Projekt 5-7 Rot</h1>
-      <p>Schritt für Schritt zum eigenen Projekt</p>
-
       <nav>
         <ul>
           <li><a href="index.html">👋 Start</a></li>
