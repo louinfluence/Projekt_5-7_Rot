@@ -109,20 +109,4 @@ nav ul {
   }
 }
 /* iPad 10. Gen – Hochformat */
-@media screen and (min-width: 810px) and (max-width: 830px) and (orientation: portrait) {
-  nav ul {
-    left: 50%;
-    transform: translateX(-50%) translateY(0);
-    gap: 5px;           /* Etwas enger zusammen */
-    bottom: 15px;            /* Etwas Abstand vom unteren Rand */
-  }
-  nav ul li a {
-    font-size: 0.8rem;         /* Lesbar aufrecht gehalten */
-    padding: 4px 8px;        /* Platzsparend aber klickbar */
-    white-space: nowrap;     /* Verhindert Umbruch im Linktext */
-  }
-  header {
-    background-size: 100% auto; /* Bildgröße anpassen */
-    height: 800px;             /* Höhe anpassen */
-  }
-}
+
