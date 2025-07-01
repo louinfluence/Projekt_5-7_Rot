@@ -87,22 +87,7 @@ nav ul li a.nav-rat:focus {
     color: black !important;
 }
 
-/* Tablet Querformat Anpassung */
-@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {
-    nav ul {
-        gap: 4px !important;          /* weniger Abstand zwischen den Items */
-        padding-top: 24%;             /* Navigation etwas weiter nach oben */
-        transform: translateX(20px);
-    }
-    nav ul li a {
-        padding: 4px 6px !important;
-        margin: 1px !important;       /* kleinerer Margin (mit Einheit!) */
-    }
-    header {
-        height: 450px;
-        background-size: 70% auto;
-    }
-}
+
 
 
 /* Tablet Querformat Anpassung *//*
