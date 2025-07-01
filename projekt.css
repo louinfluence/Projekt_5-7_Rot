@@ -10,7 +10,7 @@ header {
   flex-direction: column;
   justify-content: flex-start; /* Navigation ganz oben starten */
   align-items: center;
-  padding-top: 1000px; /* Hier steuerst du die vertikale Position der Navigation */
+  padding-top: 90%; /* Hier steuerst du die vertikale Position der Navigation */
 }
 
 nav ul {
