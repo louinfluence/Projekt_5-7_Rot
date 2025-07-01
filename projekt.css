@@ -17,6 +17,7 @@ nav ul {
   padding: 0;
   gap: 15px;
   /* keine padding-top hier */
+  background-color: rgba(255,0,0,0.2);
 }
 
 nav ul li a.nav-start {
