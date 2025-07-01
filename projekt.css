@@ -1,16 +1,13 @@
 header {
-  position: relative;
   height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* oder center, je nach Wunsch */
+  align-items: center;
   background-image: url('Projektarbeit%20an%20der%20WIR.png');
   background-repeat: no-repeat;
   background-position: center 30%;
   background-size: 50% auto;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Navigation ganz oben starten */
-  align-items: center;
-  padding-top: 10px; /* Hier steuerst du die vertikale Position der Navigation */
 }
 
 nav ul {
@@ -19,6 +16,7 @@ nav ul {
   margin: 0;
   padding: 0;
   gap: 15px;
+  /* keine padding-top hier */
 }
 
 nav ul li a.nav-start {
