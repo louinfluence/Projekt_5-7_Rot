@@ -23,22 +23,64 @@
         margin: 0;
         gap: 15px;
      }
-     .nav-start,
-     .nav-rat {
-          color: orange;
-      }
-    .nav-idee {
-        color: darkblue;
+    .nav-start {
+      background-color: transparent;
+      color: orange;
     }
-    .nav-vertrag {
-        color: green;
+    .nav-start:hover,
+    .nav-start:focus {
+      background-color: orange;
+      color: white;
     }
-    .nav-forscher,
+
+    .nav-forscher {
+      background-color: transparent;
+      color: gold;
+    }
+    .nav-forscher:hover,
+    .nav-forscher:focus {
+      background-color: gold;
+      color: white;
+    }
+
     .nav-nachhaltigkeit {
-        color: gold;
+      background-color: transparent;
+      color: green;
     }
-    .nav-produkt {
-        color: orangered;
+    .nav-nachhaltigkeit:hover,
+    .nav-nachhaltigkeit:focus {
+      background-color: green;
+      color: white;
+    }
+
+    .nav-zielgruppen {
+      background-color: transparent;
+      color: darkblue;
+    }
+    .nav-zielgruppen:hover,
+    .nav-zielgruppen:focus {
+      background-color: darkblue;
+      color: white;
+    }
+
+    .nav-produkte {
+      background-color: transparent;
+      color: orangered;
+    }
+    .nav-produkte:hover,
+    .nav-produkte:focus {
+      background-color: orangered;
+      color: white;
+    }
+
+    .nav-schritte {
+      background-color: transparent;
+      color: purple;
+    }
+    .nav-schritte:hover,
+    .nav-schritte:focus {
+      background-color: purple;
+      color: white;
     }
    
     </style>
@@ -47,13 +89,13 @@
    <header>
   <nav>
     <ul>
-      <li><a href="index.html">👋 Start</a></li>
-      <li><a href="idee.html">💡 Idee</a></li>
-      <li><a href="vertrag.html">📅 Planung</a></li>
-      <li><a href="forscherfrage.html">🔍 Forscherfrage</a></li>
-      <li><a href="nachhaltigkeit.html">🌱 Nachhaltigkeitsziele</a></li>
-      <li><a href="produkt.html">🪧 Protukt entwicklung</a></li>
-      <li><a href="rat.html">👆 Projektrat</a></li>
+       <li><a href="index.html" class="nav-start">👋 Start</a></li>
+      <li><a href="idee.html" class="nav-idee">💡 Idee</a></li>
+      <li><a href="vertrag.html" class="nav-vertrag">📅 Planung</a></li>
+      <li><a href="forscherfrage.html" class="nav-forscherfrage">🔍 Forscherfrage</a></li>
+      <li><a href="nachhaltigkeit.html" class="nav-nachhaltigkeit">🌱 Nachhaltigkeitsziele</a></li>
+      <li><a href="produkt.html" class="nav-produkt">🪧 Produktentwicklung</a></li>
+      <li><a href="rat.html" class="nav-rat">👆 Projektrat</a></li>
     </ul>
   </nav>
 </header>
