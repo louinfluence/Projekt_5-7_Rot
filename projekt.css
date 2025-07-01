@@ -11,7 +11,7 @@ nav ul {
   bottom: 20px; /* Abstand vom unteren Rand */
   left: 378px;
   transform: translateX(50%);
-  transform: translateY(-15%);
+  transform: translateY(-12%);
   
   display: flex;
   list-style: none;
