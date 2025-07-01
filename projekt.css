@@ -91,21 +91,21 @@ nav ul li a.nav-rat:focus {
 }
 
 /* Spezifische Anpassung für iPad 10. Gen Querformat */
-@media screen and (min-width: 810px) and (max-width: 1112px) and (orientation: landscape) {
-  nav ul {
-    left: 0px;               /* Zentriert die Navigation horizontal */
-    transform: translateX(-80%) translateY(-20%); /* Feine Anpassung nach oben */
-    gap: 3px;               /* Optional: Menüpunkte enger zusammen */
+@media screen and (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
+nav ul {
+    left: 50%;               /* Zentriert die Navigation horizontal */
+    transform: translateX(-50%) translateY(-5%); /* Feine Anpassung nach oben */
+    gap: 10px;               /* Optional: Menüpunkte enger zusammen */
     bottom: 15px;            /* Etwas Abstand vom unteren Rand */
   }
 
   header {
-    background-size: 150% auto; /* Bild etwas größer anpassen */
-    height: 550px;              /* Höhe anpassen, wenn nötig */
+    background-size: 65% auto; /* Bild etwas größer anpassen */
+    height: 450px;              /* Höhe anpassen, wenn nötig */
   }
 }
-/* iPad 10. Gen Hochformat (Portrait) */
-@media screen and (min-width: 600px) and (max-width: 810px) and (orientation: portrait) {
+/* iPad 10. Gen – Hochformat */
+@media screen and (min-width: 810px) and (max-width: 830px) and (orientation: portrait) {
   nav ul {
     position: absolute;
     bottom: 20px;
