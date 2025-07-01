@@ -124,7 +124,7 @@ nav ul {
     white-space: nowrap;     /* Verhindert Umbruch im Linktext */
   }
   header {
-    background-size: 70% auto; /* Bildgröße anpassen */
-    height: 480px;             /* Höhe anpassen */
+    background-size: 90% auto; /* Bildgröße anpassen */
+    height: 550px;             /* Höhe anpassen */
   }
 }
