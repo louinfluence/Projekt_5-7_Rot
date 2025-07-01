@@ -10,7 +10,7 @@ header {
   flex-direction: column;
   justify-content: flex-start; /* Navigation ganz oben starten */
   align-items: center;
-  padding-top: 100px; /* Hier steuerst du die vertikale Position der Navigation */
+  padding-top: 400px; /* Hier steuerst du die vertikale Position der Navigation */
 }
 
 nav ul {
@@ -115,7 +115,7 @@ nav ul li a.nav-rat:focus {
         justify-content: center;
         gap: 8px;
         padding-top: 34%;
-        transform: translateX(0px);
+        transform: translateX(20px);
     }
     nav ul li {
         margin: 0 !important;
