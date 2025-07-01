@@ -17,31 +17,6 @@ nav ul {
   background-color: rgba(0, 0, 255, 0.1);
 }
 
-/*header {
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* oder center, je nach Wunsch *//*
-  align-items: center;
-  background-image: url('Projektarbeit%20an%20der%20WIR.png');
-  background-repeat: no-repeat;
-  background-position: center 30%;
-  background-size: 50% auto;
-  position: relative;
-  background-color: rgba(0, 0, 255, 0.1);
-}
-
-nav ul {
-  display: flex;
-  list-style: none;
-  margin-top: 210px;
-  padding-top: 180px;
-  gap: 15px;
-  position: relative;
-  min-height: 110px; /* sorgt für Mindesthöhe *//*
-  background-color: rgba(0, 0, 255, 0.1);
-}*/
-
 nav ul li a.nav-start {
     color: orange !important;
     background-color: transparent;
@@ -115,6 +90,24 @@ nav ul li a.nav-rat:focus {
 /* Tablet Querformat Anpassung */
 @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {
     nav ul {
+        gap: 4px !important;          /* weniger Abstand zwischen den Items */
+        padding-top: 18%;             /* Navigation etwas weiter nach oben */
+        transform: translateX(20px);
+    }
+    nav ul li a {
+        padding: 4px 6px !important;
+        margin: 1px !important;       /* kleinerer Margin (mit Einheit!) */
+    }
+    header {
+        height: 450px;
+        background-size: 70% auto;
+    }
+}
+
+
+/* Tablet Querformat Anpassung *//*
+@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {
+    nav ul {
         gap: 6px !important;
         padding-top: 20%;
       transform: translateX(20px);
@@ -127,7 +120,7 @@ nav ul li a.nav-rat:focus {
         height: 450px;
         background-size: 70% auto;
     }
-}
+}*/
 
 /* Tablet Hochformat Anpassung */
 @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
