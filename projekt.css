@@ -8,7 +8,7 @@ header {
 /* Navigation exakt positioniert */
 nav ul {
   position: absolute;
-  bottom: 40px; /* Abstand vom unteren Rand */
+  bottom: 30px; /* Abstand vom unteren Rand */
   left: 50%;
   transform: translateX(-50%);
   
