@@ -118,7 +118,11 @@ nav ul {
     gap: 8px;           /* Etwas enger zusammen */
     padding: 0 10px;    /* Optional etwas Innenabstand */
   }
-
+  nav ul li a {
+    font-size: 1rem;         /* Lesbar aufrecht gehalten */
+    padding: 4px 8px;        /* Platzsparend aber klickbar */
+    white-space: nowrap;     /* Verhindert Umbruch im Linktext */
+  }
   header {
     background-size: 70% auto; /* Bildgröße anpassen */
     height: 480px;             /* Höhe anpassen */
