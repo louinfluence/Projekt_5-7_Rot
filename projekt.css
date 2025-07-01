@@ -1,21 +1,24 @@
 header {
+  position: relative;
   height: 500px;
   background: url('Projektarbeit%20an%20der%20WIR.png') no-repeat center 30%;
-  background-repeat: no-repeat center 30%;
   background-size: 50% auto;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 2rem;
 }
 
+/* Navigation exakt positioniert */
 nav ul {
+  position: absolute;
+  bottom: 40px; /* Abstand vom unteren Rand */
+  left: 50%;
+  transform: translateX(-50%);
+  
   display: flex;
   list-style: none;
   gap: 15px;
   padding: 0;
-  margin-top: 150px;
-  background-color: rgba(0, 0, 255, 0.1);
+  margin: 0;
+
+  background-color: rgba(0, 0, 255, 0.1); /* Testweise sichtbar */
 }
 
 nav ul li a.nav-start {
