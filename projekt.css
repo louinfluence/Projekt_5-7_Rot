@@ -1,19 +1,24 @@
 header {
-    position: relative;
-    height: 500px;
-    background-image: url('Projektarbeit%20an%20der%20WIR.png');
-    background-repeat: no-repeat;
-    background-position: center 30%;
-    background-size: 50% auto;
+  position: relative;
+  height: 500px;
+  background-image: url('Projektarbeit%20an%20der%20WIR.png');
+  background-repeat: no-repeat;
+  background-position: center 30%;
+  background-size: 50% auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Navigation ganz oben starten */
+  align-items: center;
+  padding-top: 100px; /* Hier steuerst du die vertikale Position der Navigation */
 }
 
 nav ul {
-    display: flex;
-    padding-top: 20%;
-    justify-content: center; 
-    list-style: none;
-    margin: 0;
-    gap: 15px;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 15px;
 }
 
 nav ul li a.nav-start {
