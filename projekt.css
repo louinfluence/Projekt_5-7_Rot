@@ -15,8 +15,8 @@ header {
 nav ul {
   display: flex;
   list-style: none;
-  margin-top: 180px;
-  padding-top: 150px;
+  margin-top: 200px;
+  padding-top: 160px;
   gap: 15px;
   position: relative;
   min-height: 100px; /* sorgt für Mindesthöhe */
