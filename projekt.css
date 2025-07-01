@@ -8,13 +8,13 @@ header {
 /* Navigation exakt positioniert */
 nav ul {
   position: absolute;
-  bottom: 30px; /* Abstand vom unteren Rand */
+  bottom: 5px; /* Abstand vom unteren Rand */
   left: 50%;
   transform: translateX(-50%);
   
   display: flex;
   list-style: none;
-  gap: 15px;
+  gap: 5px;
   padding: 0;
   margin: 0;
 
