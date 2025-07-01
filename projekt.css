@@ -9,7 +9,7 @@ header {
 nav ul {
   position: absolute;
   bottom: 20px; /* Abstand vom unteren Rand */
-  left: 250px;
+  left: 350px;
   transform: translateX(50%);
   transform: translateY(-20%);
   
