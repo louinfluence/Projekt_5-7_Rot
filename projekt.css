@@ -94,8 +94,9 @@ nav ul li a.nav-rat:focus {
 /* Tablet Querformat Anpassung */
 @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {
     nav ul {
-        gap: 8px !important;
+        gap: 6px !important;
         padding-top: 26%;
+      transform: translateX(20px);
     }
     nav ul li a {
         padding: 4px 6px !important;
@@ -114,7 +115,7 @@ nav ul li a.nav-rat:focus {
         justify-content: center;
         gap: 8px;
         padding-top: 34%;
-        transform: translateX(-20px);
+        transform: translateX(0px);
     }
     nav ul li {
         margin: 0 !important;
