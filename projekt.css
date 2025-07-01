@@ -1,6 +1,6 @@
 header {
   height: 500px;
-  background: rgba(0, 0, 255, 0.1) url('Projektarbeit%20an%20der%20WIR.png') no-repeat center 30%;
+  url('Projektarbeit%20an%20der%20WIR.png') no-repeat center 30%;
   background-size: 50% auto;
   display: flex;
   align-items: flex-end;
