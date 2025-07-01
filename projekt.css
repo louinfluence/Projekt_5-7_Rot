@@ -90,46 +90,33 @@ nav ul li a.nav-rat:focus {
     color: black !important;
 }
 
+/* Spezifische Anpassung für iPad 10. Gen Querformat */
+@media screen and (min-width: 810px) and (max-width: 1112px) and (orientation: landscape) {
+  nav ul {
+    left: 50%;               /* Zentriert die Navigation horizontal */
+    transform: translateX(-50%) translateY(-5%); /* Feine Anpassung nach oben */
+    gap: 10px;               /* Optional: Menüpunkte enger zusammen */
+    bottom: 15px;            /* Etwas Abstand vom unteren Rand */
+  }
 
+  header {
+    background-size: 65% auto; /* Bild etwas größer anpassen */
+    height: 450px;              /* Höhe anpassen, wenn nötig */
+  }
+}
+/* iPad 10. Gen Hochformat (Portrait) */
+@media screen and (min-width: 600px) and (max-width: 810px) and (orientation: portrait) {
+  nav ul {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    gap: 8px;           /* Etwas enger zusammen */
+    padding: 0 10px;    /* Optional etwas Innenabstand */
+  }
 
-
-/* Tablet Querformat Anpassung *//*
-@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {
-    nav ul {
-        gap: 6px !important;
-        padding-top: 20%;
-      transform: translateX(20px);
-    }
-    nav ul li a {
-        padding: 4px 6px !important;
-        margin: 1 !important;
-    }
-    header {
-        height: 450px;
-        background-size: 70% auto;
-    }
-}*/
-
-/* Tablet Hochformat Anpassung */
-@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-    nav ul {
-        flex-wrap: wrap; /* falls zu wenig Platz nebeneinander */
-        justify-content: center;
-        gap: 8px;
-        padding-top: 29%;
-        transform: translateX(20px);
-    }
-    nav ul li {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-    nav ul li a {
-        padding: 6px 10px !important;
-        font-size: 0.9rem !important;
-        margin: 0 !important;
-    }
-    header {
-        height: 480px;
-        background-size: 80% auto;
-    }
+  header {
+    background-size: 70% auto; /* Bildgröße anpassen */
+    height: 480px;             /* Höhe anpassen */
+  }
 }
