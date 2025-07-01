@@ -16,7 +16,7 @@ nav ul {
   display: flex;
   list-style: none;
   margin-top: 200px;
-  padding-top: 160px;
+  padding-top: 180px;
   gap: 15px;
   position: relative;
   min-height: 100px; /* sorgt für Mindesthöhe */
