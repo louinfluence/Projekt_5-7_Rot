@@ -98,7 +98,11 @@ nav ul {
     gap: 10px;               /* Optional: Menüpunkte enger zusammen */
     bottom: 15px;            /* Etwas Abstand vom unteren Rand */
   }
-
+ nav ul li a {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    white-space: nowrap;
+  }
   header {
     background-size: 65% auto; /* Bild etwas größer anpassen */
     height: 450px;              /* Höhe anpassen, wenn nötig */
