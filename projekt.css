@@ -19,7 +19,7 @@ nav ul {
   padding-top: 150px;
   gap: 15px;
   position: relative;
-  min-height: 40px; /* sorgt für Mindesthöhe */
+  min-height: 80px; /* sorgt für Mindesthöhe */
   background-color: rgba(0, 0, 255, 0.1);
 }
 
