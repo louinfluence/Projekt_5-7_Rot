@@ -8,6 +8,8 @@ header {
   background-repeat: no-repeat;
   background-position: center 30%;
   background-size: 50% auto;
+  position: relative;
+  background-color: rgba(0, 0, 255, 0.1);
 }
 
 nav ul {
@@ -17,7 +19,9 @@ nav ul {
   padding: 0;
   gap: 15px;
   /* keine padding-top hier */
-  background-color: rgba(255,0,0,0.2);
+  position: relative;
+  min-height: 40px; /* sorgt für Mindesthöhe */
+  background-color: rgba(0, 0, 255, 0.1);
 }
 
 nav ul li a.nav-start {
