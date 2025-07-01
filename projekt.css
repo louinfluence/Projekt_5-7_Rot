@@ -8,9 +8,9 @@ header {
 /* Navigation exakt positioniert */
 nav ul {
   position: absolute;
-  bottom: 5px; /* Abstand vom unteren Rand */
+  bottom: 20px; /* Abstand vom unteren Rand */
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-70%);
   
   display: flex;
   list-style: none;
