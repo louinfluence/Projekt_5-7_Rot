@@ -93,8 +93,8 @@ nav ul li a.nav-rat:focus {
 /* Spezifische Anpassung für iPad 10. Gen Querformat */
 @media screen and (min-width: 810px) and (max-width: 1112px) and (orientation: landscape) {
   nav ul {
-    left: 200px;               /* Zentriert die Navigation horizontal */
-    transform: translateX(-50%) translateY(-10%); /* Feine Anpassung nach oben */
+    left: 100px;               /* Zentriert die Navigation horizontal */
+    transform: translateX(-50%) translateY(-20%); /* Feine Anpassung nach oben */
     gap: 10px;               /* Optional: Menüpunkte enger zusammen */
     bottom: 15px;            /* Etwas Abstand vom unteren Rand */
   }
