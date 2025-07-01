@@ -95,7 +95,7 @@ nav ul li a.nav-rat:focus {
 @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {
     nav ul {
         gap: 8px !important;
-        padding-top: 28%;
+        padding-top: 26%;
     }
     nav ul li a {
         padding: 4px 6px !important;
@@ -112,8 +112,8 @@ nav ul li a.nav-rat:focus {
     nav ul {
         flex-wrap: wrap; /* falls zu wenig Platz nebeneinander */
         justify-content: center;
-        gap: 6px;
-        padding-top: 38%;
+        gap: 8px;
+        padding-top: 34%;
         transform: translateX(-20px);
     }
     nav ul li {
