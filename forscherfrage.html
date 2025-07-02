@@ -22,36 +22,38 @@
       </ul>
     </nav>    
   </header>
- <main class="instructions"> 
-  <h2>🎲 Forscherfragen mit dem Zufallsgenerator entwickeln</h2>
-  <p>Der Zufall kann ein guter Einstieg sein, um erste Ideen für spannende Forscherfragen zu finden. So geht ihr vor:</p>
-  <ol>
-    <li>
-      Schreibt euer Thema auf und denkt euch dazu 6 wichtige Stichworte aus.
-    </li>
-    <li>
-      Schnappt euch einen Würfel und schreibt euer Thema+Stichworte auf ein Blatt.
-      Würfelt reihum und tragt das gewürfelte Schlagwort unten ins Textfeld ein.
-    </li>
-  </ol>
-  <form id="challengeForm" data-target="1-result.html">
-  <textarea 
-  id="challenge" 
-  name="challenge" 
-  placeholder="Beispiel: Thema „Freundschaft“ – 1. Vertrauen, 2. Konflikte, 3. soziale Medien, 4. Nähe &amp; Distanz, 5. Gruppen, 6. Regeln" 
-  required
-  rows="2"></textarea>
+ <main class="instructions">
 
-  <p><button type="submit">Prompt generieren</button></p> 
-</form>
+  <!-- 1. Schritt: die Anleitung -->
+  <section class="step-card">
+    <h2>🎲 Forscherfragen mit dem Zufallsgenerator entwickeln</h2>
+    <p>Der Zufall kann ein guter Einstieg sein, um erste Ideen für spannende Forscherfragen zu finden. So geht ihr vor:</p>
+    <ol>
+      <li>Schreibt euer Thema auf und denkt euch dazu 6 wichtige Stichworte aus.</li>
+      <li>Schnappt euch einen Würfel und tragt das gewürfelte Schlagwort unten im Textfeld ein.</li>
+    </ol>
+    <form id="challengeForm" data-target="1-result.html">
+      <textarea 
+        id="challenge" 
+        name="challenge" 
+        placeholder="Beispiel: Thema „Freundschaft“ – 1. Vertrauen, 2. Konflikte, …" 
+        required
+        rows="2"
+      ></textarea>
+      <p><button type="submit">Prompt generieren</button></p> 
+    </form>
+  </section>
 
-  <p>💡 zur Recherche können euch übrigens folgende Websites oder Suchmaschinen unterstützen:</p>
-  <ul>
-    <li><a href="https://klexikon.zum.de/" target="_blank">Klexikon</a></li>
-    <li><a href="https://www.fragfinn.de/" target="_blank">Frag Finn</a></li>
-    <li><a href="https://www.planet-schule.de/" target="_blank">Planet Schule</a></li>
-    <li><a href="https://forscherwelt.de/" target="_blank">Forscherwelt</a></li> 
-  </ul>
+  <!-- 2. Schritt: Recherche-Links -->
+  <section class="resources">
+    <p>💡 Zur Recherche können euch diese Seiten helfen:</p>
+    <ul>
+      <li><a href="https://klexikon.zum.de/" target="_blank">Klexikon</a></li>
+      <li><a href="https://www.fragfinn.de/" target="_blank">Frag Finn</a></li>
+      <li><a href="https://www.planet-schule.de/" target="_blank">Planet Schule</a></li>
+      <li><a href="https://forscherwelt.de/" target="_blank">Forscherwelt</a></li> 
+    </ul>
+  </section>
 </main>
 
 <footer>
