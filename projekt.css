@@ -1,189 +1,14 @@
-/* projekt.css */
-
-/* HEADER mit Hintergrundbild und flexibler Positionierung */
 header {
   position: relative;
   height: 500px;
   background: url('Projektarbeit%20an%20der%20WIR.png') no-repeat center 30%;
   background-size: 50% auto;
-  display: flex;
-  justify-content: center;    /* Navigation horizontal zentrieren */
-  align-items: flex-end;      /* Navigation am unteren Rand des Headers */
-  padding-bottom: 20px;       /* Abstand unterhalb der Navigation */
 }
 
-/* NAVIGATION */
-nav ul {
-  display: flex;
-  gap: 15px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* BASIS-STYLING für alle Nav-Links */
-nav ul li a {
-  background: transparent;
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: background 0.2s, color 0.2s;
-  white-space: nowrap;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-/* FARBKLASSEN für die einzelnen Links */
-.nav-start         { color: orange; }
-.nav-idee          { color: darkblue; }
-.nav-vertrag       { color: green; }
-.nav-forscherfrage { color: gold; }
-.nav-nachhaltigkeit{ color: gold; }
-.nav-produkt       { color: orangered; }
-.nav-rat           { color: orange; } /* geändert auf orange */
-
-/* HOVER- UND FOKUS-EFFEKTE */
-/* Standard: currentColor */
-nav ul li a:hover,
-nav ul li a:focus {
-  background-color: currentColor;
-  color: black;
-}
-
-/* Spezifische Korrektur: .nav-idee hover immer orange */
-nav ul li a.nav-idee:hover,
-nav ul li a.nav-idee:focus {
-  background-color: orange !important;
-  color: black !important;
-}
-
-/* Spezifische Korrektur: .nav-rat hover ebenfalls orange */
-nav ul li a.nav-rat:hover,
-nav ul li a.nav-rat:focus {
-  background-color: orange !important;
-  color: black !important;
-}
-
-/* INSTRUCTIONS-BLOCK */
-.instructions {
-  background-color: #f0f8ff;
-  border: 2px solid #a0c4ff;
-  border-radius: 10px;
-  padding: 20px 25px;
-  max-width: 800px;
-  margin: 20px auto;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.instructions h2 {
-  font-size: 1.6rem;
-  margin-bottom: 12px;
-  color: #1a202c;
-}
-
-.instructions p {
-  font-size: 1.1rem;
-  margin-bottom: 16px;
-  color: #334155;
-}
-
-.instructions ol {
-  padding-left: 1.5rem;
-}
-
-.instructions ol li {
-  margin-bottom: 14px;
-  line-height: 1.5;
-  color: #1f2937;
-}
-
-.instructions ol li::marker {
-  font-size: 1.2rem;
-  color: #3b82f6;
-}
-
-/* RESOURCES-BLOCK */
-.resources {
-  background-color: #fffbea;
-  border: 2px solid #ffe58f;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 800px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.resources p {
-  font-size: 1.1rem;
-  margin-bottom: 12px;
-  color: #6b4f1d;
-}
-
-.resources ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
-}
-
-.resources ul li {
-  position: relative;
-  padding-left: 20px;
-  margin-bottom: 8px;
-  color: #333;
-}
-
-.resources ul li::before {
-  content: "🔗";
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-/* MEDIA QUERY: iPad 10. Gen – Querformat */
-@media screen and (min-width: 1180px) and (max-width: 1300px) and (orientation: landscape) {
-  header {
-    height: 450px;
-    background-size: 75% auto;
-  }
-  nav ul {
-    gap: 10px;
-  }
-  nav ul li a {
-    font-size: 1rem;
-    padding: 4px 8px;
-  }
-}
-
-/* MEDIA QUERY: iPad 10. Gen – Hochformat */
-@media screen and (min-width: 810px) and (max-width: 1180px) and (orientation: portrait) {
-  header {
-    height: 480px;
-    background-size: 70% auto;
-  }
-  nav ul {
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-  }
-  nav ul li a {
-    font-size: 0.9rem;
-    padding: 4px 8px;
-  }
-}
-
-
-
-
-/*header {
-  position: relative;
-  height: 500px;
-  background: url('Projektarbeit%20an%20der%20WIR.png') no-repeat center 30%;
-  background-size: 50% auto;
-}
-
-/* Navigation exakt positioniert *//*
+/* Navigation exakt positioniert */
 nav ul {
   position: absolute;
-  bottom: 20px; /* Abstand vom unteren Rand *//*
+  bottom: 20px; /* Abstand vom unteren Rand */
   left: 50%;
   transform: translate(-50%, -12%);
   
@@ -264,8 +89,8 @@ nav ul li a.nav-rat:focus {
     color: black !important;
 }
 .instructions {
-  background-color: #f0f8ff;           /* sanfter Hellblau-Ton *//*
-  border: 2px solid #a0c4ff;           /* heller Rahmen *//*
+  background-color: #f0f8ff;           /* sanfter Hellblau-Ton */
+  border: 2px solid #a0c4ff;           /* heller Rahmen */
   border-radius: 10px;
   padding: 20px 25px;
   max-width: 800px;
@@ -310,8 +135,8 @@ nav ul li a.nav-rat:focus {
   font-size: 0.95rem;
 }
 .resources {
-  background-color: #fffbea;       /* sanftes Gelb *//*
-  border: 2px solid #ffe58f;       /* passender Rahmen *//*
+  background-color: #fffbea;       /* sanftes Gelb */
+  border: 2px solid #ffe58f;       /* passender Rahmen */
   border-radius: 10px;
   padding: 20px;
   margin: 20px auto;
@@ -344,13 +169,13 @@ nav ul li a.nav-rat:focus {
   top: 0;
 }
 
-/* Spezifische Anpassung für iPad 10. Gen Querformat *//*
+/* Spezifische Anpassung für iPad 10. Gen Querformat */
 @media screen and (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
 nav ul {
-    left: 50%;               /* Zentriert die Navigation horizontal *//*
-    transform: translateX(-50%) translateY(-2%); /* Feine Anpassung nach oben *//*
-    gap: 10px;               /* Optional: Menüpunkte enger zusammen *//*
-    bottom: 10px;            /* Etwas Abstand vom unteren Rand *//*
+    left: 50%;               /* Zentriert die Navigation horizontal */
+    transform: translateX(-50%) translateY(-2%); /* Feine Anpassung nach oben */
+    gap: 10px;               /* Optional: Menüpunkte enger zusammen */
+    bottom: 10px;            /* Etwas Abstand vom unteren Rand */
   }
  nav ul li a {
     font-size: 1rem;
@@ -358,9 +183,40 @@ nav ul {
     white-space: nowrap;
   }
   header {
-    background-size: 75% auto; /* Bild etwas größer anpassen *//*
-    height: 450px;              /* Höhe anpassen, wenn nötig *//*
+    background-size: 75% auto; /* Bild etwas größer anpassen */
+    height: 450px;              /* Höhe anpassen, wenn nötig */
   }
 }
-/* iPad 10. Gen – Hochformat */
+/* MEDIA QUERY: iPad 10. Gen – Hochformat */
+@media screen and (min-width: 810px) and (max-width: 1180px) and (orientation: portrait) {
+  header {
+    height: 480px;
+    background-size: 70% auto;
+  }
+  nav ul {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  nav ul li a {
+    font-size: 0.9rem;
+    padding: 4px 8px;
+  }
+}
+/* iPhone 12+ / Generation 12 – Portrait */
+@media screen and (min-width: 360px) and (max-width: 430px) and (orientation: portrait) {
+  header {
+    height: 420px;               /* Etwas kompakter auf kleinen Bildschirmen */
+    background-size: 80% auto;   /* Bild etwas größer, um weniger leeren Raum */
+  }
+
+  nav ul {
+    flex-wrap: wrap;             /* Umbruch bei Bedarf erlauben */
+    gap: 6px;                    /* Engerer Abstand */
+    justify-content: center;     /* Immer zentriert bleiben */
+  }
+
+  nav ul li a {
+    font-size: 0.85rem;          /* Schrift etwas kleiner für mehr Platz */
+    padding: 4px 6px;            /* Knapp, aber noch gut klickbar */
 
