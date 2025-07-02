@@ -8,65 +8,7 @@ header {
 header nav {
   margin-top: 40px;      /* nach Bedarf größer/kleiner wählen */
 }
-/* Begrüßungs-Karte oben */
-.welcome-card {
-  background-color: #fffdfa;
-  border: 2px solid #ffe58f;
-  border-radius: 8px;
-  padding: 1.5rem;
-  max-width: 800px;
-  margin: 1.5rem auto;
-  text-align: center;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
-}
 
-.welcome-card h2 {
-  margin-bottom: 0.5rem;
-  color: #1a202c;
-}
-
-.welcome-card p {
-  color: #4a5568;
-  font-size: 1.05rem;
-}
-
-/* Grid für die Karteikarten */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
-  gap: 1rem;
-  max-width: 800px;
-  margin: 1rem auto 2rem;
-  padding: 0 1rem;
-}
-
-/* Einzelne „Karte“ */
-.card {
-  background-color: #f0f8ff;
-  border: 2px solid #a0c4ff;
-  border-radius: 10px;
-  padding: 1rem;
-  text-align: center;
-  text-decoration: none;
-  color: #1a202c;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  transition: background 0.2s, color 0.2s, transform 0.2s;
-}
-
-.card span {
-  display: block;
-  font-size: 1.5rem;
-  margin-bottom: 0.3rem;
-}
-
-/* Hover-/Focus-Effekt */
-.card:hover,
-.card:focus {
-  background-color: #a0c4ff;
-  color: white;
-  transform: translateY(-2px);
-}
 /* Navigation exakt positioniert */
 nav ul {
   position: absolute;
@@ -234,6 +176,65 @@ nav ul li a.nav-rat:focus {
   position: absolute;
   left: 0;
   top: 0;
+}
+/* Begrüßungs-Karte oben */
+.welcome-card {
+  background-color: #fffdfa;
+  border: 2px solid #ffe58f;
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 800px;
+  margin: 1.5rem auto;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+}
+
+.welcome-card h2 {
+  margin-bottom: 0.5rem;
+  color: #1a202c;
+}
+
+.welcome-card p {
+  color: #4a5568;
+  font-size: 1.05rem;
+}
+
+/* Grid für die Karteikarten */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+  gap: 1rem;
+  max-width: 800px;
+  margin: 1rem auto 2rem;
+  padding: 0 1rem;
+}
+
+/* Einzelne „Karte“ */
+.card {
+  background-color: #f0f8ff;
+  border: 2px solid #a0c4ff;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  text-decoration: none;
+  color: #1a202c;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.card span {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 0.3rem;
+}
+
+/* Hover-/Focus-Effekt */
+.card:hover,
+.card:focus {
+  background-color: #a0c4ff;
+  color: white;
+  transform: translateY(-2px);
 }
 
 /* Spezifische Anpassung für iPad 10. Gen Querformat */
