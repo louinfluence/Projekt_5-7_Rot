@@ -212,20 +212,20 @@ nav ul {
     padding: 4px 8px;
   }
 }
-/* iPhone 12+ / Generation 12 – Portrait */
-@media screen and (min-width: 360px) and (max-width: 430px) and (orientation: portrait) {
+/* Auf sehr schmalen Displays (z. B. iPhone im Portrait) */
+@media screen and (max-width: 430px) {
   header {
-    height: 420px;               /* Etwas kompakter auf kleinen Bildschirmen */
-    background-size: 80% auto;   /* Bild etwas größer, um weniger leeren Raum */
+    display: none;      /* Header komplett ausblenden */
   }
-
-  nav ul {
-    flex-wrap: wrap;             /* Umbruch bei Bedarf erlauben */
-    gap: 6px;                    /* Engerer Abstand */
-    justify-content: center;     /* Immer zentriert bleiben */
+  .mobile-back {
+    display: block;     /* den Back-Link unten anzeigen */
+    text-align: center;
+    margin: 2rem 0;
   }
+}
 
-  nav ul li a {
-    font-size: 0.85rem;          /* Schrift etwas kleiner für mehr Platz */
-    padding: 4px 6px;            /* Knapp, aber noch gut klickbar */
+/* Standard: .mobile-back ausblenden */
+.mobile-back {
+  display: none;
+}
 
