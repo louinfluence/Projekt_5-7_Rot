@@ -135,6 +135,40 @@ nav ul li a.nav-rat:focus {
   color: #475569;
   font-size: 0.95rem;
 }
+.resources {
+  background-color: #fffbea;       /* sanftes Gelb */
+  border: 2px solid #ffe58f;       /* passender Rahmen */
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.resources p {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: #6b4f1d;
+}
+
+.resources ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.resources ul li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.resources ul li::before {
+  content: "🔗";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 
 /* Spezifische Anpassung für iPad 10. Gen Querformat */
 @media screen and (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
