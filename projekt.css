@@ -218,7 +218,7 @@ nav ul {
     display: none;      /* Header komplett ausblenden */
   }
   .mobile-back {
-    display: block;     /* den Back-Link unten anzeigen */
+    display: block !important;     /* den Back-Link unten anzeigen */
     text-align: center;
     margin: 2rem 0;
   }
