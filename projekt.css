@@ -96,7 +96,7 @@ nav ul {
     left: 50%;               /* Zentriert die Navigation horizontal */
     transform: translateX(-50%) translateY(-2%); /* Feine Anpassung nach oben */
     gap: 10px;               /* Optional: Menüpunkte enger zusammen */
-    bottom: 15px;            /* Etwas Abstand vom unteren Rand */
+    bottom: 10px;            /* Etwas Abstand vom unteren Rand */
   }
  nav ul li a {
     font-size: 1rem;
