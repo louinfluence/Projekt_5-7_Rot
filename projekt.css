@@ -236,6 +236,25 @@ nav ul li a.nav-rat:focus {
   color: white;
   transform: translateY(-2px);
 }
+/* 360° Dreh-Animation im Uhrzeigersinn */
+@keyframes rotateClockwise {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Basis-Styling für den Pfeil */
+.card-arrow {
+  display: block;
+  width: 40px;    /* oder deine Wunschgröße */
+  height: auto;
+  margin: 0 auto 0.5rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Bei Hover auf die Idee-Karte: endlos rotieren */
+.card-idee:hover .card-arrow {
+  animation: rotateClockwise 2s linear infinite;
+}
 
 /* Spezifische Anpassung für iPad 10. Gen Querformat */
 @media screen and (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
