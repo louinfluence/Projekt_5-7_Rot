@@ -16,7 +16,7 @@ nav ul {
   flex-wrap: nowrap;     /* alle Einträge in einer Zeile halten */
   bottom: 20px; /* Abstand vom unteren Rand */
   left: 50%;
-  transform: translate(-50%, -12%);
+  transform: translate(-40%, -12%);
   
   display: flex;
   list-style: none;
