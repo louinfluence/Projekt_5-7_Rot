@@ -1,69 +1,97 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">    <title>Projekt 5-7 rot</title>
-          <script src="common.js" defer></script>
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projekt 5-7 rot</title>
+  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+  <script src="common.js" defer></script>
+  <style>
+    #copyStatus {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: darkgreen;
+    }
+    #copyAndGoBtn {
+      padding: 0.75rem 1.2rem;
+      font-size: 1rem;
+      background-color: darkgreen;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #copyAndGoBtn:hover {
+      background-color: seagreen;
+    }
+    #resultContainer {
+      display: none;
+    }
+  </style>
+</head>
+<body>
 
-  <header>
-     <h1>Projekt 5-7 Rot</h1>
-    <p>Schritt für Schritt zum eigenen Projekt</p>
-    <nav>
-      <ul>
-         <li><a href="index.html">👋 Start</a></li>
-        <li><a href="1.html">🔍 Forscherfrage</a></li>
-        <li><a href="2.html">🌱 Nachhaltigkeitsziele</a></li>
-        <li><a href="3.html">🎯 Zielgruppen & Nutzen</a></li>
-        <li><a href="4.html">🧰 Mögliche Produkte</a></li>
-        <li><a href="5.html">🗺️ Nächste Schritte planen</a></li>
-    
-      </ul>
-    </nav>
-  </header> 
+<header>
+  <h1>Projekt 5-7 Rot</h1>
+  <p>Schritt für Schritt zum eigenen Projekt</p>
+  <nav>
+    <ul>
+      <li><a href="index.html">👋 Start</a></li>
+      <li><a href="1.html">🔍 Forscherfrage</a></li>
+      <li><a href="2.html">🌱 Nachhaltigkeitsziele</a></li>
+      <li><a href="3.html">🎯 Zielgruppen & Nutzen</a></li>
+      <li><a href="4.html">🧰 Mögliche Produkte</a></li>
+      <li><a href="5.html">🗺️ Nächste Schritte planen</a></li>
+    </ul>
+  </nav>
+</header>
 
-  <main>
-    <h2>🎲 Zufallsgenerator</h2> 
- <p>Jetzt kann es losgehen. Eine Person Eurer Gruppe sollte dazu diesen Prompt kopieren und in ein Sprachmodell Eurer Wahl einfügen (z.B. ChatGPT). Danach seid ihr immer abwechselnd an der Reihe: Ihr würfelt und erhaltet eine Herausforderung des KI-Sprachmodells. Lasst euch durch den Prozess führen.</p>
- <hr>
- 
-   <div id="resultContainer">
-      <p id="resultText">Prompt wird geladen...</p>
-    </div>
+<main>
+  <h2>🎲 Zufallsgenerator</h2>
+  <p>Jetzt kann es losgehen. Eine Person Eurer Gruppe sollte dazu diesen Prompt kopieren und in ein Sprachmodell Eurer Wahl einfügen (z.B. ChatGPT). Danach seid ihr immer abwechselnd an der Reihe: Ihr würfelt und erhaltet eine Herausforderung des KI-Sprachmodells. Lasst euch durch den Prozess führen.</p>
+  <hr>
 
-    <button id="copyButton">Text kopieren</button>
+  <!-- Statusanzeige & Button -->
+  <p id="copyStatus">✅ Prompt wurde generiert.</p>
+  <button id="copyAndGoBtn">🧠 Prompt kopieren & zu ChatGPT</button>
 
-    <p><a href="https://chatgpt.com/"><button>Zu ChatGPT</button></a></p>
-    
-    <hr>
+  <!-- Unsichtbarer Prompt -->
+  <div id="resultContainer">
+    <p id="resultText"></p>
+  </div>
 
-<p>
-    <p><a href="index.html"><button>⬅ Zurück zur Übersicht</button></a></p>
-    
-    
- 
-
-  </main>
+  <hr>
+  <p><a href="index.html"><button>⬅ Zurück zur Übersicht</button></a></p>
+</main>
 
 <footer>
   <p>Erstellt von Louis Birk- von Brook | Lizenz: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a></p>
 </footer>
 
-
- <script>
+<script>
   document.addEventListener("DOMContentLoaded", function () {
     const challenge = localStorage.getItem('challenge') || '[keine Herausforderung eingegeben]';
-    const prompt = `Wir spielen ein Spiel als Gruppe, um Forscherfragen zum Thema '${challenge}' zufinden.
-Du forderst die erste Person der Gruppe auf zu würfeln und den passenden Aspekt zu der gewürfelten Zahl von unserer vorbereiteten Liste zu suchen und diesen Aspekt mit dir zu teilen. Du schreibst dieser Person daraufhin eine Herausforderung, die sowohl das Thema als auch den gewürfelten Aspekt berücksichtigt. Die Person soll sie reflektieren und ihre Überlegung mit der Gruppe teilen. Versuche die Person zum nachdenken anzuregen, die frage möglichst komplex zudenken (inwieweit, warum, wieso, vergleiche) aber frage keine Fakten oder Wissen ab, sondern orientiere auf Ideen/ Erfahrungen/ Überlegungen / Erlebnisse ... gib in stichworten an worauf es bei foscherfragen ankommt: eine Frage die sich nicht mit nur einem Satz oder einer Zahl beantworten lässt. Eine Forscherfrage soll den schülern dabei helfen über ein problem ins nachdenken zukommen und das thema aufzugliedern- forscherfragen sollen mithilfe von verschiedenen quellen beantwortet werden  Lade uns dazu ein, Bescheid zu geben, wenn die Person die Herausforderung gelöst hat und du die nächste Person in der Runde auffordern kannst, zu würfeln und den gewürfelten Aspekt mit dir zu teilen, um für sie eine weitere Herausforderung zu formulieren. Wiederhole dieses Vorgehen so lange, bis wir aufhören zu spielen. Achte darauf, inspirierende und immer wieder unterschiedliche Herausforderungen zu generieren und diese kurz und prägnant zu formulieren.`;
+    const prompt = `Wir spielen ein Spiel als Gruppe, um Forscherfragen zum Thema '${challenge}' zu finden.
+Du forderst die erste Person der Gruppe auf zu würfeln und den passenden Aspekt zu der gewürfelten Zahl von unserer vorbereiteten Liste zu suchen und diesen Aspekt mit dir zu teilen. Du schreibst dieser Person daraufhin eine Herausforderung, die sowohl das Thema als auch den gewürfelten Aspekt berücksichtigt. Die Person soll sie reflektieren und ihre Überlegung mit der Gruppe teilen. Versuche die Person zum Nachdenken anzuregen – frage in komplexen Zusammenhängen (inwieweit, warum, wieso, vergleiche), ohne Fakten oder Wissen abzufragen. Die Frage soll sich nicht mit nur einem Satz oder einer Zahl beantworten lassen, sondern zum Denken und Forschen anregen. Lade uns danach ein, Bescheid zu geben, wenn die Person fertig ist, damit du die nächste Person auffordern kannst.`;
 
     document.getElementById('resultText').textContent = prompt;
+
+    document.getElementById('copyAndGoBtn').addEventListener('click', () => {
+      const textToCopy = document.getElementById('resultText').textContent;
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        document.getElementById('copyStatus').textContent = "✅ Prompt kopiert! Du wirst weitergeleitet...";
+
+        setTimeout(() => {
+          window.open("https://chat.openai.com", "_blank");
+        }, 1500);
+      }).catch(() => {
+        alert("Fehler beim Kopieren des Prompts. Bitte manuell kopieren.");
+      });
+    });
   });
 </script>
 
-  
-
-
-  </body>
+</body>
 </html>
