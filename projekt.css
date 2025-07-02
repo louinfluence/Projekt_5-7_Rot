@@ -89,6 +89,52 @@ nav ul li a.nav-rat:focus {
     background-color: orange;
     color: black !important;
 }
+.instructions {
+  background-color: #f0f8ff;           /* sanfter Hellblau-Ton */
+  border: 2px solid #a0c4ff;           /* heller Rahmen */
+  border-radius: 10px;
+  padding: 20px 25px;
+  max-width: 800px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.instructions h2 {
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+  color: #1a202c;
+}
+
+.instructions p {
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  color: #334155;
+}
+
+.instructions ol {
+  counter-reset: step;
+  padding-left: 1.5rem;
+}
+
+.instructions ol li {
+  position: relative;
+  margin-bottom: 14px;
+  line-height: 1.5;
+  color: #1f2937;
+}
+
+.instructions ol li::marker {
+  font-size: 1.2rem;
+  color: #3b82f6;
+}
+
+.instructions ol li em {
+  display: block;
+  margin-top: 6px;
+  font-style: normal;
+  color: #475569;
+  font-size: 0.95rem;
+}
 
 /* Spezifische Anpassung für iPad 10. Gen Querformat */
 @media screen and (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
