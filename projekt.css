@@ -4,10 +4,16 @@ header {
   background: url('Projektarbeit%20an%20der%20WIR.png') no-repeat center 30%;
   background-size: 50% auto;
 }
+/* Schiebe die gesamte Navigation weiter nach unten */
+header nav {
+  margin-top: 40px;      /* nach Bedarf größer/kleiner wählen */
+}
 
 /* Navigation exakt positioniert */
 nav ul {
   position: absolute;
+  display: flex;
+  flex-wrap: nowrap;     /* alle Einträge in einer Zeile halten */
   bottom: 20px; /* Abstand vom unteren Rand */
   left: 50%;
   transform: translate(-50%, -12%);
@@ -17,6 +23,9 @@ nav ul {
   gap: 15px;
   padding: 0;
   margin: 0;
+}
+header nav ul li a {
+  white-space: nowrap;   /* keine Umbrüche innerhalb eines Links */
 }
 
 nav ul li a.nav-start {
