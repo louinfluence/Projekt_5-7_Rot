@@ -50,19 +50,24 @@
   <p>Jetzt kann es losgehen. Eine Person Eurer Gruppe sollte dazu diesen Prompt kopieren und in ein Sprachmodell Eurer Wahl einfügen (z.B. ChatGPT). Danach seid ihr immer abwechselnd an der Reihe: Ihr würfelt und erhaltet eine Herausforderung des KI-Sprachmodells. Lasst euch durch den Prozess führen.</p>
   <hr>
 
-  <!-- Statusanzeige & Button -->
-  <p id="copyStatus">✅ Prompt wurde generiert.</p>
-  <button id="copyAndGoBtn">🧠 Prompt kopieren & zu ChatGPT</button>
+<!-- Statusanzeige -->
+<p id="copyStatus">✅ Prompt wurde generiert.</p>
 
-  <!-- Unsichtbarer Prompt -->
- <div id="resultContainer">
+<!-- Buttons -->
+<p>
+  <button id="copyAndGoBtn">🧠 Kopieren & zu ChatGPT</button>
+  <button id="copyAndGoFobizzBtn">📘 Kopieren & zu Fobizz</button>
+</p>
+
+<!-- Optional: zusätzliche Statusmeldung -->
+<p id="statusMessage" style="margin-top: 10px; font-style: italic;"></p>
+
+<!-- Unsichtbarer Prompt-Text (wird kopiert) -->
+<div id="resultContainer" style="display: none;">
   <p id="resultText"></p>
-    <button id="copyAndGoBtn">✅ Kopieren & zu ChatGPT</button>
-    <button id="copyAndGoFobizzBtn">📘 Kopieren & zu Fobizz</button>
-  <p id="statusMessage" style="margin-top:10px;"></p>
-   <p id="copyStatus" style="margin-top: 10px; font-style: italic;"></p>
 </div>
-  </div>
+
+
 
   <hr>
   <p><a href="index.html"><button>⬅ Zurück zur Übersicht</button></a></p>
