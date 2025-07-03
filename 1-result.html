@@ -70,27 +70,28 @@
 </footer>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const challenge = localStorage.getItem('challenge') || '[keine Herausforderung eingegeben]';
-    const prompt = `Wir spielen ein Spiel als Gruppe, um Forscherfragen zum Thema '${challenge}' zu finden.
-Du forderst die erste Person der Gruppe auf zu würfeln und den passenden Aspekt zu der gewürfelten Zahl von unserer vorbereiteten Liste zu suchen und diesen Aspekt mit dir zu teilen. Du schreibst dieser Person daraufhin eine Herausforderung, die sowohl das Thema als auch den gewürfelten Aspekt berücksichtigt. Die Person soll sie reflektieren und ihre Überlegung mit der Gruppe teilen. Versuche die Person zum Nachdenken anzuregen – frage in komplexen Zusammenhängen (inwieweit, warum, wieso, vergleiche), ohne Fakten oder Wissen abzufragen. Die Frage soll sich nicht mit nur einem Satz oder einer Zahl beantworten lassen, sondern zum Denken und Forschen anregen. Lade uns danach ein, Bescheid zu geben, wenn die Person fertig ist, damit du die nächste Person auffordern kannst.`;
+document.addEventListener("DOMContentLoaded", () => {
+  const challenge = localStorage.getItem('challenge') || '[kein Thema angegeben]';
+  const promptText = `Wir spielen ein Spiel als Gruppe, um Forscherfragen zum Thema '${challenge}' zu finden.
+Du forderst die erste Person der Gruppe auf zu würfeln und den passenden Aspekt zu finden…`;
 
-    document.getElementById('resultText').textContent = prompt;
+  const statusEl = document.getElementById('copyStatus');
+  const copyBtn = document.getElementById('copyAndGoBtn');
 
-    document.getElementById('copyAndGoBtn').addEventListener('click', () => {
-      const textToCopy = document.getElementById('resultText').textContent;
+  copyBtn.addEventListener('click', () => {
+    // 1) Unmittelbar ChatGPT in neuem Tab öffnen
+    window.open("https://chat.openai.com", "_blank");
 
-      navigator.clipboard.writeText(textToCopy).then(() => {
-        document.getElementById('copyStatus').textContent = "✅ Prompt kopiert! Du wirst weitergeleitet...";
-
-        setTimeout(() => {
-          window.open("https://chat.openai.com", "_blank");
-        }, 1500);
-      }).catch(() => {
-        alert("Fehler beim Kopieren des Prompts. Bitte manuell kopieren.");
+    // 2) Prompt in die Zwischenablage kopieren
+    navigator.clipboard.writeText(promptText)
+      .then(() => {
+        if (statusEl) statusEl.textContent = "✅ Prompt kopiert!";
+      })
+      .catch(() => {
+        alert("Fehler beim Kopieren. Bitte manuell kopieren.");
       });
-    });
   });
+});
 </script>
 
 </body>
