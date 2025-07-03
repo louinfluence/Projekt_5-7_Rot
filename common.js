@@ -50,3 +50,39 @@ Du forderst die erste Person der Gruppe auf zu würfeln und den passenden Aspekt
     });
   }
 });
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Kalender-Container finden
+  var calendarEl = document.getElementById("calendar");
+
+  // 2. Beispiel-Daten: hier könnt ihr später eure berechneten Events einsetzen
+  var projektTage = 3;       // z.B. 3 Tage
+  var stundenProTag = 2;      // z.B. 2 Stunden pro Tag
+  var startDatum = new Date(); // heute
+
+  // 3. Events erzeugen
+  var events = [];
+  for (var i = 0; i < projektTage; i++) {
+    var d = new Date(startDatum);
+    d.setDate(d.getDate() + i);
+    events.push({
+      title: stundenProTag + " Std.",
+      date: d.toISOString().slice(0, 10), // "YYYY-MM-DD"
+      color: "#3a87ad" // Farbcode (optional)
+    });
+  }
+
+  // 4. Kalender initialisieren
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: "dayGridMonth",
+    locale: "de",            // Deutsche Monatsnamen, Wochentage
+    headerToolbar: {
+      left: "prev,next today",
+      center: "title",
+      right: ""
+    },
+    events: events
+  });
+
+  // 5. Rendern
+  calendar.render();
+});
