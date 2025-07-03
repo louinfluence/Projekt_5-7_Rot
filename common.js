@@ -15,26 +15,28 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-     // 2) Klick-Handler für den „Kopieren & Weiterleiten“-Button
-  const copyBtn = document.getElementById('copyAndGoBtn');
-  copyBtn.addEventListener('click', () => {
-    // Popup sofort öffnen, Safari erlaubt das
-    const win = window.open('', '_blank');
+     
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const challenge = localStorage.getItem('challenge') || '[kein Thema angegeben]';
+  const promptText = `Wir spielen ein Spiel als Gruppe, um Forscherfragen zum Thema '${challenge}' zu finden.
+Du forderst die erste Person der Gruppe auf zu würfeln und den passenden Aspekt zu finden…`;
 
-    // Prompt in die Zwischenablage kopieren
+  const statusEl = document.getElementById('copyStatus');
+  const copyBtn = document.getElementById('copyAndGoBtn');
+
+  copyBtn.addEventListener('click', () => {
+    // 1) Unmittelbar ChatGPT in neuem Tab öffnen
+    window.open("https://chat.openai.com", "_blank");
+
+    // 2) Prompt in die Zwischenablage kopieren
     navigator.clipboard.writeText(promptText)
       .then(() => {
-        // Erfolg: Status-Text anpassen
-        if (statusEl) statusEl.textContent = "✅ Prompt kopiert! Du wirst weitergeleitet…";
-
-        // Weiterleitung durchführen
-        win.location = "https://chat.openai.com";
+        if (statusEl) statusEl.textContent = "✅ Prompt kopiert!";
       })
       .catch(() => {
-        // Bei Fehler Fenster schließen und Meldung zeigen
-        win.close();
-        alert("Fehler beim Kopieren des Prompts. Bitte manuell kopieren.");
+        alert("Fehler beim Kopieren. Bitte manuell kopieren.");
       });
   });
 });
-
+</script>
