@@ -1,8 +1,0 @@
-"dependencies": {
-  "@fullcalendar/react": "^6.0.0",
-  "@fullcalendar/daygrid": "^6.0.0",
-  "date-fns": "^2.0.0"
-},
-"devDependencies": {
-  "tailwindcss": "^3.0.0"
-}
