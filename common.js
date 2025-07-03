@@ -15,16 +15,26 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Copy-to-clipboard Funktion
-    const copyButton = document.getElementById('copyButton');
-    if (copyButton) {
-        copyButton.addEventListener('click', function () {
-            const textToCopy = document.getElementById('resultText').innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert('Prompt wurde kopiert!');
-            }).catch(err => {
-                console.error('Kopieren fehlgeschlagen: ', err);
-            });
-        });
-    }
+     // 2) Klick-Handler für den „Kopieren & Weiterleiten“-Button
+  const copyBtn = document.getElementById('copyAndGoBtn');
+  copyBtn.addEventListener('click', () => {
+    // Popup sofort öffnen, Safari erlaubt das
+    const win = window.open('', '_blank');
+
+    // Prompt in die Zwischenablage kopieren
+    navigator.clipboard.writeText(promptText)
+      .then(() => {
+        // Erfolg: Status-Text anpassen
+        if (statusEl) statusEl.textContent = "✅ Prompt kopiert! Du wirst weitergeleitet…";
+
+        // Weiterleitung durchführen
+        win.location = "https://chat.openai.com";
+      })
+      .catch(() => {
+        // Bei Fehler Fenster schließen und Meldung zeigen
+        win.close();
+        alert("Fehler beim Kopieren des Prompts. Bitte manuell kopieren.");
+      });
+  });
 });
+
