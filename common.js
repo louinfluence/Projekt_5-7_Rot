@@ -50,39 +50,42 @@ Du forderst die erste Person der Gruppe auf zu würfeln und den passenden Aspekt
     });
   }
 });
+
+
 document.addEventListener("DOMContentLoaded", function () {
-  // 1. Kalender-Container finden
+  // Kalender-Container finden
   var calendarEl = document.getElementById("calendar");
+  if (!calendarEl) return; // Abbruch, wenn kein Element existiert
 
-  // 2. Beispiel-Daten: hier könnt ihr später eure berechneten Events einsetzen
-  var projektTage = 3;       // z.B. 3 Tage
-  var stundenProTag = 2;      // z.B. 2 Stunden pro Tag
-  var startDatum = new Date(); // heute
+  // Beispiel-Daten (später durch Formularwerte ersetzen)
+  var projektTage   = 3;            // Anzahl der Projekttage
+  var stundenProTag = 2;            // Stunden pro Tag
+  var startDatum    = new Date();   // Start: heute
 
-  // 3. Events erzeugen
+  // Events erzeugen
   var events = [];
   for (var i = 0; i < projektTage; i++) {
     var d = new Date(startDatum);
     d.setDate(d.getDate() + i);
     events.push({
       title: stundenProTag + " Std.",
-      date: d.toISOString().slice(0, 10), // "YYYY-MM-DD"
-      color: "#3a87ad" // Farbcode (optional)
+      date:  d.toISOString().slice(0,10)  // Format "YYYY-MM-DD"
     });
   }
 
-  // 4. Kalender initialisieren
+  // Kalender initialisieren
   var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",
-    locale: "de",            // Deutsche Monatsnamen, Wochentage
-    headerToolbar: {
-      left: "prev,next today",
+    plugins:      [ FullCalendarDayGrid ],  // dayGrid-Plugin
+    initialView:  "dayGridMonth",           // Monatsansicht
+    locale:       "de",                     // Deutsch
+    headerToolbar:{
+      left:   "prev,next today",
       center: "title",
-      right: ""
+      right:  ""
     },
     events: events
   });
 
-  // 5. Rendern
+  // Rendern
   calendar.render();
 });
