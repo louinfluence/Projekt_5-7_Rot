@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-
     // Button zum Kopieren und Weiterleiten
     const btn = document.getElementById('copyAndGoBtn');
     console.log(btn); // Debug: zeigt Button oder null
@@ -45,3 +44,39 @@ Die Antworten sollen auf Ideen, Erfahrungen und Überlegungen basieren – keine
         }
     }
 });
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", () => {
+  const challenge = localStorage.getItem('challenge') || '[kein Thema angegeben]';
+  const promptText = `Wir spielen ein Spiel als Gruppe, um Forscherfragen zum Thema '${challenge}' zu finden.
+Du forderst die erste Person der Gruppe auf zu würfeln und den passenden Aspekt zu finden…`;
+
+  const statusEl = document.getElementById('copyStatus');
+
+  const handleClick = (url) => {
+    window.open(url, "_blank");
+    navigator.clipboard.writeText(promptText)
+      .then(() => {
+        if (statusEl) statusEl.textContent = "✅ Prompt kopiert!";
+      })
+      .catch(() => {
+        alert("Fehler beim Kopieren. Bitte manuell kopieren.");
+      });
+  };
+
+  const copyBtnChatGPT = document.getElementById('copyAndGoBtn');
+  if (copyBtnChatGPT) {
+    copyBtnChatGPT.addEventListener('click', () => {
+      handleClick("https://chat.openai.com");
+    });
+  }
+
+  const copyBtnFobizz = document.getElementById('copyAndGoFobizzBtn');
+  if (copyBtnFobizz) {
+    copyBtnFobizz.addEventListener('click', () => {
+      handleClick("https://app.fobizz.com");
+    });
+  }
+});
+</script>
