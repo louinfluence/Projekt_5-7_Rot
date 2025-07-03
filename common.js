@@ -25,17 +25,16 @@ Du forderst die erste Person der Gruppe auf zu würfeln und den passenden Aspekt
 
   // Universelle Kopier- und Weiterleitungsfunktion
   function handleCopyAndRedirect(url) {
-    const win = window.open('', '_blank');
-    navigator.clipboard.writeText(promptText)
-      .then(() => {
-        if (statusEl) statusEl.textContent = "✅ Prompt kopiert!";
-        win.location = url;
-      })
-      .catch(() => {
-        win.close();
-        alert("Fehler beim Kopieren. Bitte manuell kopieren.");
-      });
-  }
+  navigator.clipboard.writeText(promptText)
+    .then(() => {
+      if (statusEl) statusEl.textContent = "✅ Prompt kopiert!";
+      // Fenster erst öffnen, wenn Kopieren erfolgreich war
+      window.open(url, "_blank");
+    })
+    .catch(() => {
+      alert("Fehler beim Kopieren. Bitte manuell kopieren.");
+    });
+}
 
   const btnChatGPT = document.getElementById('copyAndGoBtn');
   if (btnChatGPT) {
