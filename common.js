@@ -46,7 +46,7 @@ Du forderst die erste Person der Gruppe auf zu würfeln und den passenden Aspekt
   const btnFobizz = document.getElementById('copyAndGoFobizzBtn');
   if (btnFobizz) {
     btnFobizz.addEventListener('click', () => {
-      handleCopyAndRedirect("https://app.fobizz.com/ai/chats/1060b7c4-0a83-4057-a0c5-9112b19f89e2");
+      handleCopyAndRedirect("https://go.fobizz.com/?token=9a51b4f8e95d85e3");
     });
   }
 });
