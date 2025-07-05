@@ -51,4 +51,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+document.addEventListener("DOMContentLoaded", function () {
+  const fobizzBtn = document.getElementById("startFobizzAccess");
+  const fobizzContainer = document.getElementById("fobizzContainer");
 
+  if (fobizzBtn && fobizzContainer) {
+    fobizzBtn.addEventListener("click", () => {
+      // Fobizz in neuem Tab öffnen
+      window.open("https://app.fobizz.com/DEIN-PERSÖNLICHER-ZUGANGSLINK", "_blank");
+
+      // Warte kurz und zeige dann das eingebettete Tool
+      setTimeout(() => {
+        fobizzContainer.style.display = "block";
+      }, 500); // 0.5 Sekunden "künstliche" Pause
+    });
+  }
+});
