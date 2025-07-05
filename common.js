@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (fobizzBtn && fobizzContainer) {
     fobizzBtn.addEventListener("click", () => {
       // Fobizz in neuem Tab öffnen
-      window.open("https://app.fobizz.com/DEIN-PERSÖNLICHER-ZUGANGSLINK", "_blank");
+      window.open("https://go.fobizz.com/?token=c69be1b6608aeb23", "_blank");
 
       // Warte kurz und zeige dann das eingebettete Tool
       setTimeout(() => {
