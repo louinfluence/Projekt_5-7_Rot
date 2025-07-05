@@ -288,7 +288,7 @@ nav ul {
   }
 }
 /* Auf sehr schmalen Displays (z. B. iPhone im Portrait) */
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 500px) {
   header {
     display: none;      /* Header komplett ausblenden */
   }
