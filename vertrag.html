@@ -4,43 +4,72 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>📅 Planung – Projekt 5-7 Rot</title>
+
+  <!-- Basis-Design mit Simple.css -->
   <link rel="stylesheet" href="https://cdn.simplecss.org/simple-v1.css">
+
+  <!-- Projekt-spezifisches CSS -->
   <link rel="stylesheet" href="projekt.css">
+
+  <!-- Gemeinsames JavaScript für Button-Aktion etc. -->
+  <script src="common.js" defer></script>
+
+  <!-- Zusätzliche Stilregel für die versteckten und eingebetteten Inhalte -->
+  <style>
+    .hidden {
+      display: none !important;
+    }
+
+    #fobizzContainer iframe {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 80vh;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
 
-  <main class="instructions">
-    <!-- Einführung -->
-    <section class="step-card">
-      <h2>📅 Projektplanung mit dem Online-Kalender</h2>
-      <p id="introText">
-        Wenn du noch keinen Zugang hast, klicke zuerst auf den grünen Knopf.
-        Danach kannst du direkt im interaktiven Kalender weiterarbeiten.
-      </p>
-      <p>
-        <button id="startFobizzAccess">🟢 Interaktiven Kalender öffnen</button>
-      </p>
-    </section>
+<!-- Hauptinhalt -->
+<main class="instructions">
 
-    <!-- Unsichtbarer Login-iFrame (wird über JS geladen) -->
-    <iframe id="fobizzLoginFrame" style="display: none;" aria-hidden="true"></iframe>
+  <!-- Schritt-Anleitung -->
+  <section class="step-card">
+    <h2>📅 Projektplanung mit dem Online-Kalender</h2>
+    <p id="introText">Wenn du noch keinen Zugang hast, klicke zuerst auf den grünen Knopf:</p>
 
-    <!-- Sichtbarer Kalender-Container -->
-    <section id="fobizzContainer" class="resources hidden">
-      <iframe 
-        src="https://app.fobizz.com/pinboard/public_boards/f0a97968-0003-444d-828d-a6f1417dffbe?token=11adb8327a2f43d9340f7b931e3d34e6"
-        title="Interaktiver Kalender"
-        width="100%" 
-        height="600" 
-        style="border: 1px solid #ccc; border-radius: 8px;">
-      </iframe>
-    </section>
-  </main>
-
-  <footer>
-    <p>Erstellt von Louis Birk-von Brook • Lizenz: 
-      <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0</a>
+    <!-- Button: Startet den Fobizz-Zugriff -->
+    <p>
+      <button id="startFobizzAccess">🟢 Interaktiven Kalender öffnen</button>
     </p>
-  </footer>
+  </section>
+
+  <!-- Unsichtbarer iFrame für Login bei Fobizz -->
+  <iframe 
+    id="fobizzLoginFrame"
+    style="display: none;"
+    aria-hidden="true"
+    width="0"
+    height="0"
+    loading="eager">
+  </iframe>
+
+  <!-- Hauptinhalt: Kalender-Board von Fobizz -->
+  <section id="fobizzContainer" class="resources hidden">
+    <iframe 
+      src="https://app.fobizz.com/pinboard/public_boards/f0a97968-0003-444d-828d-a6f1417dffbe?token=11adb8327a2f43d9340f7b931e3d34e6"
+      title="Interaktiver Kalender">
+    </iframe>
+  </section>
+</main>
+
+<!-- Fußzeile mit Urhebervermerk -->
+<footer>
+  <p>
+    Erstellt von Louis Birk-von Brook • Lizenz: 
+    <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0</a>
+  </p>
+</footer>
+
 </body>
 </html>
