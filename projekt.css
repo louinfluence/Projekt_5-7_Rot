@@ -252,6 +252,27 @@ nav ul li a.nav-rat:focus {
   background-color: #a0c4ff;
   color: white;
   transform: translateY(-2px);
+  /* Stil für die Anleitungskarte */
+.step-card {
+  background-color: #f2f2f2;
+  border-left: 4px solid #0055aa;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+}
+
+/* Versteckt Elemente bei Bedarf */
+.hidden {
+  display: none !important;
+}
+
+/* Stil für eingebetteten Kalenderbereich */
+.resources iframe {
+  width: 100%;
+  height: 80vh;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
 
 /* Spezifische Anpassung für iPad 10. Gen Querformat */
 @media screen and (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
