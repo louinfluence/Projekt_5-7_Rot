@@ -85,3 +85,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+// interaktiver Kalender Iframe
+document.addEventListener("DOMContentLoaded", function () {
+  const fobizzBtn = document.getElementById("startFobizzAccess");
+  const fobizzContainer = document.getElementById("fobizzContainer");
+  const introText = document.getElementById("introText");
+
+  if (fobizzBtn && fobizzContainer) {
+    fobizzBtn.addEventListener("click", () => {
+      // Öffnet die Login-Seite einmalig (kann auch weggelassen werden)
+      window.open("https://go.fobizz.com/?token=c69be1b6608aeb23", "_blank");
+
+      // Danach: Button & Text ausblenden, iframe zeigen
+      setTimeout(() => {
+        fobizzContainer.style.display = "block";
+        fobizzBtn.style.display = "none";
+        if (introText) introText.style.display = "none";
+      }, 1500); // Wartezeit anpassbar
+    });
+  }
+});
