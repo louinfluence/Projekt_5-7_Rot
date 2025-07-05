@@ -1,4 +1,4 @@
-ö<!doctype html>
+lö<!doctype html>
 <html lang="de">
   <head>
     <meta charset="utf-8">
@@ -36,28 +36,27 @@
     </header>
     -->
 
+
     <main class="instructions">
-      <h2>🗓️ Online-Kalender: Arbeiten mit Fobizz</h2>
-      <div id="fobizzIntro">
-        <p>zum öffnen des Kalenders einfach den grünen Knopf antippen</p>
-        <p>
-          <button id="startFobizzAccess">🟢 öffne deinen/euren interaktiven Kalender</button>
-        </p>
-          <div id="fobizzContainer">
+  <h2>🗓️ Online-Kalender: Arbeiten mit Fobizz</h2>
+
+  <p id="introText">Wenn du noch keinen Zugang hast, klicke zuerst auf den grünen Knopf:</p>
+
+  <p>
+    <button id="startFobizzAccess">🟢 öffne deinen/euren interaktiven Kalender</button>
+  </p>
+
+  <!-- Unsichtbarer Login-Frame -->
+  <iframe id="fobizzLoginFrame" style="display: none;" aria-hidden="true"></iframe>
+
+  <!-- Sichtbarer Kalender-Container -->
+  <div id="fobizzContainer" style="display: none; margin-top: 20px;">
     <iframe 
-      id="iframe-fobizz"
       src="https://app.fobizz.com/pinboard/public_boards/f0a97968-0003-444d-828d-a6f1417dffbe?token=11adb8327a2f43d9340f7b931e3d34e6"
-      allowfullscreen
-    ></iframe>
+      width="100%" height="600" style="border: 1px solid #ccc; border-radius: 8px;">
+    </iframe>
   </div>
 </main>
-      <div id="fobizzContainer" class="hidden">
-        <iframe 
-          src="https://app.fobizz.com/pinboard/public_boards/f0a97968-0003-444d-828d-a6f1417dffbe?token=11adb8327a2f43d9340f7b931e3d34e6"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </main>
 
     <footer>
       <p>
