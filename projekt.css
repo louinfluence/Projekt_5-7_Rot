@@ -261,19 +261,6 @@ nav ul li a.nav-rat:focus {
   border-radius: 8px;
 }
 
-/* Versteckt Elemente bei Bedarf */
-.hidden {
-  display: none !important;
-}
-
-/* Stil für eingebetteten Kalenderbereich */
-.resources iframe {
-  width: 100%;
-  height: 80vh;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
 /* Spezifische Anpassung für iPad 10. Gen Querformat */
 @media screen and (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
 nav ul {
