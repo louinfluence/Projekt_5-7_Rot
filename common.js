@@ -51,19 +51,37 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-document.addEventListener("DOMContentLoaded", function () {
-  const fobizzBtn = document.getElementById("startFobizzAccess");
-  const fobizzContainer = document.getElementById("fobizzContainer");
+//document.addEventListener("DOMContentLoaded", function () {
+//  const fobizzBtn = document.getElementById("startFobizzAccess");
+//  const fobizzContainer = document.getElementById("fobizzContainer");
 
-  if (fobizzBtn && fobizzContainer) {
-    fobizzBtn.addEventListener("click", () => {
+//  if (fobizzBtn && fobizzContainer) {
+//    fobizzBtn.addEventListener("click", () => {
       // Fobizz in neuem Tab öffnen
-      window.open("https://go.fobizz.com/?token=c69be1b6608aeb23", "_blank");
+//      window.open("https://go.fobizz.com/?token=c69be1b6608aeb23", "_blank");
 
       // Warte kurz und zeige dann das eingebettete Tool
+//      setTimeout(() => {
+//        fobizzContainer.style.display = "block";
+//      }, 500); // 0.5 Sekunden "künstliche" Pause
+//    });
+//  }
+//});
+document.addEventListener("DOMContentLoaded", function () {
+  const fobizzBtn = document.getElementById("startFobizzAccess");
+  const fobizzLoginFrame = document.getElementById("fobizzLoginFrame");
+  const fobizzContainer = document.getElementById("fobizzContainer");
+
+  if (fobizzBtn && fobizzLoginFrame && fobizzContainer) {
+    fobizzBtn.addEventListener("click", () => {
+      // 1. Lade Login-Seite im Hintergrund-iFrame
+      fobizzLoginFrame.src = "https://go.fobizz.com/?token=c69be1b6608aeb23";
+
+      // 2. Zeige Fobizz-Tool nach kurzer Wartezeit
       setTimeout(() => {
         fobizzContainer.style.display = "block";
-      }, 500); // 0.5 Sekunden "künstliche" Pause
+        fobizzBtn.style.display = "none";
+      }, 1500); // z. B. 1,5 Sekunden warten
     });
   }
 });
