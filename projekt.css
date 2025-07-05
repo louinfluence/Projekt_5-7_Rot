@@ -229,32 +229,29 @@ nav ul li a.nav-rat:focus {
   margin-bottom: 0.3rem;
 }
 
-/* Hover-/Focus-Effekt */
-.card:hover,
-.card:focus {
-  background-color: #a0c4ff;
-  color: white;
-  transform: translateY(-2px);
-}
-/* 360° Dreh-Animation im Uhrzeigersinn */
-@keyframes rotateClockwise {
+/* Dreh-Animation gegen den Uhrzeigersinn */
+@keyframes rotateCounterClockwise {
   from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  to   { transform: rotate(-360deg); }
 }
 
 /* Basis-Styling für den Pfeil */
 .card-arrow {
   display: block;
-  width: 40px;    /* oder deine Wunschgröße */
+  width: 40px;
   height: auto;
   margin: 0 auto 0.5rem;
-  transition: transform 0.3s ease-in-out;
+  
+  /* Daueranimation: gegen den Uhrzeigersinn */
+  animation: rotateCounterClockwise 2s linear infinite;
 }
 
-/* Bei Hover auf die Idee-Karte: endlos rotieren */
-.card-idee:hover .card-arrow {
-  animation: rotateClockwise 2s linear infinite;
-}
+/* Optional: etwas Hover-Effekt für die ganze Karte */
+.card:hover,
+.card:focus {
+  background-color: #a0c4ff;
+  color: white;
+  transform: translateY(-2px);
 
 /* Spezifische Anpassung für iPad 10. Gen Querformat */
 @media screen and (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
