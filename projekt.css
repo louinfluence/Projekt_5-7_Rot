@@ -252,11 +252,6 @@ nav ul li a.nav-rat:focus {
   background-color: #a0c4ff;
   color: white;
   transform: translateY(-2px);
-  
-  #fobizzContainer {
-  display: none;         /* standardmäßig versteckt */
-  margin-top: 2rem;
-}
 
 #iframe-fobizz {
   width: 100%;
