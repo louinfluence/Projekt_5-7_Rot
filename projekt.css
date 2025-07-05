@@ -290,7 +290,7 @@ nav ul {
 /* Auf sehr schmalen Displays (z. B. iPhone im Portrait) */
 @media screen and (max-width: 500px) {
   header {
-    display: none;      /* Header komplett ausblenden */
+    display: none !important;      /* Header komplett ausblenden */
   }
   .mobile-back {
     display: block !important;     /* den Back-Link unten anzeigen */
@@ -301,6 +301,6 @@ nav ul {
 
 /* Standard: .mobile-back ausblenden */
 .mobile-back {
-  display: none !important;
+  display: none;
 }
 
