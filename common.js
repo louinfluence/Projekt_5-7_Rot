@@ -93,8 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (fobizzBtn && fobizzContainer) {
     fobizzBtn.addEventListener("click", () => {
-      // Öffnet die Login-Seite einmalig (kann auch weggelassen werden)
-      window.open("https://go.fobizz.com/?token=c69be1b6608aeb23", "_blank");
 
       // Danach: Button & Text ausblenden, iframe zeigen
       setTimeout(() => {
