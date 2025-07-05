@@ -94,7 +94,10 @@ document.addEventListener("DOMContentLoaded", function () {
   if (fobizzBtn && fobizzContainer) {
     fobizzBtn.addEventListener("click", () => {
 
-      // Danach: Button & Text ausblenden, iframe zeigen
+          intro.classList.add("hidden");
+
+          // Fobizz iFrame anzeigen
+          iframeBox.classList.remove("hidden");
       setTimeout(() => {
         fobizzContainer.style.display = "block";
         fobizzBtn.style.display = "none";
