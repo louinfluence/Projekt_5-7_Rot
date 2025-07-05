@@ -253,13 +253,6 @@ nav ul li a.nav-rat:focus {
   color: white;
   transform: translateY(-2px);
 
-#iframe-fobizz {
-  width: 100%;
-  height: 700px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-}
-
 /* Spezifische Anpassung für iPad 10. Gen Querformat */
 @media screen and (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
 nav ul {
