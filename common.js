@@ -51,23 +51,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+// interaktiver Kalender
 document.addEventListener("DOMContentLoaded", function () {
   const fobizzBtn = document.getElementById("startFobizzAccess");
   const fobizzLoginFrame = document.getElementById("fobizzLoginFrame");
   const fobizzContainer = document.getElementById("fobizzContainer");
- const introText = document.getElementById("introText");
+  const introText = document.getElementById("introText");
 
   if (fobizzBtn && fobizzLoginFrame && fobizzContainer) {
     fobizzBtn.addEventListener("click", () => {
-      // 1. Lade Login-Seite im Hintergrund-iFrame
+      // 1. Starte unsichtbare Anmeldung
       fobizzLoginFrame.src = "https://go.fobizz.com/?token=c69be1b6608aeb23";
 
-      // 2. Zeige Fobizz-Tool nach kurzer Wartezeit
+      // 2. Nach kurzer Zeit: Kalender anzeigen, Einleitung & Button verstecken
       setTimeout(() => {
         fobizzContainer.style.display = "block";
-	intro.classList.add("hidden");
         fobizzBtn.style.display = "none";
-      }, 1500); // z. B. 1,5 Sekunden warten
+        if (introText) introText.style.display = "none";
+      }, 1500); // Wartezeit für unsichtbare Anmeldung
     });
   }
 });
