@@ -1,20 +1,20 @@
-header {
+/* header {
   position: relative;
   height: 500px;
   background: url('Projektarbeit%20an%20der%20WIR.png') no-repeat center 30%;
   background-size: 50% auto;
 }
-/* Schiebe die gesamte Navigation weiter nach unten */
+/* Schiebe die gesamte Navigation weiter nach unten *//*
 header nav {
-  margin-top: 40px;      /* nach Bedarf größer/kleiner wählen */
+  margin-top: 40px;      /* nach Bedarf größer/kleiner wählen *//*
 }
 
-/* Navigation exakt positioniert */
+/* Navigation exakt positioniert *//*
 nav ul {
   position: absolute;
   display: flex;
-  flex-wrap: nowrap;     /* alle Einträge in einer Zeile halten */
-  bottom: 20px; /* Abstand vom unteren Rand */
+  flex-wrap: nowrap;     /* alle Einträge in einer Zeile halten *//*
+  bottom: 20px; /* Abstand vom unteren Rand *//*
   left: 50%;
   transform: translate(-52%, -12%);
   
@@ -25,7 +25,7 @@ nav ul {
   margin: 0;
 }
 header nav ul li a {
-  white-space: nowrap;   /* keine Umbrüche innerhalb eines Links */
+  white-space: nowrap;   /* keine Umbrüche innerhalb eines Links *//*
 }
 
 nav ul li a.nav-start {
@@ -96,7 +96,7 @@ nav ul li a.nav-rat:hover,
 nav ul li a.nav-rat:focus {
     background-color: orange;
     color: black !important;
-}
+} */
 .instructions {
   background-color: #f0f8ff;           /* sanfter Hellblau-Ton */
   border: 2px solid #a0c4ff;           /* heller Rahmen */
@@ -144,7 +144,7 @@ nav ul li a.nav-rat:focus {
   font-size: 0.95rem;
 }
 .resources {
-  background-color: #fffbea;       /* sanftes Gelb */
+  background-color: #fffbea;       /* sanftes Gelb *//*
   border: 2px solid #ffe58f;       /* passender Rahmen */
   border-radius: 10px;
   padding: 20px;
