@@ -49,7 +49,8 @@ Die Schülerin oder der Schüler wird anschließend aufgefordert, über die Frag
   }
 
 
-  // === 2. Fobizz-Kalender mit Auto-Login & Fallback ===
+ // === Fobizz-Kalender mit Auto-Login & Fallback ===
+document.addEventListener("DOMContentLoaded", () => {
   const fobizzLoginFrame = document.getElementById("fobizzLoginFrame");
   const fobizzContainer = document.getElementById("fobizzContainer");
   const introText = document.getElementById("introText");
@@ -64,18 +65,4 @@ Die Schülerin oder der Schüler wird anschließend aufgefordert, über die Frag
       if (introText) introText.style.display = "none";
     }, 1500);
 
-    setTimeout(() => {
-      const iframeVisible = fobizzContainer.offsetHeight > 100;
-      if (!iframeVisible && fallbackHint) {
-        fallbackHint.classList.remove("hidden");
-      }
-    }, 3000);
-  }
-
-  if (fallbackBtn && fobizzContainer && fallbackHint) {
-    fallbackBtn.addEventListener("click", () => {
-      fobizzContainer.classList.remove("hidden");
-      fallbackHint.classList.add("hidden");
-    });
-  }
-});
+    setTimeout
