@@ -42,7 +42,6 @@ Die Schülerin oder der Schüler wird anschließend aufgefordert, über die Frag
 
 
  // === Fobizz-Kalender mit Auto-Login & Fallback ===
-document.addEventListener("DOMContentLoaded", () => {
   const fobizzLoginFrame = document.getElementById("fobizzLoginFrame");
   const fobizzContainer = document.getElementById("fobizzContainer");
   const introText = document.getElementById("introText");
