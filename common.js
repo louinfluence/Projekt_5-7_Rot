@@ -47,16 +47,15 @@ Die Schülerin oder der Schüler wird anschließend aufgefordert, über die Frag
   }
 
   // Automatischer Login für Kalender + Chat
-  const fobizzLoginFrame1 = document.getElementById("fobizzLoginFrame1"); // für Kalender
-  const fobizzLoginFrame2 = document.getElementById("fobizzLoginFrame2"); // für KI-Chat
   const fobizzContainer = document.getElementById("fobizzContainer");
   const introText = document.getElementById("introText");
   const fallbackHint = document.getElementById("fallbackHint");
   const fallbackBtn = document.getElementById("fallbackBtn");
+  const fobizzLoginFrame = document.getElementById("fobizzLoginFrame");
 
-  if (fobizzLoginFrame1 && fobizzLoginFrame2 && fobizzContainer) {
-    fobizzLoginFrame1.src = "https://go.fobizz.com/?token=c69be1b6608aeb23";
-    fobizzLoginFrame2.src = "https://go.fobizz.com/?token=c69be1b6608aeb23";
+    if (fobizzLoginFrame) {
+  fobizzLoginFrame.src = "https://go.fobizz.com/?token=DEIN_TOKEN";
+}
 
     setTimeout(() => {
       fobizzContainer.classList.remove("hidden");
