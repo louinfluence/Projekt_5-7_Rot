@@ -1,182 +1,44 @@
-/* header {
-  position: relative;
-  height: 500px;
-  background: url('Projektarbeit%20an%20der%20WIR.png') no-repeat center 30%;
-  background-size: 50% auto;
-}
-/* Schiebe die gesamte Navigation weiter nach unten *//*
-header nav {
-  margin-top: 40px;      /* nach Bedarf größer/kleiner wählen *//*
-}
-
-/* Navigation exakt positioniert *//*
-nav ul {
-  position: absolute;
-  display: flex;
-  flex-wrap: nowrap;     /* alle Einträge in einer Zeile halten *//*
-  bottom: 20px; /* Abstand vom unteren Rand *//*
-  left: 50%;
-  transform: translate(-52%, -12%);
-  
-  display: flex;
-  list-style: none;
-  gap: 15px;
-  padding: 0;
-  margin: 0;
-}
-header nav ul li a {
-  white-space: nowrap;   /* keine Umbrüche innerhalb eines Links *//*
-}
-
-nav ul li a.nav-start {
-    color: orange !important;
-    background-color: transparent;
-}
-nav ul li a.nav-start:hover,
-nav ul li a.nav-start:focus {
-    background-color: orange;
-    color: black !important;
-}
-
-nav ul li a.nav-idee {
-    color: darkblue !important;
-    background-color: transparent;
-}
-nav ul li a.nav-idee:hover,
-nav ul li a.nav-idee:focus {
-    background-color: darkblue;
-    color: orange !important;
-}
-
-nav ul li a.nav-vertrag {
-    color: green !important;
-    background-color: transparent;
-}
-nav ul li a.nav-vertrag:hover,
-nav ul li a.nav-vertrag:focus {
-    background-color: green;
-    color: black !important;
-}
-
-nav ul li a.nav-forscherfrage {
-    color: gold !important;
-    background-color: transparent;
-}
-nav ul li a.nav-forscherfrage:hover,
-nav ul li a.nav-forscherfrage:focus {
-    background-color: gold;
-    color: black !important;
-}
-
-nav ul li a.nav-nachhaltigkeit {
-    color: gold !important;
-    background-color: transparent;
-}
-nav ul li a.nav-nachhaltigkeit:hover,
-nav ul li a.nav-nachhaltigkeit:focus {
-    background-color: gold;
-    color: black !important;
-}
-
-nav ul li a.nav-produkt {
-    color: orangered !important;
-    background-color: transparent;
-}
-nav ul li a.nav-produkt:hover,
-nav ul li a.nav-produkt:focus {
-    background-color: orangered;
-    color: black !important;
-}
-
-nav ul li a.nav-rat {
-    color: orange !important;
-    background-color: transparent;
-}
-nav ul li a.nav-rat:hover,
-nav ul li a.nav-rat:focus {
-    background-color: orange;
-    color: black !important;
-} */
 .instructions {
   background-color: #f0f8ff;           /* sanfter Hellblau-Ton */
   border: 2px solid #a0c4ff;           /* heller Rahmen */
   border-radius: 10px;
   padding: 20px 25px;
-  max-width: 800px;
+  max-width: 95%;
   margin: 20px auto;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.instructions h2 {
-  font-size: 1.6rem;
-  margin-bottom: 12px;
-  color: #1a202c;
-}
 
-.instructions p {
-  font-size: 1.1rem;
-  margin-bottom: 16px;
-  color: #334155;
-}
-
-.instructions ol {
-  counter-reset: step;
-  padding-left: 1.5rem;
-}
-
-.instructions ol li {
-  position: relative;
-  margin-bottom: 14px;
-  line-height: 1.5;
-  color: #1f2937;
-}
-
-.instructions ol li::marker {
-  font-size: 1.2rem;
-  color: #3b82f6;
-}
-
-.instructions ol li em {
-  display: block;
-  margin-top: 6px;
-  font-style: normal;
-  color: #475569;
-  font-size: 0.95rem;
-}
-.resources {
-  background-color: #fffbea;       /* sanftes Gelb *//*
-  border: 2px solid #ffe58f;       /* passender Rahmen */
-  border-radius: 10px;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 800px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.resources p {
-  font-size: 1.1rem;
-  margin-bottom: 12px;
-  color: #6b4f1d;
-}
-
-.resources ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.resources ul li {
-  position: relative;
-  padding-left: 20px;
-  margin-bottom: 8px;
-  color: #333;
-}
-
-.resources ul li::before {
-  content: "🔗";
-  position: absolute;
+@@ -177,139 +79,165 @@
   left: 0;
   top: 0;
 }
+.hidden {
+      display: none !important;
+    }
+
+    #fobizzContainer iframe,
+    #fobizzSupportFrame {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 80vh;
+      border-radius: 8px;
+    }
+
+    #fobizzContainer iframe {
+      height: 100vh;
+    }
+    #fobizzSupportFrame {
+      height: 400px;
+      margin-top: 2rem;
+    }
+
+    #fallbackHint {
+      background: #ffeeee;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+    }
 /* Begrüßungs-Karte oben */
 .welcome-card {
   background-color: #fffdfa;
@@ -311,4 +173,3 @@ nav ul {
 .mobile-back {
   display: none;
 }
-
