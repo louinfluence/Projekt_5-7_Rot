@@ -188,3 +188,42 @@
 .mobile-back {
   display: none;
 }
+/* ==========================================
+   Eingebettete Fenster immer maximieren
+   ========================================== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+#fobizzContainer {
+  width: 100%;
+}
+/* Standard: volle Viewport-Höhe minus etwas Puffer (z.B. für Footer) */
+#fobizzContainer iframe {
+  width: 100%;
+  height: calc(100vh - 2rem);
+  border: none;
+  border-radius: 0;
+}
+
+/* Tablet Hochformat: etwas mehr Puffer oben/unten */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  #fobizzContainer iframe {
+    height: calc(100vh - 3rem);
+  }
+}
+
+/* Tablet Querformat: fast volle Höhe */
+@media (min-width: 768px) and (orientation: landscape) {
+  #fobizzContainer iframe {
+    height: calc(100vh - 1.5rem);
+  }
+}
+
+/* Smartphone Portrait: lasse noch Platz für Mobil-Back-Link */
+@media (max-width: 500px) {
+  #fobizzContainer iframe {
+    height: calc(100vh - 5rem);
+  }
+}
