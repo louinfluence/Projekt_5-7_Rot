@@ -189,41 +189,25 @@
   display: none;
 }
 /* ==========================================
-   Eingebettete Fenster immer maximieren
+   Eingebettete Fenster zentriert halten
    ========================================== */
-html, body {
-  margin: 50%;
-  padding: 0;
-  height: 100%;
-}
+
+/* Behälter auf volle Breite, aber zentriert und mit maximaler Breite */
 #fobizzContainer {
   width: 100%;
+  max-width: 1200px;  /* hier kannst du anpassen, wie breit es höchstens sein darf */
+  margin: 0 auto;     /* zentriert den Container horizontal */
+  padding: 1rem 0;     /* optionaler vertikaler Puffer über/unter dem IFrame */
+  box-sizing: border-box;
 }
-/* Standard: volle Viewport-Höhe minus etwas Puffer (z.B. für Footer) */
+
+/* IFrame selbst nimmt immer die volle Breite des Containers ein */
 #fobizzContainer iframe {
   width: 100%;
-  height: calc(100vh - 2rem);
+  /* die Höhe je nach Viewport, siehe vorheriger Maximize-Block */
   border: none;
-  border-radius: 0;
+  border-radius: 8px;
+  display: block;     /* stellt sicher, dass margin auto wirkt, falls benötigt */
+  margin: 0 auto;     /* horizontal zentrieren, falls Container schmaler */
 }
 
-/* Tablet Hochformat: etwas mehr Puffer oben/unten */
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  #fobizzContainer iframe {
-    height: calc(100vh - 3rem);
-  }
-}
-
-/* Tablet Querformat: fast volle Höhe */
-@media (min-width: 768px) and (orientation: landscape) {
-  #fobizzContainer iframe {
-    height: calc(100vh - 1.5rem);
-  }
-}
-
-/* Smartphone Portrait: lasse noch Platz für Mobil-Back-Link */
-@media (max-width: 500px) {
-  #fobizzContainer iframe {
-    height: calc(100vh - 5rem);
-  }
-}
