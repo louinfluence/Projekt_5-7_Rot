@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // === 1. Prompt-Logik ===
+  // Prompt-Funktion (für Forscherfrage-Seite)
   const form = document.getElementById('challengeForm');
   if (form) {
     form.addEventListener('submit', function (event) {
@@ -14,15 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const challenge = localStorage.getItem('challenge') || '[kein Thema angegeben]';
-  const promptText = `Wir spielen ein Spiel als Gruppe, um gemeinsam interessante Forscherfragen zum Thema „${challenge}“ zu entwickeln. Eine Person der Gruppe würfelt und sucht sich den passenden Aspekt aus unserer vorbereiteten Liste aus, der der gewürfelten Zahl entspricht. Sie nennt diesen Aspekt laut der Gruppe und teilt ihn auch dir, der KI, mit.
-Deine Aufgabe als KI ist es, daraufhin eine verständlich formulierte, aber tiefgehende Forscherfrage zu stellen, die sowohl zum Thema als auch zum gewählten Aspekt passt. Diese Frage darf nicht mit einem einzigen Satz oder einer Zahl beantwortet werden. Sie soll zum Nachdenken anregen, Gespräche ermöglichen und möglichst persönliches Interesse wecken. Achte bei der Formulierung darauf, geeignete Fragestarter wie „Warum“, „Wie“, „Inwieweit“, „Was passiert, wenn“, „Welche Unterschiede“ oder „Im Vergleich zu“ zu verwenden.
-Die Schülerin oder der Schüler wird anschließend aufgefordert, über die Frage nachzudenken und ihre oder seine Überlegungen mit der Gruppe zu teilen. Darüber hinaus wird sie oder er ermutigt, weitere eigene Forscherfragen zum Aspekt oder zum Thema zu entwickeln. Die Gruppe kann dabei miteinander ins Gespräch kommen und gemeinsam überlegen, welche Fragen besonders spannend sind und weiterverfolgt werden sollen.`;
+  const promptText = `Wir spielen ein Spiel als Gruppe, um gemeinsam interessante Forscherfragen zum Thema „${challenge}“ zu entwickeln. [...]`;
 
   const resultEl = document.getElementById('resultText');
   if (resultEl) resultEl.textContent = promptText;
 
   const statusEl = document.getElementById('copyStatus');
-
   function handleCopyAndRedirect(url) {
     navigator.clipboard.writeText(promptText)
       .then(() => {
@@ -48,15 +45,17 @@ Die Schülerin oder der Schüler wird anschließend aufgefordert, über die Frag
     });
   }
 
-  // === 2. Fobizz-Kalender mit Auto-Login & Fallback ===
-  const fobizzLoginFrame = document.getElementById("fobizzLoginFrame");
+  // Automatischer Login für Kalender + Chat
+  const fobizzLoginFrame1 = document.getElementById("fobizzLoginFrame1"); // für Kalender
+  const fobizzLoginFrame2 = document.getElementById("fobizzLoginFrame2"); // für KI-Chat
   const fobizzContainer = document.getElementById("fobizzContainer");
   const introText = document.getElementById("introText");
   const fallbackHint = document.getElementById("fallbackHint");
   const fallbackBtn = document.getElementById("fallbackBtn");
 
-  if (fobizzLoginFrame && fobizzContainer) {
-    fobizzLoginFrame.src = "https://go.fobizz.com/?token=c69be1b6608aeb23";
+  if (fobizzLoginFrame1 && fobizzLoginFrame2 && fobizzContainer) {
+    fobizzLoginFrame1.src = "https://go.fobizz.com/?token=c69be1b6608aeb23";
+    fobizzLoginFrame2.src = "https://go.fobizz.com/?token=c69be1b6608aeb23";
 
     setTimeout(() => {
       fobizzContainer.classList.remove("hidden");
@@ -72,7 +71,7 @@ Die Schülerin oder der Schüler wird anschließend aufgefordert, über die Frag
   }
 
   if (fallbackBtn && fobizzContainer && fallbackHint) {
-    fallbackBtn.addEventListener("click", () => {
+    fallbackBtn.addEventListener('click', () => {
       fobizzContainer.classList.remove("hidden");
       fallbackHint.classList.add("hidden");
     });
