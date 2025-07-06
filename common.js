@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // === 2. Prompt einfügen (1-result-Seite) ===
-  const resultEl = document.getElementById("challengeForm");
+  const resultEl = document.getElementById("stored");
   if (resultEl) {
     const stored = localStorage.getItem ("challenge") || "[kein Thema eingegeben]";
     const promptText = `Wir spielen ein Spiel als Gruppe, um gemeinsam interessante Forscherfragen zum Thema „${challenge}“ zu entwickeln. Eine Person der Gruppe würfelt und sucht sich den passenden Aspekt aus unserer vorbereiteten Liste aus, der der gewürfelten Zahl entspricht. Sie nennt diesen Aspekt laut der Gruppe und teilt ihn auch dir, der KI, mit. (falls nicht 6 stichtworte gegeben wurden aber mindestens 1, dann erfinde stichtworte die zum thema passen dazu, um auf 6 stichworte zukommen.)
