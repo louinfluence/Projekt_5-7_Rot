@@ -1,86 +1,74 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>📅 Planung – Projekt 5-7 Rot</title>
-  <link rel="stylesheet" href="https://cdn.simplecss.org/simple-v1.css">
-  <link rel="stylesheet" href="projekt.css">
+  <link rel="stylesheet" href="https://cdn.simplecss.org/simple-v1.css" />
+  <link rel="stylesheet" href="projekt.css" />
   <script src="common.js" defer></script>
   <style>
     .hidden {
       display: none !important;
     }
-
-    #fobizzContainer iframe,
-    #fobizzSupportFrame {
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-
     #fobizzContainer iframe {
+      border: 1px solid #ccc;
+      width: 100%;
       height: 80vh;
-    }
-
-    #fobizzSupportFrame {
-      height: 400px;
-      margin-top: 2rem;
-    }
-
-    #fallbackHint {
-      background: #ffeeee;
-      padding: 1rem;
       border-radius: 8px;
-      margin-top: 1.5rem;
+    }
+    #fallbackHint {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #ffe8e8;
+      color: #b00020;
+      border-radius: 6px;
+    }
+    #fallbackBtn {
+      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
+      background-color: #d32f2f;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #fallbackBtn:hover {
+      background-color: #9b1b1b;
     }
   </style>
 </head>
-
 <body>
-  <main class="instructions">
-    <section class="step-card">
-      <h2>📅 Projektplanung mit dem Online-Kalender</h2>
-      <p id="introText">Dein Kalender wird gleich automatisch geladen. Falls es nicht klappt, kannst du ihn unten manuell anzeigen.</p>
-    </section>
 
-    <!-- Unsichtbarer Login-iFrame -->
-    <iframe
-      src=""
-      id="fobizzLoginFrame"
-      aria-hidden="true"
-      class="hidden"
-      width="0"
-      height="0"
-      loading="eager">
+<main class="instructions">
+  <section class="step-card">
+    <h2>📅 Projektplanung mit dem Online-Kalender</h2>
+    <p id="introText">Wenn du noch keinen Zugang hast, klicke zuerst auf den grünen Knopf:</p>
+    <p><button id="startFobizzAccess">🟢 Interaktiven Kalender öffnen</button></p>
+  </section>
+
+  <iframe id="fobizzLoginFrame" style="display: none;" aria-hidden="true" width="0" height="0" loading="eager"></iframe>
+
+  <!-- Fallback-Hinweis -->
+  <div id="fallbackHint" class="hidden">
+    ❗ Der Kalender konnte nicht automatisch geladen werden.<br />
+    <button id="fallbackBtn">🔄 Manuell laden</button>
+  </div>
+
+  <!-- Sichtbarer Kalender-Container -->
+  <section id="fobizzContainer" class="resources hidden">
+    <iframe 
+      src="https://app.fobizz.com/pinboard/public_boards/f0a97968-0003-444d-828d-a6f1417dffbe?token=11adb8327a2f43d9340f7b931e3d34e6"
+      title="Interaktiver Kalender">
     </iframe>
+  </section>
+</main>
 
-    <!-- Sichtbarer Kalender -->
-    <section id="fobizzContainer" class="hidden">
-      <iframe
-        src="https://app.fobizz.com/pinboard/public_boards/f0a97968-0003-444d-828d-a6f1417dffbe?token=11adb8327a2f43d9340f7b931e3d34e6"
-        title="Fobizz-Projektkalender">
-      </iframe>
+<footer>
+  <p>Erstellt von Louis Birk-von Brook • Lizenz: 
+    <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0</a>
+  </p>
+</footer>
 
-      <!-- Zusätzlich: Zweiter eingebetteter Bereich z. B. für KI-Chat -->
-      <iframe
-        src="https://app.fobizz.com/ai/chats/15126119-f367-449f-8b69-ef21030b8796"
-        title="Fobizz KI-Chat"
-        id="fobizzSupportFrame">
-      </iframe>
-    </section>
-
-    <!-- Fallback-Anzeige bei Fehler -->
-    <div id="fallbackHint" class="hidden">
-      <p>❗️Die automatische Anmeldung hat nicht funktioniert. Du kannst den Kalender manuell anzeigen:</p>
-      <button id="fallbackBtn">🔄 Kalender manuell anzeigen</button>
-    </div>
-  </main>
-
-  <footer>
-    <p>Erstellt von Louis Birk-von Brook • Lizenz:
-      <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0</a>
-    </p>
-  </footer>
 </body>
 </html>
