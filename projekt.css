@@ -1,87 +1,71 @@
-.instructions {
-  background-color: #f0f8ff;           /* sanfter Hellblau-Ton */
-  border: 2px solid #a0c4ff;           /* heller Rahmen */
-  border-radius: 10px;
-  padding: 20px 25px;
-  max-width: 95%;
-  margin: 20px auto;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+/* ==============================
+   Basis-Layout & Utilities
+   ============================== */
 
-
-@@ -177,139 +79,165 @@
-  left: 0;
-  top: 0;
-}
 .hidden {
-      display: none !important;
-    }
+  display: none !important;
+}
 
-    #fobizzContainer iframe,
-    #fobizzSupportFrame {
-      border: 1px solid #ccc;
-      width: 100%;
-      height: 80vh;
-      border-radius: 8px;
-    }
+.instructions {
+  background-color: #f0f8ff;
+  border: 2px solid #a0c4ff;
+  border-radius: 10px;
+  padding: 1.25rem;
+  max-width: 95%;
+  margin: 1.25rem auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-    #fobizzContainer iframe {
-      height: 100vh;
-    }
-    #fobizzSupportFrame {
-      height: 400px;
-      margin-top: 2rem;
-    }
+/* ==============================
+   Begrüßungs-Karte & Anleitung
+   ============================== */
 
-    #fallbackHint {
-      background: #ffeeee;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-top: 1.5rem;
-    }
-/* Begrüßungs-Karte oben */
-.welcome-card {
+.welcome-card,
+.step-card {
   background-color: #fffdfa;
   border: 2px solid #ffe58f;
   border-radius: 8px;
   padding: 1.5rem;
   max-width: 800px;
   margin: 1.5rem auto;
-  text-align: center;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
-.welcome-card h2 {
+.welcome-card h2,
+.step-card h2 {
   margin-bottom: 0.5rem;
   color: #1a202c;
 }
 
-.welcome-card p {
+.welcome-card p,
+.step-card p {
   color: #4a5568;
   font-size: 1.05rem;
 }
 
-/* Grid für die Karteikarten */
+/* ==============================
+   Karteikarten-Grid
+   ============================== */
+
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
   max-width: 800px;
   margin: 1rem auto 2rem;
   padding: 0 1rem;
 }
 
-/* Einzelne „Karte“ */
 .card {
   background-color: #f0f8ff;
   border: 2px solid #a0c4ff;
   border-radius: 10px;
   padding: 1rem;
   text-align: center;
-  text-decoration: none;
   color: #1a202c;
   font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: background 0.2s, color 0.2s, transform 0.2s;
 }
 
@@ -91,58 +75,90 @@
   margin-bottom: 0.3rem;
 }
 
-/* Dreh-Animation gegen den Uhrzeigersinn */
+.card:hover,
+.card:focus {
+  background-color: #a0c4ff;
+  color: #fffdfa;
+  transform: translateY(-2px);
+}
+
+/* ==============================
+   Pfeil-Animation (gegen Uhrzeiger)
+   ============================== */
+
 @keyframes rotateCounterClockwise {
   from { transform: rotate(0deg); }
   to   { transform: rotate(-360deg); }
 }
 
-/* Basis-Styling für den Pfeil */
 .card-arrow {
   display: block;
   width: 40px;
-  height: auto;
   margin: 0 auto 0.5rem;
-  
-  /* Daueranimation: gegen den Uhrzeigersinn */
   animation: rotateCounterClockwise 2s linear infinite;
 }
 
-/* Optional: etwas Hover-Effekt für die ganze Karte */
-.card:hover,
-.card:focus {
-  background-color: #a0c4ff;
-  color: white;
-  transform: translateY(-2px);
-  /* Stil für die Anleitungskarte */
-.step-card {
-  background-color: #f2f2f2;
-  border-left: 4px solid #0055aa;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
+/* ==============================
+   Fobizz iFrame & Fallback
+   ============================== */
+
+#fobizzContainer {
+  margin-top: 2rem;
+}
+
+#fobizzContainer iframe {
+  width: 100%;
+  height: 80vh;
+  border: 1px solid #ccc;
   border-radius: 8px;
 }
 
-/* Spezifische Anpassung für iPad 10. Gen Querformat */
-@media screen and (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
-nav ul {
-    left: 50%;               /* Zentriert die Navigation horizontal */
-    transform: translateX(-50%) translateY(-2%); /* Feine Anpassung nach oben */
-    gap: 10px;               /* Optional: Menüpunkte enger zusammen */
-    bottom: 10px;            /* Etwas Abstand vom unteren Rand */
+#fallbackHint {
+  background-color: #ffeeee;
+  color: #b00020;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+}
+
+#fallbackBtn {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #d32f2f;
+  color: #fffdfa;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#fallbackBtn:hover {
+  background-color: #9b1b1b;
+}
+
+/* ==============================
+   Responsive Anpassungen
+   ============================== */
+
+/* iPad Querformat (10. Gen) */
+@media (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
+  nav ul {
+    left: 50%;
+    transform: translateX(-50%) translateY(-2%);
+    gap: 10px;
+    bottom: 10px;
   }
- nav ul li a {
+  nav ul li a {
     font-size: 1rem;
     padding: 4px 8px;
     white-space: nowrap;
   }
   header {
-    background-size: 75% auto; /* Bild etwas größer anpassen */
-    height: 450px;              /* Höhe anpassen, wenn nötig */
+    background-size: 75% auto;
+    height: 450px;
   }
 }
-/* MEDIA QUERY: iPad 10. Gen – Hochformat */
-@media screen and (min-width: 810px) and (max-width: 1180px) and (orientation: portrait) {
+
+/* iPad Hochformat */
+@media (min-width: 810px) and (max-width: 1180px) and (orientation: portrait) {
   header {
     height: 480px;
     background-size: 70% auto;
@@ -157,19 +173,18 @@ nav ul {
     padding: 4px 8px;
   }
 }
-/* Auf sehr schmalen Displays (z. B. iPhone im Portrait) */
-@media screen and (max-width: 500px) {
+
+/* Smartphone Portrait */
+@media (max-width: 500px) {
   header {
-    display: none !important;      /* Header komplett ausblenden */
+    display: none !important;
   }
   .mobile-back {
-    display: block !important;     /* den Back-Link unten anzeigen */
+    display: block !important;
     text-align: center;
     margin: 2rem 0;
   }
 }
-
-/* Standard: .mobile-back ausblenden */
 .mobile-back {
   display: none;
 }
