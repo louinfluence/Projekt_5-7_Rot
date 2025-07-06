@@ -54,7 +54,7 @@ Die Schülerin oder der Schüler wird anschließend aufgefordert, über die Frag
   const fobizzLoginFrame = document.getElementById("fobizzLoginFrame");
 
     if (fobizzLoginFrame) {
-  fobizzLoginFrame.src = "https://go.fobizz.com/?token=DEIN_TOKEN";
+  fobizzLoginFrame.src = "https://go.fobizz.com/?token=c69be1b6608aeb23";
 }
 
     setTimeout(() => {
