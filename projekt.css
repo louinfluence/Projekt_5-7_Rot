@@ -210,4 +210,35 @@
   display: block;     /* stellt sicher, dass margin auto wirkt, falls benötigt */
   margin: 0 auto;     /* horizontal zentrieren, falls Container schmaler */
 }
+/* ==========================================
+   Container auf volle Breite des Geräts
+   ========================================== */
+ 
+/* Grundsätzlich alle deine mittigen Fenster voll ausdehnen */
+.instructions,
+.step-card,
+.welcome-card,
+.card-grid,
+.resources,
+#fobizzContainer {
+  width: 100%;       /* füllt 100% der verfügbaren Breite */
+  max-width: none;   /* hebt jede Obergrenze auf */
+  margin: 1rem 0;    /* vertikaler Abstand, keine horizontale Zentrierung */
+  padding: 0 1rem;   /* 1rem Abstand links/rechts zum Browser-Rand */
+  box-sizing: border-box; /* Padding zählt zur Breite */
+}
 
+/* Falls du trotzdem horizontales Zentrieren mit Puffer willst, statt margin 0: */
+@media (min-width: 600px) {
+  .instructions,
+  .step-card,
+  .welcome-card,
+  .card-grid,
+  .resources,
+  #fobizzContainer {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
