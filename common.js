@@ -48,6 +48,7 @@ Die Schülerin oder der Schüler wird anschließend aufgefordert, über die Frag
     });
   }
 
+
   // === 2. Fobizz-Kalender mit Auto-Login & Fallback ===
   const fobizzLoginFrame = document.getElementById("fobizzLoginFrame");
   const fobizzContainer = document.getElementById("fobizzContainer");
