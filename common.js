@@ -57,18 +57,33 @@ document.addEventListener("DOMContentLoaded", function () {
   const fobizzLoginFrame = document.getElementById("fobizzLoginFrame");
   const fobizzContainer = document.getElementById("fobizzContainer");
   const introText = document.getElementById("introText");
+  const fallbackHint = document.getElementById("fallbackHint");
+  const fallbackBtn = document.getElementById("fallbackBtn");
 
   if (fobizzBtn && fobizzLoginFrame && fobizzContainer) {
     fobizzBtn.addEventListener("click", () => {
-      // 1. Starte unsichtbare Anmeldung
       fobizzLoginFrame.src = "https://go.fobizz.com/?token=c69be1b6608aeb23";
 
-      // 2. Nach kurzer Zeit: Kalender anzeigen, Einleitung & Button verstecken
       setTimeout(() => {
-        fobizzContainer.style.display = "block";
+        fobizzContainer.classList.remove("hidden");
         fobizzBtn.style.display = "none";
         if (introText) introText.style.display = "none";
-      }, 1500); // Wartezeit für unsichtbare Anmeldung
+      }, 1500);
+
+      // Fallback prüfen
+      setTimeout(() => {
+        const iframeVisible = fobizzContainer.offsetHeight > 100;
+        if (!iframeVisible) {
+          fallbackHint.classList.remove("hidden");
+        }
+      }, 3000);
+    });
+  }
+
+  if (fallbackBtn && fobizzContainer) {
+    fallbackBtn.addEventListener("click", () => {
+      fobizzContainer.classList.remove("hidden");
+      fallbackHint.classList.add("hidden");
     });
   }
 });
