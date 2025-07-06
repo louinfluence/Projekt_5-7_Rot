@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fallbackBtn = document.getElementById("fallbackBtn");
 
   if (fobizzLoginFrame && fobizzContainer) {
-    fobizzLoginFrame.src = "https://go.fobizz.com/?token=c69be1b6608aeb23";
+    fobizzLoginFrame.src = "https://go.fobizz.com/?token=d75b049a1c4ff664";
 
     setTimeout(() => {
       fobizzContainer.classList.remove("hidden");
