@@ -44,7 +44,7 @@ Die Schülerin oder der Schüler wird anschließend aufgefordert, über die Frag
   const btnFobizz = document.getElementById('copyAndGoFobizzBtn');
   if (btnFobizz) {
     btnFobizz.addEventListener('click', () => {
-      handleCopyAndRedirect("https://go.fobizz.com/?token=9a51b4f8e95d85e3");
+      handleCopyAndRedirect("https://app.fobizz.com/?token=11adb8327a2f43d9340f7b931e3d34e6");
     });
   }
 
