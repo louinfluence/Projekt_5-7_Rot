@@ -35,6 +35,9 @@
   margin: 2.5rem auto;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
+.welcome-card-index h1 {
+   color: black;
+}
 .welcome-card,
 .step-card {
   background-color: #fffdfa;
