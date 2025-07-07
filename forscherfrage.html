@@ -1,89 +1,57 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <!-- Zeichensatz und Darstellungseinstellungen -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Stylesheets laden: Simple.css und eigenes CSS -->
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple-v1.css">
-    <link rel="stylesheet" href="projekt.css">
-    <title>🎲 Zufallsgenerator – Forscherfragen</title>
-    <!-- JavaScript für Formular und Fobizz-Funktionen -->
-    <script src="common.js" defer></script>
-  </head>
-  <body>
-    <!-- Hauptbereich mit blauen Rahmen hinterlegt -->
-    <main class="instructions">
-      <!-- Seitenüberschrift für Orientierung -->
-      <h1>🎲 Zufallsgenerator für Forscherfragen</h1>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎲 Zufallsgenerator – Forscherfragen</title>
+  <link rel="stylesheet" href="projekt.css" />
+  <script src="common.js" defer></script>
+</head>
 
-      <!-- Anleitungsschritt 1: Erklärung des Generators -->
-      <section class="step-card">
-        <h2>So geht’s</h2>
-        <p>
-          Mit diesem Zufallsgenerator könnt ihr in wenigen Schritten spannende
-          Forscherfragen entwickeln:
-        </p>
-        <ol>
-          <!-- Schritt 1: Thema und Stichworte erfassen -->
-          <li>
-            Schreibt euer Thema auf und überlegt euch bis zu sechs wichtige
-            Stichworte.
-          </li>
-          <!-- Schritt 2: Würfeln und Stichworte eingeben -->
-          <li>
-            Schnappt euch einen Würfel und tragt euer Thema sowie die
-            Stichworte unten ins Textfeld ein.
-          </li>
-        </ol>
+<body>
+  <div class="container">
+    <h1>🎲 Zufallsgenerator für Forscherfragen</h1>
 
-        <!-- Formular zur Eingabe und Weiterleitung -->
-        <form id="challengeForm" data-target="1-result.html">
-          <!-- Verstecktes Label für Screenreader -->
-          <label for="challenge" class="visually-hidden">
-            Euer Thema und Stichworte
-          </label>
-          <!-- Eingabefeld für Thema + Stichworte -->
-          <textarea
-            id="challenge"
-            name="challenge"
-            placeholder="z. B. Freundschaft – 1. Vertrauen, 2. Konflikte, …"
-            required
-            rows="2"
-          ></textarea>
-          <!-- Absende-Button zentriert -->
-          <div style="text-align: center; margin-top: 1rem;">
-            <button type="submit">Prompt generieren</button>
-          </div>
-        </form>
-      </section>
-
-      <!-- Ressourcen/Suchhilfen -->
-      <section class="resources">
-        <h2>🔍 Recherche-Hilfen</h2>
-        <p>Diese Seiten können euch bei eurer Recherche unterstützen:</p>
-        <ul>
-          <li><a href="https://klexikon.zum.de/" target="_blank">Klexikon</a></li>
-          <li><a href="https://www.fragfinn.de/" target="_blank">Frag Finn</a></li>
-          <li><a href="https://www.planet-schule.de/" target="_blank">Planet Schule</a></li>
-          <li><a href="https://forscherwelt.de/" target="_blank">Forscherwelt</a></li>
-        </ul>
-      </section>
-
-      <!-- Nur auf Mobilgeräten: Zurück-Link anzeigen -->
-      <section class="mobile-back">
-        <p style="text-align: center;">
-          <a href="index.html">⬅ Zurück zur Startseite</a>
-        </p>
-      </section>
-    </main>
-
-    <!-- Fußzeile mit Urheberrecht und Lizenz -->
-    <footer>
-      <p>
-        Erstellt von Louis Birk-von Brook • Lizenz:
-        <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a>
+    <div class="card">
+      <h2>🧭 So geht’s</h2>
+      <p class="subtitle">
+        Mit diesem Zufallsgenerator könnt ihr in wenigen Schritten spannende Forscherfragen entwickeln:
       </p>
+      <ol>
+        <li>Schreibt euer Thema auf und überlegt euch bis zu sechs wichtige Stichworte.</li>
+        <li>Schnappt euch einen Würfel und tragt euer Thema sowie die Stichworte unten ins Textfeld ein.</li>
+      </ol>
+
+      <form id="challengeForm" data-target="1-result.html">
+        <label for="challenge" class="visually-hidden">Euer Thema und Stichworte</label>
+        <textarea
+          id="challenge"
+          name="challenge"
+          placeholder="z. B. Freundschaft – 1. Vertrauen, 2. Konflikte, …"
+          required
+          rows="3"
+        ></textarea>
+        <div style="text-align: center;">
+          <button type="submit">🎯 Prompt generieren</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>🔍 Recherche-Hilfen</h2>
+      <p class="subtitle">Diese Seiten können euch bei eurer Recherche unterstützen:</p>
+      <ul class="ideas-list">
+        <li class="idea-item"><a href="https://klexikon.zum.de/" target="_blank">Klexikon</a></li>
+        <li class="idea-item"><a href="https://www.fragfinn.de/" target="_blank">Frag Finn</a></li>
+        <li class="idea-item"><a href="https://www.planet-schule.de/" target="_blank">Planet Schule</a></li>
+        <li class="idea-item"><a href="https://forscherwelt.de/" target="_blank">Forscherwelt</a></li>
+      </ul>
+    </div>
+
+    <footer class="subtitle">
+      Erstellt von Louis Birk-von Brook • Lizenz:
+      <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0</a>
     </footer>
-  </body>
+  </div>
+</body>
 </html>
