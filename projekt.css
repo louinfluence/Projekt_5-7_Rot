@@ -64,7 +64,18 @@
 /* ==============================
    Karteikarten-Grid
    ============================== */
-
+.card {
+  background-color: #f0f8ff;
+  border: 2px solid #a0c4ff;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  color: #1a202c;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
