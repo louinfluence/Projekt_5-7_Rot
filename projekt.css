@@ -202,3 +202,11 @@ textarea:focus {
 .mobile-back {
   display: none;
 }
+
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
