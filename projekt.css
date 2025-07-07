@@ -22,15 +22,7 @@
 
 .welcome-card,
 .step-card {
-  background-image: url("assets/images/header.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: white;
-  padding: 3rem 2rem;
-  border-radius: 12px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-}
+  background-color: #fffdfa;
   border: 2px solid #ffe58f;
   border-radius: 8px;
   padding: 1.5rem;
