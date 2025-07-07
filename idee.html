@@ -12,7 +12,7 @@
       <div class="container">
         <!-- Schritt 1: Themenfeld eingeben -->
         <div class="card step active" id="step1">
-            <h1>🌱💻 Twin Transition Ideenwerkzeug</h1>
+            <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
             <div class="subtitle">Entwickle konkrete Ideen für nachhaltige und digitale Bildung</div>
             
             <div class="progress-bar">
@@ -20,9 +20,9 @@
             </div>
             
             <h2><span class="icon">🎯</span>Schritt 1: Dein Themenfeld</h2>
-            <p style="margin-bottom: 20px;">Gib eines deiner identifizierten Themenfelder ein, zu dem du konkrete Ideen entwickeln möchtest:</p>
+            <p style="margin-bottom: 20px;">Was ist das vorgegebene Oberthema für das aktuelle Projekt?:</p>
             
-            <input type="text" id="themenfeld" placeholder="z.B. Digitale Kompetenzen für Nachhaltigkeit, KI in der Umweltbildung..." maxlength="200" oninput="updateStartButton()">
+            <input type="text" id="themenfeld" placeholder="z.B. Bewegung am Land, Nationalsozialismus..." maxlength="200" oninput="updateStartButton()">
             
             <button id="start-btn" onclick="startIdeensammlung()" disabled style="opacity: 0.5;">
                 <span>🚀</span> Ideensammlung starten
@@ -31,7 +31,7 @@
 				
         <!-- Schritt 2: Ideensammlung mit Timer -->
         <div class="card step" id="step2">
-            <h1>🌱💻 Twin Transition Ideenwerkzeug</h1>
+            <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
             
             <div class="progress-bar">
                 <div class="progress-fill" style="width: 66%"></div>
@@ -41,7 +41,7 @@
             <p><strong>Themenfeld:</strong> <span id="themenfeld-display"></span></p>
             
             <div class="timer" id="timer">⏰ Zeit: 5:00</div>
-            <div class="warning-text">Du hast 5 Minuten Zeit! Sammle so viele Ideen wie möglich - auch verrückte!</div>
+            <div class="warning-text">Ihr habt 5 Minuten Zeit! Sammelt so viele Ideen wie möglich - auch verrückte!</div>
             
             <button class="secondary-btn" onclick="getCreativityBooster()">
                 <span>✨</span> Kreativitäts-Booster holen
@@ -62,7 +62,7 @@
 
         <!-- Schritt 3: Ideenauswahl und Prompt-Generation -->
         <div class="card step" id="step3">
-            <h1>🌱💻 Twin Transition Ideenwerkzeug</h1>
+            <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
             
             <div class="progress-bar">
                 <div class="progress-fill" style="width: 100%"></div>
@@ -104,33 +104,33 @@
         let themenfeld = '';
 
         const creativityBoosters = [
-            "💭 Was würde Lisa Simpson an deiner Stelle tun?",
-            "💰 Wie würdest du die Herausforderung angehen, wenn Geld keine Rolle spielen würde?",
-            "🌍 Stell dir vor, du müsstest deine Idee in einem anderen Land umsetzen - was würde sich ändern?",
-            "🤖 Wie könnte KI dir bei der Umsetzung helfen?",
-            "👶 Wie würde ein kleines Kind die Herausforderung angehen?",
-            "🎮 Wie könntest du deine Idee spielerisch gestalten?",
-            "📱 Was könnten digitalen Tools bei deiner Herausforderung übernehmen?",
-            "🌱 Wie könntest du deine Herausforderung ganz konkret mit Nachhaltigkeit verbinden?",
-            "👥 Wen könntest du als ungewöhnlichen Partner gewinnen?",
-            "⚡ Was wäre die verrückteste Art, deine Idee umzusetzen?",
-            "🔮 Wie würde deine Idee in 10 Jahren aussehen?",
-            "🏠 Wie könntest du von zu Hause aus starten?",
-            "📺 Denke an eine Fernsehsendung - auf welche Idee bringt sie dich bei deiner Herausforderung",
-            "🌟 Was würde passieren, wenn du das Gegenteil von dem machst, was alle erwarten?",
-            "🔗 Wie könntest du Digitalisierung und Nachhaltigkeit bei deiner Herausforderung clever verbinden?",
-            "🎨 Wie würde ein Künstler an deine Herausforderung herangehen?",
-            "⚖️ Wie könntest du dabei soziale Gerechtigkeit fördern?",
-            "🚀 Stell dir vor, du hättest unbegrenzte technische Möglichkeiten - was würdest du entwickeln?",
-            "🌈 Wie könntest du verschiedene Generationen zusammenbringen?",
-            "🎯 Was ist das Kleinste, womit du heute anfangen könntest?",
-            "🪟 Schau aus dem Fenster - was siehst du, das dich inspirieren könnte?",
-            "☕ Was liegt gerade auf deinem Schreibtisch? Wie könnte das deine Idee beeinflussen?",
-            "🎵 Welche Musik hörst du gerade? Wie würde deine Idee klingen?",
-            "👕 Welche Farbe hat dein Lieblings-T-Shirt? Was hat das mit deiner Idee zu tun?",
-            "🌡️ Wie ist das Wetter heute? Wie passt deine Idee zum aktuellen Wetter?",
-            "🍎 Was hast du heute gegessen? Wie könnte das in deine Idee einfließen?"
-        ];
+  "💭 Was würde Lisa Simpson jetzt machen?",
+  "💰 Stell dir vor, du hättest unendlich viel Geld – was dann?",
+  "🌍 Was wäre anders, wenn du das Projekt in Afrika oder Japan machst?",
+  "🤖 Wie könnte dir ein Roboter helfen?",
+  "👶 Was würde ein Kindergartenkind vorschlagen?",
+  "🎮 Wie könntest du daraus ein Spiel machen?",
+  "📱 Welches digitale Gerät könnte dir helfen?",
+  "🌱 Wie könntest du die Umwelt dabei schützen?",
+  "👥 Mit wem würdest du niemals zusammenarbeiten – aber vielleicht doch?",
+  "⚡ Wie verrückt darf deine Idee sein?",
+  "🔮 Wie sieht deine Idee in 10 Jahren aus?",
+  "🏠 Wie könntest du direkt zu Hause loslegen?",
+  "📺 Welche Fernsehserie bringt dich auf eine Idee?",
+  "🌟 Was passiert, wenn du das Gegenteil von dem machst, was andere tun würden?",
+  "🔗 Wie passen Computer und Umwelt bei deiner Idee zusammen?",
+  "🎨 Was würde ein Künstler daraus machen?",
+  "⚖️ Wie kann deine Idee anderen helfen, die weniger haben?",
+  "🚀 Wenn alles möglich wäre – was würdest du erfinden?",
+  "🌈 Wie können Kinder und Großeltern bei deiner Idee zusammenarbeiten?",
+  "🎯 Was ist der kleinste erste Schritt?",
+  "🪟 Was siehst du draußen – bringt dich das auf eine Idee?",
+  "☕ Schau dich um – was liegt auf deinem Tisch?",
+  "🎵 Stell dir vor, deine Idee wäre ein Lied – wie würde es klingen?",
+  "👕 Welche Farbe hat dein T-Shirt? Welche Idee passt zu dieser Farbe?",
+  "🌡️ Wie fühlt sich deine Idee bei Sonne, Regen oder Schnee an?",
+  "🍎 Was hast du gegessen? Stell dir vor, das gehört zu deinem Projekt."
+];
 
         function startIdeensammlung() {
             const themeInput = document.getElementById('themenfeld');
