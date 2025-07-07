@@ -1,134 +1,165 @@
-/* ==============================
-   Basis-Layout & Utilities
-   ============================== */
+/* ==========================================
+   Basislayout & Utilities
+========================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #2E8B57 0%, #20B2AA 50%, #4169E1 100%);
+  min-height: 100vh;
+  color: #333;
+}
 
 .hidden {
   display: none !important;
 }
 
-.instructions {
-  background-color: #fffdfa;
-  border: 2px solid #a0c4ff;
-  border-radius: 10px;
-  padding: 1.25rem;
-  max-width: 95%;
-  margin: 1.25rem auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
-/* ==============================
-   Begrüßungs-Karte & Anleitung
-   ============================== */
+/* ==========================================
+   Hauptcontainer & Kartenstruktur
+========================================== */
+.instructions,
+.step-card,
+.welcome-card,
+.card-grid,
+.resources,
+#fobizzContainer {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+  .instructions,
+  .step-card,
+  .welcome-card,
+  .card-grid,
+  .resources,
+  #fobizzContainer {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ==========================================
+   Begrüßungskarte auf Indexseite
+========================================== */
 .welcome-card-index {
   background-image: url("assets/images/header.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: white;
+  border: 2px solid #ffe58f;
   border-radius: 12px;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-  border: 2px solid #ffe58f;
-  border-radius: 8px;
   padding: 1.5rem;
   max-width: 800px;
   min-height: 200px;
   margin: 2.5rem auto;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
+
 .welcome-card-index h1 {
-   color: black !important;
-   margin-top: 1%;
-}
-.welcome-card,
-.step-card {
-  background-color: #fffdfa;
-  border: 2px solid #ffe58f;
-  border-radius: 8px;
-  padding: 1.5rem;
-  max-width: 800px;
-  margin: 1.5rem auto;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-}
-
-.welcome-card h2,
-.step-card h2 {
-  margin-bottom: 0.5rem;
-  color: #1a202c;
-}
-
-.welcome-card p,
-.step-card p {
-  color: #4a5568;
-  font-size: 1.05rem;
-}
-
-/* ==============================
-   Karteikarten-Grid
-   ============================== */
-.card {
-  background-color: #f0f8ff;
-  border: 2px solid #a0c4ff;
-  border-radius: 10px;
-  padding: 1rem;
+  color: black;
+  margin-top: 1%;
   text-align: center;
-  color: #1a202c;
+}
+
+.welcome-card-index p {
+  color: #4a4a4a;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* ==========================================
+   Buttons
+========================================== */
+button {
+  background: linear-gradient(45deg, #2E8B57, #20B2AA);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin: 10px 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-weight: bold;
-  text-decoration: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: background 0.2s, color 0.2s, transform 0.2s;
-}
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
-  max-width: 95%;
-  margin: 1rem auto 2rem;
-  padding: 0 1rem;
 }
 
-
-.card span {
-  display: block;
-  font-size: 1.5rem;
-  margin-bottom: 0.3rem;
-}
-
-.card:hover,
-.card:focus {
-  background-color: #a0c4ff;
-  color: #fffdfa;
+button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* ==============================
-   Pfeil-Animation (gegen Uhrzeiger)
-   ============================== */
-
-/*@keyframes rotateCounterClockwise {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(-360deg); }
+button:disabled {
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none;
 }
-*/
-.card-arrow {
+
+/* ==========================================
+   Eingabefelder
+========================================== */
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4169E1;
+  box-shadow: 0 0 10px rgba(65, 105, 225, 0.3);
+}
+
+/* ==========================================
+   Fobizz IFrame & Fallback
+========================================== */
+#fobizzContainer iframe,
+#fobizzSupportFrame {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   display: block;
-  width: 40px;
-  margin: 0 auto 0.5rem;
-  animation: rotateCounterClockwise 2s linear infinite;
-}
-
-/* ==============================
-   Fobizz iFrame & Fallback
-   ============================== */
-
-#fobizzContainer {
-  margin-top: 2rem;
+  margin: 0 auto;
 }
 
 #fobizzContainer iframe {
-  width: 100%;
   height: 80vh;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+}
+
+#fobizzSupportFrame {
+  height: 400px;
+  margin-top: 2rem;
 }
 
 #fallbackHint {
@@ -148,386 +179,26 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
 #fallbackBtn:hover {
   background-color: #9b1b1b;
 }
-.visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0 0 0 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-* {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #2E8B57 0%, #20B2AA 50%, #4169E1 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .step {
-            display: none;
-        }
-
-        .step.active {
-            display: block;
-        }
-
-        h1 {
-            color: #2E8B57;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2.2em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: #4169E1;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .icon {
-            font-size: 1.2em;
-        }
-
-        .subtitle {
-            color: #666;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-            margin-bottom: 15px;
-            transition: border-color 0.3s;
-        }
-
-        input[type="text"]:focus, textarea:focus {
-            outline: none;
-            border-color: #4169E1;
-            box-shadow: 0 0 10px rgba(65, 105, 225, 0.3);
-        }
-
-        button {
-            background: linear-gradient(45deg, #2E8B57, #20B2AA);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 10px 5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: bold;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .secondary-btn {
-            background: linear-gradient(45deg, #4169E1, #6495ED);
-        }
-
-        .creativity-booster {
-            background: rgba(255, 215, 0, 0.1);
-            border: 2px solid #FFD700;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 15px 0;
-            font-style: italic;
-            font-size: 1.1em;
-            color: #B8860B;
-            display: none;
-        }
-
-        .creativity-booster.show {
-            display: block;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .timer {
-            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .timer.warning {
-            animation: pulse 1s infinite;
-        }
-
-        button:disabled {
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        button:disabled:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
-
-        .ideas-list {
-            background: rgba(46, 139, 87, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
-        }
-
-        .idea-item {
-            background: white;
-            padding: 10px 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border-left: 4px solid #2E8B57;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .idea-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .idea-item.selected {
-            background: #E8F5E8;
-            border-left-color: #4169E1;
-        }
-
-        .prompt-box {
-            background: #f8f9fa;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(45deg, #2E8B57, #20B2AA);
-            border-radius: 4px;
-            transition: width 0.3s;
-        }
-
-        .warning-text {
-            color: #FF6B6B;
-            font-weight: bold;
-            text-align: center;
-            margin: 15px 0;
-            font-size: 1.1em;
-        }
-
-        .success-text {
-            color: #2E8B57;
-            font-weight: bold;
-            text-align: center;
-            margin: 15px 0;
-            font-size: 1.1em;
-        }
-
-/* ==============================
-   Responsive Anpassungen
-   ============================== */
-
-/* iPad Querformat (10. Gen) */
-@media (min-width: 1180px) and (max-width: 1190px) and (orientation: landscape) {
-  nav ul {
-    left: 50%;
-    transform: translateX(-50%) translateY(-2%);
-    gap: 10px;
-    bottom: 10px;
-  }
-  nav ul li a {
-    font-size: 1rem;
-    padding: 4px 8px;
-    white-space: nowrap;
-  }
-  header {
-    background-size: 75% auto;
-    height: 450px;
-  }
-}
-
-/* iPad Hochformat */
-@media (min-width: 810px) and (max-width: 1180px) and (orientation: portrait) {
-  header {
-    height: 480px;
-    background-size: 70% auto;
-  }
-  nav ul {
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-  }
-  nav ul li a {
-    font-size: 0.9rem;
-    padding: 4px 8px;
-  }
-}
-
-/* Smartphone Portrait */
+/* ==========================================
+   Responsive: Header ausblenden (Mobil)
+========================================== */
 @media (max-width: 500px) {
   header {
     display: none !important;
   }
+
   .mobile-back {
     display: block !important;
     text-align: center;
     margin: 2rem 0;
   }
 }
+
 .mobile-back {
   display: none;
-}
-/* ==========================================
-   Eingebettete Fenster zentriert halten
-   ========================================== */
-
-/* Behälter auf volle Breite, aber zentriert und mit maximaler Breite */
-#fobizzContainer {
-  width: 100%;
-  max-width: 1200px;  /* hier kannst du anpassen, wie breit es höchstens sein darf */
-  margin: 0 auto;     /* zentriert den Container horizontal */
-  padding: 1rem 0;     /* optionaler vertikaler Puffer über/unter dem IFrame */
-  box-sizing: border-box;
-}
-
-/* IFrame selbst nimmt immer die volle Breite des Containers ein */
-#fobizzContainer iframe {
-  width: 100%;
-  /* die Höhe je nach Viewport, siehe vorheriger Maximize-Block */
-  border: none;
-  border-radius: 8px;
-  display: block;     /* stellt sicher, dass margin auto wirkt, falls benötigt */
-  margin: 0 auto;     /* horizontal zentrieren, falls Container schmaler */
-}
-/* ==========================================
-   Container auf volle Breite des Geräts
-   ========================================== */
- 
-/* Grundsätzlich alle deine mittigen Fenster voll ausdehnen */
-.instructions,
-.step-card,
-.welcome-card,
-.card-grid,
-.resources,
-#fobizzContainer {
-  width: 100%;       /* füllt 100% der verfügbaren Breite */
-  max-width: none;   /* hebt jede Obergrenze auf */
-  margin: 1rem 0;    /* vertikaler Abstand, keine horizontale Zentrierung */
-  padding: 0 1rem;   /* 1rem Abstand links/rechts zum Browser-Rand */
-  box-sizing: border-box; /* Padding zählt zur Breite */
-}
-
-/* Falls du trotzdem horizontales Zentrieren mit Puffer willst, statt margin 0: */
-@media (min-width: 600px) {
-  .instructions,
-  .step-card,
-  .welcome-card,
-  .card-grid,
-  .resources,
-  #fobizzContainer {
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
 }
