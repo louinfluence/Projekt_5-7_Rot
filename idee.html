@@ -1,367 +1,94 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple-v1.css">
-    <link rel="stylesheet" href="projekt.css">
-    <title>💡 Idee – Projekt 5-7 Rot</title>
-    <script src="common.js" defer></script>
- </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💡 Idee – Projekt 5-7 Rot</title>
+  <link rel="stylesheet" href="projekt.css">
+  <script src="common.js" defer></script>
+</head>
+
 <body>
-      <div class="container">
-        <!-- Schritt 1: Themenfeld eingeben -->
-        <div class="card step active" id="step1">
-            <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
-            <div class="subtitle">Entwickle konkrete Ideen für nachhaltige und digitale Bildung</div>
-            
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 33%"></div>
-            </div>
-            
-            <h2><span class="icon">🎯</span>Schritt 1: Dein Themenfeld</h2>
-            <p style="margin-bottom: 20px;">Was ist das vorgegebene Oberthema für das aktuelle Projekt?:</p>
-            
-            <input type="text" id="themenfeld" placeholder="z.B. Bewegung am Land, Nationalsozialismus..." maxlength="200" oninput="updateStartButton()">
-            
-            <button id="start-btn" onclick="startIdeensammlung()" disabled style="opacity: 0.5;">
-                <span>🚀</span> Ideensammlung starten
-            </button>
-        </div>
-				
-        <!-- Schritt 2: Ideensammlung mit Timer -->
-        <div class="card step" id="step2">
-            <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
-            
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 66%"></div>
-            </div>
-            
-            <h2><span class="icon">💡</span>Schritt 2: Ideensammlung</h2>
-            <p><strong>Themenfeld:</strong> <span id="themenfeld-display"></span></p>
-            
-            <div class="timer" id="timer">⏰ Zeit: 5:00</div>
-            <div class="warning-text">Ihr habt 5 Minuten Zeit! Sammelt so viele Ideen wie möglich - auch verrückte!</div>
-            
-            <button class="secondary-btn" onclick="getCreativityBooster()">
-                <span>✨</span> Kreativitäts-Booster holen
-            </button>
-            
-            <div class="creativity-booster" id="creativity-booster"></div>
-            
-            <textarea id="neue-idee" placeholder="Gib hier deine Idee ein..." rows="3"></textarea>
-            <button onclick="addIdee()">
-                <span>➕</span> Idee hinzufügen
-            </button>
-            
-            <div class="ideas-list" id="ideas-display" style="display: none;">
-                <h3>Deine Ideen:</h3>
-                <div id="ideas-container"></div>
-            </div>
-        </div>
+  <main class="container">
+    
+    <!-- Schritt 1: Themenfeld -->
+    <section class="card step active" id="step1">
+      <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
+      <p class="subtitle">Entwickle konkrete Ideen für nachhaltige und digitale Bildung</p>
 
-        <!-- Schritt 3: Ideenauswahl und Prompt-Generation -->
-        <div class="card step" id="step3">
-            <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
-            
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 100%"></div>
-            </div>
-            
-            <h2><span class="icon">🎯</span>Schritt 3: Ideenauswahl & KI-Prompt</h2>
-            <div class="success-text">Großartig! Du hast <span id="total-ideas"></span> Ideen gesammelt!</div>
-            
-            <p><strong>Themenfeld:</strong> <span id="themenfeld-final"></span></p>
-            
-            <p style="margin: 20px 0;"><strong>Wähle bis zu 3 Ideen aus, die du weiterentwickeln möchtest:</strong></p>
-            
-            <div class="ideas-list" id="final-ideas-list"></div>
-            
-            <button onclick="generatePrompt()" id="generate-btn" style="display: none;">
-                <span>🤖</span> KI-Prompt generieren
-            </button>
-            
-            <div id="prompt-section" style="display: none;">
-                <h3>Dein personalisierter KI-Prompt:</h3>
-                <div class="prompt-box" id="generated-prompt"></div>
-                <button onclick="copyPrompt()">
-                    <span>📋</span> Prompt kopieren
-                </button>
-            </div>
-            
-            <button class="secondary-btn" onclick="restart()">
-                <span>🔄</span> Neues Themenfeld bearbeiten
-            </button>
-        </div>
-    </div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 33%"></div></div>
 
-    <script>
-        let currentStep = 1;
-        let timerInterval;
-        let timeLeft = 300; // 5 Minuten in Sekunden
-        let ideas = [];
-        let selectedIdeas = [];
-        let themenfeld = '';
+      <h2><span class="icon">🎯</span>Schritt 1: Dein Themenfeld</h2>
+      <p>Was ist das vorgegebene Oberthema für das aktuelle Projekt?</p>
 
-        const creativityBoosters = [
-  "💭 Was würde Lisa Simpson jetzt machen?",
-  "💰 Stell dir vor, du hättest unendlich viel Geld – was dann?",
-  "🌍 Was wäre anders, wenn du das Projekt in Afrika oder Japan machst?",
-  "🤖 Wie könnte dir ein Roboter helfen?",
-  "👶 Was würde ein Kindergartenkind vorschlagen?",
-  "🎮 Wie könntest du daraus ein Spiel machen?",
-  "📱 Welches digitale Gerät könnte dir helfen?",
-  "🌱 Wie könntest du die Umwelt dabei schützen?",
-  "👥 Mit wem würdest du niemals zusammenarbeiten – aber vielleicht doch?",
-  "⚡ Wie verrückt darf deine Idee sein?",
-  "🔮 Wie sieht deine Idee in 10 Jahren aus?",
-  "🏠 Wie könntest du direkt zu Hause loslegen?",
-  "📺 Welche Fernsehserie bringt dich auf eine Idee?",
-  "🌟 Was passiert, wenn du das Gegenteil von dem machst, was andere tun würden?",
-  "🔗 Wie passen Computer und Umwelt bei deiner Idee zusammen?",
-  "🎨 Was würde ein Künstler daraus machen?",
-  "⚖️ Wie kann deine Idee anderen helfen, die weniger haben?",
-  "🚀 Wenn alles möglich wäre – was würdest du erfinden?",
-  "🌈 Wie können Kinder und Großeltern bei deiner Idee zusammenarbeiten?",
-  "🎯 Was ist der kleinste erste Schritt?",
-  "🪟 Was siehst du draußen – bringt dich das auf eine Idee?",
-  "☕ Schau dich um – was liegt auf deinem Tisch?",
-  "🎵 Stell dir vor, deine Idee wäre ein Lied – wie würde es klingen?",
-  "👕 Welche Farbe hat dein T-Shirt? Welche Idee passt zu dieser Farbe?",
-  "🌡️ Wie fühlt sich deine Idee bei Sonne, Regen oder Schnee an?",
-  "🍎 Was hast du gegessen? Stell dir vor, das gehört zu deinem Projekt."
-];
+      <input type="text" id="themenfeld" placeholder="z.B. Bewegung am Land, Nationalsozialismus..." maxlength="200" oninput="updateStartButton()">
 
-        function startIdeensammlung() {
-            const themeInput = document.getElementById('themenfeld');
-            if (!themeInput.value.trim()) {
-                showMessage('Bitte gib erst dein Themenfeld ein! 📝', 'warning');
-                return;
-            }
-            
-            themenfeld = themeInput.value.trim();
-            document.getElementById('themenfeld-display').textContent = themenfeld;
-            
-            showStep(2);
-            startTimer();
-        }
+      <button id="start-btn" onclick="startIdeensammlung()" disabled style="opacity: 0.5;">
+        <span>🚀</span> Ideensammlung starten
+      </button>
+    </section>
 
-        function updateStartButton() {
-            const themeInput = document.getElementById('themenfeld');
-            const startBtn = document.getElementById('start-btn');
-            
-            if (themeInput.value.trim()) {
-                startBtn.disabled = false;
-                startBtn.style.opacity = '1';
-            } else {
-                startBtn.disabled = true;
-                startBtn.style.opacity = '0.5';
-            }
-        }
+    <!-- Schritt 2: Ideensammlung -->
+    <section class="card step" id="step2">
+      <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
 
-        function showMessage(text, type = 'info') {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-            messageDiv.textContent = text;
-            messageDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 20px;
-                border-radius: 10px;
-                color: white;
-                font-weight: bold;
-                z-index: 1000;
-                animation: slideInRight 0.3s ease-out;
-                ${type === 'success' ? 'background: linear-gradient(45deg, #2E8B57, #20B2AA);' : ''}
-                ${type === 'warning' ? 'background: linear-gradient(45deg, #FF6B6B, #FF8E53);' : ''}
-                ${type === 'info' ? 'background: linear-gradient(45deg, #4169E1, #6495ED);' : ''}
-            `;
-            
-            document.body.appendChild(messageDiv);
-            
-            setTimeout(() => {
-                messageDiv.style.animation = 'slideOutRight 0.3s ease-in';
-                setTimeout(() => messageDiv.remove(), 300);
-            }, 3000);
-        }
+      <div class="progress-bar"><div class="progress-fill" style="width: 66%"></div></div>
 
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                const timerElement = document.getElementById('timer');
-                
-                timerElement.textContent = `⏰ Zeit: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (timeLeft <= 60) {
-                    timerElement.classList.add('warning');
-                }
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    finishIdeensammlung();
-                }
-            }, 1000);
-        }
+      <h2><span class="icon">💡</span>Schritt 2: Ideensammlung</h2>
+      <p><strong>Themenfeld:</strong> <span id="themenfeld-display"></span></p>
 
-        function getCreativityBooster() {
-            const boosterElement = document.getElementById('creativity-booster');
-            const randomBooster = creativityBoosters[Math.floor(Math.random() * creativityBoosters.length)];
-            
-            boosterElement.textContent = randomBooster;
-            boosterElement.classList.remove('show');
-            setTimeout(() => boosterElement.classList.add('show'), 100);
-        }
+      <div class="timer" id="timer">⏰ Zeit: 5:00</div>
+      <p class="warning-text">Ihr habt 5 Minuten Zeit! Sammelt so viele Ideen wie möglich – auch verrückte!</p>
 
-        function addIdee() {
-            const ideaInput = document.getElementById('neue-idee');
-            const idea = ideaInput.value.trim();
-            
-            if (!idea) return;
-            
-            ideas.push(idea);
-            ideaInput.value = '';
-            
-            updateIdeasDisplay();
-        }
+      <button class="secondary-btn" onclick="getCreativityBooster()">
+        <span>✨</span> Kreativitäts-Booster holen
+      </button>
 
-        function updateIdeasDisplay() {
-            const container = document.getElementById('ideas-container');
-            const display = document.getElementById('ideas-display');
-            
-            container.innerHTML = ideas.map((idea, index) => 
-                `<div class="idea-item">${index + 1}. ${idea}</div>`
-            ).join('');
-            
-            display.style.display = 'block';
-        }
+      <div class="creativity-booster" id="creativity-booster"></div>
 
-        function finishIdeensammlung() {
-            clearInterval(timerInterval);
-            showStep(3);
-            setupFinalStep();
-        }
+      <textarea id="neue-idee" placeholder="Gib hier deine Idee ein..." rows="3"></textarea>
+      <button onclick="addIdee()"><span>➕</span> Idee hinzufügen</button>
 
-        function setupFinalStep() {
-            document.getElementById('themenfeld-final').textContent = themenfeld;
-            document.getElementById('total-ideas').textContent = ideas.length;
-            
-            const finalList = document.getElementById('final-ideas-list');
-            finalList.innerHTML = ideas.map((idea, index) => 
-                `<div class="idea-item" onclick="toggleIdea(${index})" data-index="${index}">
-                    <input type="checkbox" style="margin-right: 10px;">
-                    ${idea}
-                </div>`
-            ).join('');
-        }
+      <div class="ideas-list" id="ideas-display" style="display: none;">
+        <h3>Deine Ideen:</h3>
+        <div id="ideas-container"></div>
+      </div>
+    </section>
 
-        function toggleIdea(index) {
-            const ideaElement = document.querySelector(`[data-index="${index}"]`);
-            const checkbox = ideaElement.querySelector('input[type="checkbox"]');
-            
-            if (selectedIdeas.includes(index)) {
-                selectedIdeas = selectedIdeas.filter(i => i !== index);
-                ideaElement.classList.remove('selected');
-                checkbox.checked = false;
-            } else if (selectedIdeas.length < 3) {
-                selectedIdeas.push(index);
-                ideaElement.classList.add('selected');
-                checkbox.checked = true;
-            } else {
-                alert('Du kannst maximal 3 Ideen auswählen!');
-                return;
-            }
-            
-            document.getElementById('generate-btn').style.display = 
-                selectedIdeas.length > 0 ? 'inline-flex' : 'none';
-        }
+    <!-- Schritt 3: Ideenauswahl + KI-Prompt -->
+    <section class="card step" id="step3">
+      <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
 
-        function generatePrompt() {
-            const selectedIdeasText = selectedIdeas.map(index => ideas[index]).join('\n- ');
-            
-            const prompt = `Hey! Schön, dass du da bist. Ich stecke gerade in einem spannenden Projekt und brauche deine Hilfe beim Denken.
+      <div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div>
 
-Ich beschäftige mich intensiv mit der **Twin Transition** - du weißt schon, diese faszinierende Idee, dass wir Digitalisierung und Nachhaltigkeit nicht getrennt voneinander betrachten sollten, sondern sie intelligent miteinander verweben können. Stell dir vor: Technologie, die nicht nur cool und praktisch ist, sondern auch unseren Planeten rettet. Ziemlich genial, oder?
+      <h2><span class="icon">🎯</span>Schritt 3: Ideenauswahl & KI-Prompt</h2>
+      <p class="success-text">Großartig! Du hast <span id="total-ideas"></span> Ideen gesammelt!</p>
+      <p><strong>Themenfeld:</strong> <span id="themenfeld-final"></span></p>
 
-In der Erwachsenenbildung will ich lernen, wie ich Menschen dazu befähigen kann, in dieser digitalisierten Welt nicht nur zu überleben, sondern sie nachhaltig mitzugestalten. Es geht darum, dass Lernende selbst zu Akteuren des Wandels werden.
+      <p><strong>Wähle bis zu 3 Ideen aus, die du weiterentwickeln möchtest:</strong></p>
+      <div class="ideas-list" id="final-ideas-list"></div>
 
-**Mein Themenfeld:** ${themenfeld}
+      <button onclick="generatePrompt()" id="generate-btn" style="display: none;">
+        <span>🤖</span> KI-Prompt generieren
+      </button>
 
-Ich hab mir den Kopf zerbrochen und bin auf diese drei Ideen gekommen, die mich richtig faszinieren:
-- ${selectedIdeasText}
+      <div id="prompt-section" style="display: none;">
+        <h3>Dein personalisierter KI-Prompt:</h3>
+        <div class="prompt-box" id="generated-prompt"></div>
+        <button onclick="copyPrompt()"><span>📋</span> Prompt kopieren</button>
+      </div>
 
-Jetzt stehe ich vor dem typischen Problem: Viele Ideen im Kopf, aber wo fange ich eigentlich an? Du kennst das sicher auch - manchmal sieht man den Wald vor lauter Bäumen nicht.
+      <button class="secondary-btn" onclick="restart()">
+        <span>🔄</span> Neues Themenfeld bearbeiten
+      </button>
+    </section>
 
-Hier ist meine Bitte an dich: Lass uns gemeinsam herausfinden, welche dieser Ideen wirklich das Zeug dazu hat, mein nächster konkreter Schritt zu werden. Nicht irgendein theoretisches Konzept, sondern etwas, womit ich in den nächsten zwei Wochen loslegen kann.
+  </main>
 
-Aber bitte nicht mit einer Checkliste oder einem starren Fragenkatalog! Ich brauche jemanden, der mit mir denkt, mich herausfordert und dabei hilft, die Sache von verschiedenen Seiten zu betrachten. Sei ruhig neugierig, hinterfrage meine Annahmen und lass uns gemeinsam entdecken, was wirklich möglich ist. Bitte gehe dabei immer schrittweise vor: eine Frage an mich, dann warte meine Antwort ab. Dann weiter ...
-
-Womit würdest du anfangen? Was denkst du - welche der drei Ideen lässt dich aufhorchen?`;
-
-            document.getElementById('generated-prompt').textContent = prompt;
-            document.getElementById('prompt-section').style.display = 'block';
-        }
-
-        function copyPrompt() {
-            const promptText = document.getElementById('generated-prompt').textContent;
-            navigator.clipboard.writeText(promptText).then(() => {
-                showMessage('Prompt kopiert! 📋', 'success');
-            }).catch(() => {
-                showMessage('Kopieren fehlgeschlagen - bitte manuell markieren und kopieren', 'warning');
-            });
-        }
-
-        function restart() {
-            currentStep = 1;
-            ideas = [];
-            selectedIdeas = [];
-            themenfeld = '';
-            timeLeft = 300;
-            clearInterval(timerInterval);
-            
-            document.getElementById('themenfeld').value = '';
-            document.getElementById('neue-idee').value = '';
-            document.getElementById('creativity-booster').classList.remove('show');
-            document.getElementById('ideas-display').style.display = 'none';
-            document.getElementById('timer').classList.remove('warning');
-            
-            showStep(1);
-        }
-
-        function showStep(step) {
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            document.getElementById(`step${step}`).classList.add('active');
-            currentStep = step;
-        }
-
-        // Enter-Taste Unterstützung
-        document.getElementById('themenfeld').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !document.getElementById('start-btn').disabled) {
-                startIdeensammlung();
-            }
-        });
-
-        document.getElementById('neue-idee').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                addIdee();
-            }
-        });
-
-        // Initialisierung
-        window.addEventListener('load', () => {
-            updateStartButton();
-        });
-    </script>
-    <footer>
-      <p>Erstellt von Louis Birk- von Brook • Lizenz: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0</a></p>
-    </footer>
-  </body>
+  <footer>
+    <p>Erstellt von Louis Birk-von Brook • Lizenz:
+      <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0</a>
+    </p>
+  </footer>
+</body>
 </html>
-
-
-
-
-        
