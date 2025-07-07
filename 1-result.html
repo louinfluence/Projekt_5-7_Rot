@@ -1,68 +1,45 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projekt 5-7 rot</title>
-  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎲 Ergebnis – Projekt 5-7 Rot</title>
+  <link rel="stylesheet" href="projekt.css" />
   <script src="common.js" defer></script>
-  <style>
-    #copyStatus {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      color: darkgreen;
-    }
-    #copyAndGoBtn {
-      padding: 0.75rem 1.2rem;
-      font-size: 1rem;
-      background-color: darkgreen;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    #copyAndGoBtn:hover {
-      background-color: seagreen;
-    }
-    #resultContainer {
-      display: none;
-    }
-  </style>
 </head>
+
 <body>
+  <div class="container">
+    <h1>🎲 Euer Forscherfragen-Prompt</h1>
 
+    <div class="card">
+      <p class="subtitle">
+        Jetzt kann es losgehen! Kopiert den folgenden Prompt und startet euer Spiel mit ChatGPT oder Fobizz.
+        Eine Person aus der Gruppe übernimmt die Eingabe und leitet den Prozess.
+      </p>
 
-<main>
-  <h2>🎲 Zufallsgenerator</h2>
-  <p>Jetzt kann es losgehen. Eine Person Eurer Gruppe sollte dazu diesen Prompt kopieren und in ein Sprachmodell Eurer Wahl einfügen (z.B. ChatGPT). Danach seid ihr immer abwechselnd an der Reihe: Ihr würfelt und erhaltet eine Herausforderung des KI-Sprachmodells. Lasst euch durch den Prozess führen.</p>
-  <hr>
+      <div id="copyStatus" class="success-text">✅ Prompt wurde generiert.</div>
 
-<!-- Statusanzeige -->
-<p id="copyStatus">✅ Prompt wurde generiert.</p>
+      <div class="prompt-box" id="resultText">
+        <!-- Prompt wird per JavaScript hier eingefügt -->
+      </div>
 
-<!-- Buttons -->
-<p>
-  <button id="copyAndGoBtn">🧠 Kopieren & zu ChatGPT</button>
-  <button id="copyAndGoFobizzBtn">📘 Kopieren & zu Fobizz</button>
-</p>
+      <div style="text-align: center; margin-top: 1rem;">
+        <button id="copyAndGoBtn">🧠 Kopieren & zu ChatGPT</button>
+        <button id="copyAndGoFobizzBtn" class="secondary-btn">📘 Kopieren & zu Fobizz</button>
+      </div>
 
-<!-- Optional: zusätzliche Statusmeldung -->
-<p id="statusMessage" style="margin-top: 10px; font-style: italic;"></p>
+      <p id="statusMessage" class="subtitle" style="margin-top: 1rem;"></p>
+    </div>
 
-<!-- Unsichtbarer Prompt-Text (wird kopiert) -->
-<div id="resultContainer" style="display: none;">
-  <p id="resultText"></p>
-</div>
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="index.html"><button class="secondary-btn">⬅ Zurück zur Übersicht</button></a>
+    </div>
 
-
-
-  <hr>
-  <p><a href="index.html"><button>⬅ Zurück zur Übersicht</button></a></p>
-</main>
-
-<footer>
-  <p>Erstellt von Louis Birk- von Brook | Lizenz: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a></p>
-</footer>
+    <footer class="subtitle" style="margin-top: 3rem;">
+      Erstellt von Louis Birk-von Brook • Lizenz:
+      <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a>
+    </footer>
+  </div>
 </body>
 </html>
