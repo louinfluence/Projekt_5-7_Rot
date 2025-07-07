@@ -25,14 +25,13 @@
   background-position: center;
   background-repeat: no-repeat;
   color: white;
-  padding: 3rem 2rem;
   border-radius: 12px;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
   border: 2px solid #ffe58f;
   border-radius: 8px;
   padding: 1.5rem;
-  max-width: 900px;
-  min-hight: 300px;
+  max-width: 1000px;
+  min-hight: 400px;
   margin: 1.5rem auto;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
