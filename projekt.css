@@ -37,6 +37,7 @@
 }
 .welcome-card-index h1 {
    color: black !important;
+   margin-top: 1%;
 }
 .welcome-card,
 .step-card {
