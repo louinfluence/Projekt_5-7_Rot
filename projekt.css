@@ -30,23 +30,10 @@
   border: 2px solid #ffe58f;
   border-radius: 8px;
   padding: 1.5rem;
-  max-width: 90% !important;
-  min-hight: 30% !important;
+  max-width: 700px;
+  min-hight: 200px;
   margin: 1.5rem auto;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-}
-.welcome-card-index h2 {
-  color: black;
-  margin-top: 0 !important;
-  margin-bottom: 0.5rem;
-  font-size: 1.8rem;
-}
-
-.welcome-card-index p {
-  color: #444;
-  font-size: 1rem;
-  margin: 0;
-  margin-top: 0.5rem !important;
 }
 .welcome-card,
 .step-card {
