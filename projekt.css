@@ -25,14 +25,15 @@
   background-position: center;
   background-repeat: no-repeat;
   color: white;
+
   border-radius: 12px;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
   border: 2px solid #ffe58f;
   border-radius: 8px;
   padding: 1.5rem;
   min-width: 900px;
-  min-hight: 600px;
-  margin: 1.5rem auto;
+  min-hight: 500px;
+  margin: 2.5rem auto;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 .welcome-card,
@@ -170,6 +171,7 @@
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #2E8B57 0%, #20B2AA 50%, #4169E1 100%);
             min-height: 100vh;
+            justify-content: center;
             color: #333;
         }
 
