@@ -471,3 +471,44 @@ textarea:focus {
 .step.active {
   display: block;
 }
+
+/* ==========================================
+   Startseite: Grid für Navigation
+========================================== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.card-grid a.card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #ffe58f;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-grid a.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-grid a.card img.card-arrow {
+  width: 36px;
+  margin-bottom: 0.5rem;
+}
+
+.card-grid a.card span {
+  font-size: 1.8rem;
+  display: block;
+  margin: 0.5rem 0;
+}
