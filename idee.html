@@ -32,6 +32,8 @@
 
       <div class="timer" id="timer">⏰ Zeit: 5:00</div>
       <div class="warning-text">Ihr habt 5 Minuten Zeit! Sammelt so viele Ideen wie möglich – auch verrückte!</div>
+      
+      <button class="secondary-btn" onclick="forceFinishTimer()">✅ Fertig</button>
 
       <button class="secondary-btn" onclick="getCreativityBooster()">✨ Kreativitäts-Booster holen</button>
       <div class="creativity-booster" id="creativity-booster"></div>
@@ -235,6 +237,12 @@ Was denkst du – welche der drei Ideen klingt für dich am interessantesten? Un
       document.getElementById('ideas-display').style.display = 'none';
       document.getElementById('timer').classList.remove('warning');
     }
+    
+    function forceFinishTimer() {
+  clearInterval(timerInterval);
+  timeLeft = 0;
+  finishIdeensammlung();
+}
 
     // Tastatursteuerung
     document.getElementById('themenfeld').addEventListener('input', updateStartButton);
