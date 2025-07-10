@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>💡 Idee – Projekt 5-7 Rot</title>
-  <link rel="stylesheet" href="projekt.css">
+  <link rel="stylesheet" href="projekt.css" />
 </head>
 <body>
   <main class="container">
@@ -12,13 +12,11 @@
     <section class="card step active" id="step1">
       <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
       <div class="subtitle">Entwickle konkrete Ideen für dein oder euer aktuelles Projekt</div>
-
       <div class="progress-bar"><div class="progress-fill" style="width: 33%"></div></div>
-
       <h2><span class="icon">🎯</span> Schritt 1: Dein Themenfeld</h2>
       <p>Was ist das vorgegebene Oberthema für das aktuelle Projekt?</p>
 
-      <input type="text" id="themenfeld" placeholder="z.B. Bewegung am Land, Nationalsozialismus..." maxlength="200">
+      <input type="text" id="themenfeld" placeholder="z.B. Bewegung am Land, Nationalsozialismus..." maxlength="200" />
       <button id="start-btn" disabled>🚀 Ideensammlung starten</button>
     </section>
 
@@ -26,15 +24,13 @@
     <section class="card step" id="step2">
       <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
       <div class="progress-bar"><div class="progress-fill" style="width: 66%"></div></div>
-
       <h2><span class="icon">💡</span> Schritt 2: Ideensammlung</h2>
       <p><strong>Themenfeld:</strong> <span id="themenfeld-display"></span></p>
 
       <div class="timer" id="timer">⏰ Zeit: 5:00</div>
       <div class="warning-text">Ihr habt 5 Minuten Zeit! Sammelt so viele Ideen wie möglich – auch verrückte!</div>
-      
-      <button class="secondary-btn" onclick="forceFinishTimer()">✅ Fertig</button>
 
+      <button class="done-btn" onclick="forceFinishTimer()">✅ Fertig</button>
       <button class="secondary-btn" onclick="getCreativityBooster()">✨ Kreativitäts-Booster holen</button>
       <div class="creativity-booster" id="creativity-booster"></div>
 
@@ -51,7 +47,6 @@
     <section class="card step" id="step3">
       <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
       <div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div>
-
       <h2><span class="icon">🎯</span> Schritt 3: Ideenauswahl & KI-Prompt</h2>
       <div class="success-text">Großartig! Du hast <span id="total-ideas"></span> Ideen gesammelt!</div>
       <p><strong>Themenfeld:</strong> <span id="themenfeld-final"></span></p>
@@ -76,6 +71,7 @@
     </p>
   </footer>
 
+  <!-- SCRIPT BLOCK AM ENDE -->
   <script>
     let currentStep = 1;
     let timerInterval;
@@ -211,8 +207,7 @@ Mein Thema ist: ${themenfeld} Dazu habe ich mir schon ein paar Ideen überlegt, 
 
 Kannst du mir helfen, das herauszufinden? Aber bitte nicht mit einer Checkliste! Ich wünsche mir jemanden, der mit mir denkt, der neugierig fragt, und mir hilft, die besten Ideen zu entdecken – Schritt für Schritt.
 
-Was denkst du – welche der drei Ideen klingt für dich am interessantesten? Und warum?´;
-      
+Was denkst du – welche der drei Ideen klingt für dich am interessantesten? Und warum?`;
       document.getElementById('generated-prompt').textContent = prompt;
       document.getElementById('prompt-section').style.display = 'block';
     }
@@ -237,30 +232,16 @@ Was denkst du – welche der drei Ideen klingt für dich am interessantesten? Un
       document.getElementById('ideas-display').style.display = 'none';
       document.getElementById('timer').classList.remove('warning');
     }
-    
+
     function forceFinishTimer() {
-  clearInterval(timerInterval);
-  timeLeft = 0;
-  finishIdeensammlung();
-}
+      clearInterval(timerInterval);
+      timeLeft = 0;
+      finishIdeensammlung();
+    }
 
-    // Tastatursteuerung
+    // Event Listener
     document.getElementById('themenfeld').addEventListener('input', updateStartButton);
-    document.getElementById('themenfeld').addEventListener('keypress', e => {
-      if (e.key === 'Enter' && !document.getElementById('start-btn').disabled) startIdeensammlung();
-    });
-    document.getElementById('neue-idee').addEventListener('keypress', e => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        addIdee();
-      }
-    });
-
-    window.addEventListener('load', updateStartButton);
     document.getElementById('start-btn').addEventListener('click', startIdeensammlung);
   </script>
-<script src="idee.js"></script> <!-- besser ausgelagert -->
-</body>
-</html>
 </body>
 </html>
