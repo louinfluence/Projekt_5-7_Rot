@@ -120,6 +120,23 @@ button:disabled {
   box-shadow: none;
 }
 
+.secondary-btn {
+  background-color: #38b000;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  float: right;
+  transition: background-color 0.3s ease;
+}
+
+.secondary-btn:hover {
+  background-color: #2d8700;
+}
+
 /* ==========================================
    Eingabefelder
 ========================================== */
