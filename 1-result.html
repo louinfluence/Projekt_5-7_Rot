@@ -1,45 +1,62 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>🎲 Ergebnis – Projekt 5-7 Rot</title>
-  <link rel="stylesheet" href="projekt.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
   <script src="common.js" defer></script>
+  <style>
+    body {
+      font-family: 'Comic Neue', sans-serif;
+      padding: 2rem;
+    }
+    .prompt-box {
+      white-space: pre-wrap;
+      background-color: #f8f8f8;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      border: 1px solid #ddd;
+    }
+    .success-text {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>🎲 Euer Forscherfragen-Prompt</h1>
+  <section class="section">
+    <div class="container">
+      <h1 class="title is-3">🎲 Euer Forscherfragen-Prompt</h1>
 
-    <div class="card">
-      <p class="subtitle">
-        Jetzt kann es losgehen! Kopiert den folgenden Prompt und startet euer Spiel mit ChatGPT oder Fobizz.
-        Eine Person aus der Gruppe übernimmt die Eingabe und leitet den Prozess.
-      </p>
+      <div class="box">
+        <p class="subtitle">Jetzt kann es losgehen! Kopiert den Prompt und startet mit ChatGPT oder Fobizz.</p>
+        <p class="success-text" id="copyStatus">✅ Prompt wurde generiert.</p>
 
-      <div id="copyStatus" class="success-text">✅ Prompt wurde generiert.</div>
+        <div id="resultText" class="prompt-box">
+          <!-- Prompt wird per JavaScript hier eingefügt -->
+        </div>
 
-      <div class="prompt-box" id="resultText">
-        <!-- Prompt wird per JavaScript hier eingefügt -->
+        <div class="buttons is-centered mt-4">
+          <button id="copyAndGoBtn" class="button is-link">🧠 Kopieren & zu ChatGPT</button>
+          <button id="copyAndGoFobizzBtn" class="button is-info">📘 Kopieren & zu Fobizz</button>
+        </div>
+
+        <p id="statusMessage" class="subtitle mt-3 has-text-centered"></p>
       </div>
 
-      <div style="text-align: center; margin-top: 1rem;">
-        <button id="copyAndGoBtn">🧠 Kopieren & zu ChatGPT</button>
-        <button id="copyAndGoFobizzBtn" class="secondary-btn">📘 Kopieren & zu Fobizz</button>
+      <div class="has-text-centered mt-5">
+        <a href="index.html" class="button is-light">⬅ Zurück zur Übersicht</a>
       </div>
 
-      <p id="statusMessage" class="subtitle" style="margin-top: 1rem;"></p>
+      <footer class="content has-text-centered mt-6">
+        <p>Erstellt von Louis Birk-von Brook • Lizenz: 
+          <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a>
+        </p>
+      </footer>
     </div>
-
-    <div style="text-align: center; margin-top: 2rem;">
-      <a href="index.html"><button class="secondary-btn">⬅ Zurück zur Übersicht</button></a>
-    </div>
-
-    <footer class="subtitle" style="margin-top: 3rem;">
-      Erstellt von Louis Birk-von Brook • Lizenz:
-      <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a>
-    </footer>
-  </div>
+  </section>
 </body>
 </html>
