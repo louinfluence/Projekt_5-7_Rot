@@ -1,70 +1,93 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>💡 Idee – Projekt 5-7 Rot</title>
-  <link rel="stylesheet" href="projekt.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
   <script src="common.js" defer></script>
+  <style>
+    body {
+      font-family: 'Comic Neue', sans-serif;
+      padding: 2rem;
+    }
+    .step {
+      display: none;
+    }
+    .step.active {
+      display: block;
+    }
+    .creativity-booster {
+      margin-top: 1rem;
+      font-style: italic;
+    }
+    .idea-item {
+      background-color: #f0f8ff;
+      padding: 0.5rem 1rem;
+      margin: 0.25rem 0;
+      border-radius: 8px;
+    }
+    .idea-item.selected {
+      background-color: #c0f2e4;
+    }
+    .progress-container {
+      margin-bottom: 2rem;
+    }
+  </style>
 </head>
 <body>
-  <main class="container">
+  <section class="section">
     <!-- Schritt 1 -->
-    <section class="card step active" id="step1">
-      <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
-      <div class="subtitle">Entwickle konkrete Ideen für dein oder euer aktuelles Projekt</div>
-      <div class="progress-bar"><div class="progress-fill" style="width: 33%"></div></div>
-      <h2><span class="icon">🎯</span> Schritt 1: Dein Themenfeld</h2>
-      <p>Was ist das vorgegebene Oberthema für das aktuelle Projekt?</p>
-      <input type="text" id="themenfeld" placeholder="z.B. Bewegung am Land, Nationalsozialismus..." maxlength="200" />
-      <button id="start-btn" disabled>🚀 Ideensammlung starten</button>
-    </section>
+    <div class="step active" id="step1">
+      <h1 class="title">🎯 Schritt 1: Themenfeld eingeben</h1>
+      <p class="subtitle">Was ist das Thema deines Projekts?</p>
+      <div class="field">
+        <div class="control">
+          <input class="input" id="themenfeld" type="text" placeholder="z.B. Wasserverbrauch, Tiere, Plastik...">
+        </div>
+      </div>
+      <button id="start-btn" class="button is-primary" disabled>🚀 Starte Ideensammlung</button>
+    </div>
 
     <!-- Schritt 2 -->
-    <section class="card step" id="step2">
-      <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
-      <div class="progress-bar"><div class="progress-fill" style="width: 66%"></div></div>
-      <h2><span class="icon">💡</span> Schritt 2: Ideensammlung</h2>
+    <div class="step" id="step2">
+      <h1 class="title">💡 Schritt 2: Sammle deine Ideen</h1>
       <p><strong>Themenfeld:</strong> <span id="themenfeld-display"></span></p>
-      <div class="timer" id="timer">⏰ Zeit: 5:00</div>
-      <div class="warning-text">Ihr habt 5 Minuten Zeit! Sammelt so viele Ideen wie möglich – auch verrückte!</div>
-      <button class="done-btn" id="finish-btn">✅ Fertig</button>
-      <button class="secondary-btn" id="booster-btn">✨ Kreativitäts-Booster holen</button>
-      <div class="creativity-booster" id="creativity-booster"></div>
-      <textarea id="neue-idee" placeholder="Gib hier deine Idee ein..." rows="3"></textarea>
-      <button id="add-idee-btn">➕ Idee hinzufügen</button>
-      <div class="ideas-list" id="ideas-display" style="display: none;">
-        <h3>Deine Ideen:</h3>
+      <div class="notification is-info" id="timer">⏰ Zeit: 5:00</div>
+      <button class="button is-warning" id="booster-btn">✨ Kreativitäts-Booster holen</button>
+      <p class="creativity-booster" id="creativity-booster"></p>
+
+      <div class="field mt-4">
+        <div class="control">
+          <textarea class="textarea" id="neue-idee" placeholder="Gib hier deine Idee ein..." rows="2"></textarea>
+        </div>
+      </div>
+      <button class="button is-success" id="add-idee-btn">➕ Idee hinzufügen</button>
+      <button class="button is-danger" id="finish-btn">✅ Fertig</button>
+
+      <div class="mt-4" id="ideas-display" style="display: none;">
+        <h3 class="subtitle">Deine Ideen:</h3>
         <div id="ideas-container"></div>
       </div>
-    </section>
+    </div>
 
     <!-- Schritt 3 -->
-    <section class="card step" id="step3">
-      <h1>🛠️💻 Projektunterricht Ideenwerkzeug</h1>
-      <div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div>
-      <h2><span class="icon">🎯</span> Schritt 3: Ideenauswahl & KI-Prompt</h2>
-      <div class="success-text">Großartig! Du hast <span id="total-ideas"></span> Ideen gesammelt!</div>
+    <div class="step" id="step3">
+      <h1 class="title">✅ Schritt 3: Wähle deine besten Ideen</h1>
       <p><strong>Themenfeld:</strong> <span id="themenfeld-final"></span></p>
-      <p><strong>Wähle bis zu 3 Ideen aus:</strong></p>
-      <div class="ideas-list" id="final-ideas-list"></div>
-      <button id="generate-btn" style="display: none;">🤖 KI-Prompt generieren</button>
-      <div id="prompt-section" style="display: none;">
-  			<h3>✅ Dein Prompt wurde generiert!</h3>
-  				<p class="subtitle">Klicke auf „Prompt kopieren“ und füge ihn dann in ein KI-Sprachmodell deiner Wahl ein (z. B. <a href="https://www.fobizz.com/ai/chat" target="_blank">Fobizz</a>).</p>
-  
-  <!-- Prompt bleibt im Hintergrund erhalten -->
-  		<div id="generated-prompt" style="display: none;" class="prompt-box"></div>
-        <button id="copy-btn">📋 Prompt kopieren</button>
-      </div>
-      <button class="secondary-btn" id="restart-btn">🔄 Neues Themenfeld bearbeiten</button>
-    </section>
-  </main>
+      <p>Wähle bis zu <strong>3 Ideen</strong> aus:</p>
+      <div id="final-ideas-list" class="mt-3"></div>
+      <button class="button is-primary mt-4" id="generate-btn" style="display: none;">🤖 Prompt generieren</button>
 
-  <footer>
-    <p>Erstellt von Louis Birk-von Brook • Lizenz:
-      <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0</a>
-    </p>
-  </footer>
+      <div id="prompt-section" style="display: none;" class="mt-4">
+        <h3 class="subtitle">🧠 Dein Prompt wurde generiert:</h3>
+        <div class="box" id="generated-prompt"></div>
+        <button class="button is-info" id="copy-btn">📋 Prompt kopieren</button>
+      </div>
+
+      <button class="button is-light mt-5" id="restart-btn">🔄 Neues Themenfeld starten</button>
+    </div>
+  </section>
 </body>
 </html>
