@@ -169,20 +169,15 @@ function toggleIdea(index) {
 function generatePrompt() {
   const selectedText = selectedIdeas.map(i => ideas[i]).join('\n- ');
   const prompt = `Hey! Schön, dass du da bist! 
-
 Ich mache gerade ein spannendes Projekt mit Kindern zwischen 9 und 12 Jahren – vielleicht so alt wie du – und brauche deine Unterstützung beim Nachdenken.
-
 Es geht darum, wie wir unsere Welt ein kleines Stück besser machen können. Du hast bestimmt schon von wichtigen Themen wie Umweltschutz, Gerechtigkeit oder guter Bildung für alle gehört – das sind Teile der 17 Ziele für eine nachhaltige Entwicklung (auch SDGs genannt).
-
 Mein Thema ist: ${themenfeld} 
-
 Dazu habe ich mir schon ein paar Ideen überlegt, die ich richtig spannend finde:
 - ${selectedText}
-
 Welche dieser Ideen eignet sich am besten, um mit Kindern gemeinsam etwas zu bewegen? Ich suche eine Idee, die nicht nur spannend ist, sondern auch zeigt, wie man mit kleinen Schritten etwas Großes verändern kann – am besten mit digitalen Werkzeugen und ganz viel Kreativität!
-
 Was denkst du – welche der drei Ideen klingt für dich am interessantesten? Und warum?`;
-  document.getElementById('generated-prompt').textContent = prompt;
+ 
+document.getElementById('generated-prompt').textContent = prompt;
   document.getElementById('prompt-section').style.display = 'block';
 }
 
