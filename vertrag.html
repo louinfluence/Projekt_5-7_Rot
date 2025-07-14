@@ -1,53 +1,84 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📅 Planung – Projekt 5-7 Rot</title>
-  <link rel="stylesheet" href="projekt.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>📅 Projektvertrag – Projekt 5‑7 Rot</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
   <script src="common.js" defer></script>
+  <style>
+    body {
+      font-family: 'Comic Neue', sans-serif;
+      padding: 2rem;
+    }
+    .contract-field + .contract-field {
+      margin-top: 1rem;
+    }
+    .contract-container {
+      max-width: 600px;
+      margin: auto;
+    }
+  </style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>📅 Projektplanung mit dem Online-Kalender</h1>
+  <section class="section">
+    <div class="container contract-container">
+      
+      <h1 class="title is-3">📅 Euer Projektvertrag</h1>
+      <p class="subtitle">Legt gemeinsam fest, wie ihr arbeiten wollt</p>
 
-    <div class="card">
-      <p class="subtitle" id="introText">
-        Dein Kalender wird gleich automatisch geladen.<br>
-        Falls es nicht klappt, kannst du ihn unten manuell anzeigen.
-      </p>
+      <form id="vertragForm">
+        <div class="contract-field">
+          <label class="label" for="gruppenname">1. Gruppenname</label>
+          <div class="control">
+            <input class="input" type="text" id="gruppenname" name="gruppenname" placeholder="z. B. Forscherfreunde">
+          </div>
+        </div>
 
-      <!-- Unsichtbarer Login-iFrame -->
-      <iframe
-        src=""
-        id="fobizzLoginFrame"
-        class="hidden"
-        width="0"
-        height="0"
-        loading="eager">
-      </iframe>
+        <div class="contract-field">
+          <label class="label" for="mitglieder">2. Teammitglieder</label>
+          <div class="control">
+            <input class="input" type="text" id="mitglieder" name="mitglieder" placeholder="Namen durch Komma trennen">
+          </div>
+        </div>
 
-      <!-- Sichtbarer Kalender -->
-      <section id="fobizzContainer" class="hidden">
-        <iframe
-          src="https://app.fobizz.com/pinboard/public_boards/f0a97968-0003-444d-828d-a6f1417dffbe?token=11adb8327a2f43d9340f7b931e3d34e6"
-          title="Fobizz-Projektkalender"
-          class="card">
-        </iframe>
-      </section>
+        <div class="contract-field">
+          <label class="label">3. Wer macht was?</label>
+          <div class="control">
+            <textarea class="textarea" id="aufgaben" name="aufgaben"
+              placeholder="z. B. Anna – Recherche, Ben – Dokumentation..." rows="3"></textarea>
+          </div>
+        </div>
 
-      <!-- Fallback -->
-      <div id="fallbackHint" class="hidden creativity-booster">
-        <p>❗️Die automatische Anmeldung hat nicht funktioniert.</p>
-        <button id="fallbackBtn" class="secondary-btn">🔄 Kalender manuell anzeigen</button>
+        <div class="contract-field">
+          <label class="label">4. Regeln & Absprachen</label>
+          <div class="control">
+            <textarea class="textarea" id="regeln" name="regeln"
+              placeholder="z. B. Alle melden sich beim Lehrer ab, Pünktlichkeit..." rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="has-text-centered mt-5">
+          <button type="submit" class="button is-primary is-medium">✅ Vertrag speichern</button>
+        </div>
+      </form>
+
+      <div id="hinweisBox" class="notification is-success mt-4" style="display: none;">
+        Vertrag gespeichert! Ihr könnt ihn jetzt als PDF herunterladen oder ausdrucken.
       </div>
-    </div>
 
-    <footer class="subtitle">
-      Erstellt von Louis Birk-von Brook • Lizenz:
-      <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0</a>
-    </footer>
-  </div>
+      <div class="has-text-centered mt-6">
+        <a href="index.html" class="button is-light">⬅ Zurück zur Übersicht</a>
+      </div>
+
+      <footer class="content has-text-centered mt-6">
+        <p>Erstellt von Louis Birk-von Brook • Lizenz: 
+          <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a>
+        </p>
+      </footer>
+
+    </div>
+  </section>
 </body>
 </html>
