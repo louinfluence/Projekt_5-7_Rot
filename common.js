@@ -142,7 +142,18 @@ function finishIdeensammlung() {
   showStep(3);
   document.getElementById('themenfeld-final').textContent = themenfeld;
   document.getElementById('total-ideas').textContent = ideas.length;
+
   const list = document.getElementById('final-ideas-list');
+  if (!list) {
+    console.error("⚠️ Element #final-ideas-list fehlt in HTML!");
+    return;
+  }
+
+  if (ideas.length === 0) {
+    list.innerHTML = '<p class="notification is-warning">⚠️ Du hast noch keine Ideen gesammelt.</p>';
+    return;
+  }
+
   list.innerHTML = ideas.map((i, idx) =>
     `<div class="idea-item" onclick="toggleIdea(${idx})" data-index="${idx}">
       <input type="checkbox" style="margin-right: 10px;">${i}</div>`
