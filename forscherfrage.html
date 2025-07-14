@@ -1,57 +1,71 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎲 Zufallsgenerator – Forscherfragen</title>
-  <link rel="stylesheet" href="projekt.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🎲 Forscherfragen – Projekt 5-7 Rot</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
   <script src="common.js" defer></script>
+  <style>
+    body {
+      font-family: 'Comic Neue', sans-serif;
+      padding: 2rem;
+    }
+    .subtitle {
+      margin-bottom: 1rem;
+    }
+    .ideas-list .idea-item {
+      margin-bottom: 0.5rem;
+    }
+  </style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>🎲 Zufallsgenerator für Forscherfragen</h1>
+  <section class="section">
+    <div class="container">
 
-    <div class="card">
-      <h2>🧭 So geht’s</h2>
-      <p class="subtitle">
-        Mit diesem Zufallsgenerator könnt ihr in wenigen Schritten spannende Forscherfragen entwickeln:
-      </p>
-      <ol>
-        <li>Schreibt euer Thema auf und überlegt euch bis zu sechs wichtige Stichworte.</li>
-        <li>Schnappt euch einen Würfel und tragt euer Thema sowie die Stichworte unten ins Textfeld ein.</li>
-      </ol>
+      <h1 class="title is-3">🎲 Zufallsgenerator für Forscherfragen</h1>
+      <div class="box">
+        <h2 class="subtitle is-5">🧭 So geht’s</h2>
+        <p>Mit diesem Generator könnt ihr spannende Forscherfragen entwickeln:</p>
+        <ol class="mt-3 mb-4">
+          <li>Tragt euer Thema ein.</li>
+          <li>Überlegt bis zu sechs Stichworte und schreibt sie mit ins Textfeld.</li>
+          <li>Dann klickt auf „Prompt generieren“.</li>
+        </ol>
 
-      <form id="challengeForm" data-target="1-result.html">
-        <label for="challenge" class="visually-hidden">Euer Thema und Stichworte</label>
-        <textarea
-          id="challenge"
-          name="challenge"
-          placeholder="z. B. Freundschaft – 1. Vertrauen, 2. Konflikte, …"
-          required
-          rows="3"
-        ></textarea>
-        <div style="text-align: center;">
-          <button type="submit">🎯 Prompt generieren</button>
-        </div>
-      </form>
+        <form id="challengeForm" data-target="1-result.html">
+          <div class="field">
+            <label class="label" for="challenge">Thema + Stichworte</label>
+            <div class="control">
+              <textarea class="textarea" id="challenge" name="challenge"
+                placeholder="z. B. Freundschaft – 1. Vertrauen, 2. Konflikte, …" required rows="3"></textarea>
+            </div>
+          </div>
+          <div class="has-text-centered">
+            <button type="submit" class="button is-primary mt-2">🎯 Prompt generieren</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="box mt-5">
+        <h2 class="subtitle is-5">🔍 Recherche-Hilfen</h2>
+        <p>Diese Seiten helfen bei der Themenrecherche:</p>
+        <ul class="ideas-list mt-3">
+          <li class="idea-item"><a href="https://klexikon.zum.de/" target="_blank">📚 Klexikon</a></li>
+          <li class="idea-item"><a href="https://www.fragfinn.de/" target="_blank">🔎 Frag Finn</a></li>
+          <li class="idea-item"><a href="https://www.planet-schule.de/" target="_blank">🌍 Planet Schule</a></li>
+          <li class="idea-item"><a href="https://forscherwelt.de/" target="_blank">🧪 Forscherwelt</a></li>
+        </ul>
+      </div>
+
+      <footer class="content has-text-centered mt-6">
+        <p>Erstellt von Louis Birk-von Brook • Lizenz: 
+          <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a>
+        </p>
+      </footer>
+
     </div>
-
-    <div class="card">
-      <h2>🔍 Recherche-Hilfen</h2>
-      <p class="subtitle">Diese Seiten können euch bei eurer Recherche unterstützen:</p>
-      <ul class="ideas-list">
-        <li class="idea-item"><a href="https://klexikon.zum.de/" target="_blank">Klexikon</a></li>
-        <li class="idea-item"><a href="https://www.fragfinn.de/" target="_blank">Frag Finn</a></li>
-        <li class="idea-item"><a href="https://www.planet-schule.de/" target="_blank">Planet Schule</a></li>
-        <li class="idea-item"><a href="https://forscherwelt.de/" target="_blank">Forscherwelt</a></li>
-      </ul>
-    </div>
-
-    <footer class="subtitle">
-      Erstellt von Louis Birk-von Brook • Lizenz:
-      <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0</a>
-    </footer>
-  </div>
+  </section>
 </body>
 </html>
