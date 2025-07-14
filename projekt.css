@@ -1,531 +1,66 @@
-/* ==========================================
-   Basislayout & Utilities
-========================================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* === Basis-Layout === */
 body {
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #2E8B57 0%, #20B2AA 50%, #4169E1 100%);
-  min-height: 100vh;
-  color: #333;
+  font-family: 'Comic Neue', sans-serif;
+  padding: 2rem;
 }
 
-.hidden {
-  display: none !important;
-}
-
-.visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0 0 0 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-
-/* ==========================================
-   Hauptcontainer & Kartenstruktur
-========================================== */
-.instructions,
-.step-card,
-.welcome-card,
-.card-grid,
-.resources,
-#fobizzContainer {
-  width: 100%;
-  margin: 1rem 0;
-  padding: 0 1rem;
-  box-sizing: border-box;
-}
-
-@media (min-width: 600px) {
-  .instructions,
-  .step-card,
-  .welcome-card,
-  .card-grid,
-  .resources,
-  #fobizzContainer {
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-}
-
-/* ==========================================
-   Begrüßungskarte auf Indexseite
-========================================== */
-.welcome-card-index {
-  background-image: url("assets/images/header.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border: 2px solid #ffe58f;
-  border-radius: 12px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-  padding: 1.5rem;
-  max-width: 800px;
-  min-height: 200px;
-  margin: 2.5rem auto;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-}
-
-.welcome-card-index h1 {
-  color: black;
-  margin-top: 1%;
-  text-align: center;
-}
-
-.welcome-card-index p {
-  color: #4a4a4a;
-  font-size: 1rem;
-  text-align: center;
-  margin-top: 1rem;
-}
-
-/* ==========================================
-   Buttons
-========================================== */
-button {
-  background: linear-gradient(45deg, #2E8B57, #20B2AA);
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  border-radius: 25px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin: 10px 5px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: bold;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-button:disabled {
-  cursor: not-allowed;
-  transform: none !important;
-  box-shadow: none;
-}
-
-.secondary-btn {
-  background-color: #38b000;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.25rem;
-  margin-top: 1rem;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  float: right;
-  transition: background-color 0.3s ease;
-}
-
-.secondary-btn:hover {
-  background-color: #2d8700;
-}
-
-/* ==========================================
-   Eingabefelder
-========================================== */
-input[type="text"],
-textarea {
-  width: 100%;
-  padding: 15px;
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  font-size: 16px;
-  margin-bottom: 15px;
-  transition: border-color 0.3s;
-}
-
-input[type="text"]:focus,
-textarea:focus {
-  outline: none;
-  border-color: #4169E1;
-  box-shadow: 0 0 10px rgba(65, 105, 225, 0.3);
-}
-
-/* ==========================================
-   Fobizz IFrame & Fallback
-========================================== */
-#fobizzContainer iframe,
-#fobizzSupportFrame {
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  display: block;
-  margin: 0 auto;
-}
-
-#fobizzContainer iframe {
-  height: 80vh;
-}
-
-#fobizzSupportFrame {
-  height: 400px;
-  margin-top: 2rem;
-}
-
-#fallbackHint {
-  background-color: #ffeeee;
-  color: #b00020;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-top: 1.5rem;
-}
-
-#fallbackBtn {
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #d32f2f;
-  color: #fffdfa;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-#fallbackBtn:hover {
-  background-color: #9b1b1b;
-}
-
-* {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #2E8B57 0%, #20B2AA 50%, #4169E1 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .step {
-            display: none;
-        }
-
-        .step.active {
-            display: block;
-        }
-
-        h1 {
-            color: #2E8B57;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2.2em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: #4169E1;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .icon {
-            font-size: 1.2em;
-        }
-
-        .subtitle {
-            color: #666;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-            margin-bottom: 15px;
-            transition: border-color 0.3s;
-        }
-
-        input[type="text"]:focus, textarea:focus {
-            outline: none;
-            border-color: #4169E1;
-            box-shadow: 0 0 10px rgba(65, 105, 225, 0.3);
-        }
-
-        button {
-            background: linear-gradient(45deg, #2E8B57, #20B2AA);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 10px 5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: bold;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .secondary-btn {
-            background: linear-gradient(45deg, #4169E1, #6495ED);
-        }
-
-        .creativity-booster {
-            background: rgba(255, 215, 0, 0.1);
-            border: 2px solid #FFD700;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 15px 0;
-            font-style: italic;
-            font-size: 1.1em;
-            color: #B8860B;
-            display: none;
-        }
-
-        .creativity-booster.show {
-            display: block;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .timer {
-            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .timer.warning {
-            animation: pulse 1s infinite;
-        }
-
-        button:disabled {
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        button:disabled:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
-
-        .ideas-list {
-            background: rgba(46, 139, 87, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
-        }
-
-        .idea-item {
-            background: white;
-            padding: 10px 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border-left: 4px solid #2E8B57;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .idea-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .idea-item.selected {
-            background: #E8F5E8;
-            border-left-color: #4169E1;
-        }
-
-        .prompt-box {
-            background: #f8f9fa;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(45deg, #2E8B57, #20B2AA);
-            border-radius: 4px;
-            transition: width 0.3s;
-        }
-
-        .warning-text {
-            color: #FF6B6B;
-            font-weight: bold;
-            text-align: center;
-            margin: 15px 0;
-            font-size: 1.1em;
-        }
-
-        .success-text {
-            color: #2E8B57;
-            font-weight: bold;
-            text-align: center;
-            margin: 15px 0;
-            font-size: 1.1em;
-        }
-
-/* ==========================================
-   Responsive: Header ausblenden (Mobil)
-========================================== */
-@media (max-width: 500px) {
-  header {
-    display: none !important;
-  }
-
-  .mobile-back {
-    display: block !important;
-    text-align: center;
-    margin: 2rem 0;
-  }
-}
-
-.mobile-back {
-  display: none;
-}
-
+/* === Schrittlogik === */
 .step {
   display: none;
 }
-
 .step.active {
   display: block;
 }
 
-/* ==========================================
-   Startseite: Grid für Navigation
-========================================== */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1rem;
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+/* === Ideenanzeige === */
+.idea-item {
+  background-color: #f0f8ff;
+  padding: 0.5rem 1rem;
+  margin: 0.25rem 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.idea-item:hover {
+  background-color: #e0f0ff;
+}
+.idea-item.selected {
+  background-color: #c0f2e4;
 }
 
-.card-grid a.card {
-  background: rgba(255, 255, 255, 0.95);
-  border: 2px solid #ffe58f;
-  border-radius: 12px;
+/* === Booster + Timer === */
+.creativity-booster {
+  margin-top: 1rem;
+  font-style: italic;
+}
+.timer.warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+/* === Fortschrittsbalken (optional) === */
+.progress-bar {
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.progress-fill {
+  height: 100%;
+  background-color: #00d1b2;
+  transition: width 0.3s ease;
+}
+
+/* === Promptboxen & Statusanzeige === */
+.prompt-box {
+  white-space: pre-wrap;
+  background-color: #f8f8f8;
   padding: 1rem;
-  text-align: center;
-  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+.success-text {
+  color: green;
   font-weight: bold;
-  color: #333;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card-grid a.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card-grid a.card img.card-arrow {
-  width: 36px;
-  margin-bottom: 0.5rem;
-}
-
-.card-grid a.card span {
-  font-size: 1.8rem;
-  display: block;
-  margin: 0.5rem 0;
 }
