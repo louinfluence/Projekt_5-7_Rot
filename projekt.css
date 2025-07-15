@@ -64,3 +64,27 @@ body {
   color: green;
   font-weight: bold;
 }
+
+/* ---------- Header-Bild hinter der Welcome-Überschrift ---------- */
+.hero-header{
+  position:relative;
+  padding:2.5rem 1rem;        /* Abstand oben/unten */
+  overflow:hidden;
+}
+.hero-header::before{          /* Hintergrundbild */
+  content:"";
+  position:absolute;
+  inset:0;                     /* füllt das gesamte Element */
+  background-image:var(--header-img);
+  background-size:cover;
+  background-position:center;
+  filter:brightness(0.75);     /* Bild leicht abdunkeln */
+  z-index:0;
+}
+.hero-header>*{                /* Text über Bild legen */
+  position:relative;
+  z-index:1;
+  color:#fff;
+  opacity:0.88;                /* leicht transparent */
+  text-shadow:0 1px 2px rgba(0,0,0,0.4);
+}
