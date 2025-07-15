@@ -5,20 +5,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>👋 Start – Projekt 5-7 Rot</title>
 
-  <!-- Framework & Fonts -->
+  <!-- Styles & Fonts -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="projekt.css">
 
+  <!-- Scripts -->
   <script src="common.js" defer></script>
+
+  <!-- Page-spezifische Styles -->
   <style>
-    body{font-family:'Comic Neue',sans-serif}
-    .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;margin-top:2rem}
-    .card-arrow{height:60px;margin-bottom:.5rem}
-    .welcome{text-align:center;margin-bottom:2rem}
+    body {
+      font-family: 'Comic Neue', sans-serif;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .card-content span {
+      font-size: 2rem;
+    }
+    .card-arrow {
+      height: 60px;
+      margin-bottom: 0.5rem;
+    }
+    .welcome {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
   </style>
 </head>
 <body>
-  <!-- …(Inhalt unverändert)… -->
+  <section class="section">
+    <div class="container">
+
+      <div class="welcome">
+        <h1 class="title is-3">👋 Planung &amp; Erarbeitung</h1>
+        <p class="subtitle">Starte hier dein Projekt</p>
+      </div>
+
+      <div class="card-grid">
+        <a href="idee.html" class="card has-text-centered">
+          <div class="card-content">
+            <img src="assets/images/arrow_cycle_blue.png" alt="Ideen-Kreispfeil" class="card-arrow">
+            <span>💡</span><br>Projektidee
+          </div>
+        </a>
+
+        <a href="vertrag.html" class="card has-text-centered">
+          <div class="card-content">
+            <img src="assets/images/arrow_cycle_green.png" alt="Planung" class="card-arrow">
+            <span>📅</span><br>Planung
+          </div>
+        </a>
+
+        <a href="forscherfrage.html" class="card has-text-centered">
+          <div class="card-content">
+            <img src="assets/images/arrow_cycle_yellow.png" alt="Forscherfragen" class="card-arrow">
+            <span>🔍</span><br>Forscherfragen
+          </div>
+        </a>
+
+        <a href="nachhaltigkeit.html" class="card has-text-centered">
+          <div class="card-content">
+            <img src="assets/images/arrow_cycle_yellow.png" alt="Nachhaltigkeit" class="card-arrow">
+            <span>🌱</span><br>Nachhaltigkeit
+          </div>
+        </a>
+
+        <a href="produkt.html" class="card has-text-centered">
+          <div class="card-content">
+            <img src="assets/images/arrow_cycle_red.png" alt="Produkte" class="card-arrow">
+            <span>🪧</span><br>Produkte
+          </div>
+        </a>
+
+        <a href="rat.html" class="card has-text-centered">
+          <div class="card-content">
+            <img src="assets/images/arrow_cycle_purple.png" alt="Projektrat" class="card-arrow">
+            <span>👆</span><br>Projektrat
+          </div>
+        </a>
+      </div>
+
+      <footer class="content has-text-centered mt-6">
+        <p>Erstellt von Louis&nbsp;Birk-von&nbsp;Brook • Lizenz:
+          <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0&nbsp;1.0</a>
+        </p>
+      </footer>
+
+    </div>
+  </section>
 </body>
 </html>
