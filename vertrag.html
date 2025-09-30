@@ -2,14 +2,25 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Projektvertrag Formular</title>
+  <title>📄 Projektvertrag</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 800px;
+      margin: 40px;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form {
+      max-width: 700px;
       margin: auto;
+      background: #fff;
       padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
     }
     label {
       display: block;
@@ -20,111 +31,111 @@
       width: 100%;
       padding: 8px;
       margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
       font-size: 14px;
     }
     button {
       margin-top: 20px;
       padding: 10px 20px;
       font-size: 16px;
+      background: #e64c0c;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
+    }
+    button:hover {
+      background: #c43f0a;
     }
   </style>
 </head>
 <body>
-  <h1>📑 Projektvertrag</h1>
+  <h1>📄 Projektvertrag</h1>
 
   <form id="vertragForm">
-    <label>Gruppenname:</label>
-    <input type="text" id="gruppe" required>
+    <label>Wie ist der Name eurer Projektgruppe?
+      <input type="text" name="gruppe" required>
+    </label>
 
-    <label>Projektname:</label>
-    <input type="text" id="projektname" required>
+    <label>Wer gehört zu eurer Projektgruppe?
+      <textarea name="mitglieder" rows="3" required></textarea>
+    </label>
 
-    <label>Projektgruppe (Mitglieder):</label>
-    <textarea id="mitglieder" required></textarea>
+    <label>Projektteamspecher*in
+      <input type="text" name="sprecher" required>
+    </label>
 
-    <label>Projektgruppensprecher*in:</label>
-    <input type="text" id="sprecher" required>
+    <label>Welches Produkt soll am Ende vorliegen?
+      <input type="text" name="produkt" required>
+    </label>
 
-    <label>Endprodukt / Ergebnis:</label>
-    <input type="text" id="produkt" required>
+    <label>Beschreibt euer Projekt ausführlich
+      <textarea name="beschreibung" rows="5" required></textarea>
+    </label>
 
-    <label>Kurze Projektbeschreibung:</label>
-    <textarea id="beschreibung" required></textarea>
-
-    <label>Arbeitsschritte:</label>
-    <textarea id="arbeit" required></textarea>
-
-    <label>Material / Unterstützung:</label>
-    <textarea id="material" required></textarea>
-
-    <button type="button" id="savePdfBtn">📄 PDF speichern</button>
+    <button type="button" id="exportPdfBtn">📥 Vertrag als PDF speichern</button>
   </form>
 
   <script>
-    document.getElementById("savePdfBtn").addEventListener("click", function () {
-      const gruppe = document.getElementById("gruppe").value.trim() || "Gruppe";
-      const projektname = document.getElementById("projektname").value.trim();
-      const mitglieder = document.getElementById("mitglieder").value.trim();
-      const sprecher = document.getElementById("sprecher").value.trim();
-      const produkt = document.getElementById("produkt").value.trim();
-      const beschreibung = document.getElementById("beschreibung").value.trim();
-      const arbeit = document.getElementById("arbeit").value.trim();
-      const material = document.getElementById("material").value.trim();
-
-      if (!projektname || !mitglieder || !sprecher || !produkt || !beschreibung || !arbeit || !material) {
-        alert("Bitte alle Felder ausfüllen!");
-        return;
-      }
-
+    document.getElementById('exportPdfBtn').addEventListener('click', async () => {
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF();
-      let y = 20;
+
+      // Logo laden (von deinem Upload-Ordner / oder direkt Base64)
+      const logoUrl = "logo-winterhuder-reformschule-data.jpg"; // <-- anpassen, falls anderer Pfad
+      const logo = await loadImage(logoUrl);
+
+      // Logo einfügen (oben rechts)
+      pdf.addImage(logo, "JPEG", 150, 10, 40, 25);
 
       // Titel
       pdf.setFontSize(18);
-      pdf.text("Projektvertrag", 105, y, { align: "center" });
-      y += 20;
+      pdf.text("Projektvertrag", 105, 20, { align: "center" });
 
-      // Inhalte
       pdf.setFontSize(12);
-      pdf.text("Gruppenname:", 20, y);
-      pdf.text(gruppe, 80, y); y += 10;
+      let y = 40;
 
-      pdf.text("Projektname:", 20, y);
-      pdf.text(projektname, 80, y); y += 10;
+      // Formulardaten auslesen
+      const form = document.getElementById('vertragForm');
+      const data = new FormData(form);
 
-      pdf.text("Projektgruppe:", 20, y);
-      pdf.text(mitglieder, 30, y + 10, { maxWidth: 160 }); 
-      y += 25;
+      function drawField(label, value, height = 10) {
+        pdf.setFont(undefined, "bold");
+        pdf.text(label, 20, y);
+        y += 6;
+        pdf.setFont(undefined, "normal");
+        pdf.text(value || "__________________", 25, y);
+        pdf.rect(20, y - 5, 170, height); // Rahmen
+        y += height + 8;
+      }
 
-      pdf.text("Projektgruppensprecher*in:", 20, y);
-      pdf.text(sprecher, 80, y); y += 10;
+      drawField("Name der Projektgruppe:", data.get("gruppe"));
+      drawField("Wer gehört zu eurer Projektgruppe?", data.get("mitglieder"), 20);
+      drawField("Projektteamspecher*in:", data.get("sprecher"));
+      drawField("Welches Produkt soll am Ende vorliegen?", data.get("produkt"));
+      drawField("Beschreibung:", data.get("beschreibung"), 30);
 
-      pdf.text("Endprodukt / Ergebnis:", 20, y);
-      pdf.text(produkt, 80, y); y += 10;
-
-      pdf.text("Projektbeschreibung:", 20, y);
-      pdf.text(beschreibung, 30, y + 10, { maxWidth: 160 });
-      y += 30;
-
-      pdf.text("Arbeitsschritte:", 20, y);
-      pdf.text(arbeit, 30, y + 10, { maxWidth: 160 });
-      y += 30;
-
-      pdf.text("Material / Unterstützung:", 20, y);
-      pdf.text(material, 30, y + 10, { maxWidth: 160 });
-      y += 30;
-
-      // Unterschriften
-      pdf.line(20, y, 100, y);
-      pdf.text("Unterschrift Gruppe", 20, y + 10);
+      // Unterschriftenlinien unten
+      y += 20;
+      pdf.line(20, y, 90, y);
+      pdf.text("Unterschrift Projektgruppe", 20, y + 10);
 
       pdf.line(120, y, 190, y);
       pdf.text("Unterschrift Lehrkraft", 120, y + 10);
 
-      // Speichern
-      pdf.save(`Projektvertrag_${gruppe}.pdf`);
+      // Gruppennamen für Dateiname
+      const groupName = (data.get("gruppe") || "Gruppe").replace(/\s+/g, "_");
+      pdf.save(`Projektvertrag_${groupName}.pdf`);
+
+      async function loadImage(url) {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.onload = () => resolve(img);
+          img.src = url;
+        });
+      }
     });
   </script>
 </body>
