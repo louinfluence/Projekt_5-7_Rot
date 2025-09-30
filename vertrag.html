@@ -2,83 +2,93 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>📅 Projektvertrag – Projekt 5‑7 Rot</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
-  <script src="common.js" defer></script>
+  <title>Projektvertrag Formular</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
-      font-family: 'Comic Neue', sans-serif;
-      padding: 2rem;
-    }
-    .contract-field + .contract-field {
-      margin-top: 1rem;
-    }
-    .contract-container {
-      max-width: 600px;
+      font-family: Arial, sans-serif;
+      max-width: 800px;
       margin: auto;
+      padding: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <section class="section">
-    <div class="container contract-container">
-      
-      <h1 class="title is-3">📅 Euer Projektvertrag</h1>
-      <p class="subtitle">Legt gemeinsam fest, wie ihr arbeiten wollt</p>
+  <h1>📑 Projektvertrag</h1>
 
-      <form id="vertragForm">
-        <div class="contract-field">
-          <label class="label" for="gruppenname">1. Gruppenname</label>
-          <div class="control">
-            <input class="input" type="text" id="gruppenname" name="gruppenname" placeholder="z. B. Forscherfreunde">
-          </div>
-        </div>
+  <form id="vertragForm">
+    <label>Gruppenname:</label>
+    <input type="text" id="gruppe" required>
 
-        <div class="contract-field">
-          <label class="label" for="mitglieder">2. Teammitglieder</label>
-          <div class="control">
-            <input class="input" type="text" id="mitglieder" name="mitglieder" placeholder="Namen durch Komma trennen">
-          </div>
-        </div>
+    <label>Name des Projekts:</label>
+    <input type="text" id="projektname" required>
 
-        <div class="contract-field">
-          <label class="label">3. Wer macht was?</label>
-          <div class="control">
-            <textarea class="textarea" id="aufgaben" name="aufgaben"
-              placeholder="z. B. Anna – Recherche, Ben – Dokumentation..." rows="3"></textarea>
-          </div>
-        </div>
+    <label>Wer gehört zur Projektgruppe?</label>
+    <textarea id="mitglieder" required></textarea>
 
-        <div class="contract-field">
-          <label class="label">4. Regeln & Absprachen</label>
-          <div class="control">
-            <textarea class="textarea" id="regeln" name="regeln"
-              placeholder="z. B. Alle melden sich beim Lehrer ab, Pünktlichkeit..." rows="3"></textarea>
-          </div>
-        </div>
+    <label>Projektgruppensprecher*in:</label>
+    <input type="text" id="sprecher" required>
 
-        <div class="has-text-centered mt-5">
-          <button type="submit" class="button is-primary is-medium">✅ Vertrag speichern</button>
-        </div>
-      </form>
+    <label>Welches Produkt soll am Ende vorliegen?</label>
+    <input type="text" id="produkt" required>
 
-      <div id="hinweisBox" class="notification is-success mt-4" style="display: none;">
-        Vertrag gespeichert! Ihr könnt ihn jetzt als PDF herunterladen oder ausdrucken.
-      </div>
+    <label>Projektbeschreibung:</label>
+    <textarea id="beschreibung" required></textarea>
 
-      <div class="has-text-centered mt-6">
-        <a href="index.html" class="button is-light">⬅ Zurück zur Übersicht</a>
-      </div>
+    <button type="button" id="savePdfBtn">📄 PDF speichern</button>
+  </form>
 
-      <footer class="content has-text-centered mt-6">
-        <p>Erstellt von Louis Birk-von Brook • Lizenz: 
-          <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a>
-        </p>
-      </footer>
+  <script>
+    document.getElementById("savePdfBtn").addEventListener("click", function () {
+      const gruppe = document.getElementById("gruppe").value.trim() || "Gruppe";
+      const projektname = document.getElementById("projektname").value.trim();
+      const mitglieder = document.getElementById("mitglieder").value.trim();
+      const sprecher = document.getElementById("sprecher").value.trim();
+      const produkt = document.getElementById("produkt").value.trim();
+      const beschreibung = document.getElementById("beschreibung").value.trim();
 
-    </div>
-  </section>
+      if (!projektname || !mitglieder || !sprecher || !produkt || !beschreibung) {
+        alert("Bitte alle Felder ausfüllen!");
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+      let y = 20;
+
+      pdf.setFontSize(16);
+      pdf.text("Projektvertrag", 20, y);
+      y += 15;
+
+      pdf.setFontSize(12);
+      pdf.text(`Gruppenname: ${gruppe}`, 20, y); y += 10;
+      pdf.text(`Projektname: ${projektname}`, 20, y); y += 10;
+      pdf.text("Projektgruppe:", 20, y); y += 10;
+      pdf.text(mitglieder, 30, y, { maxWidth: 160 }); y += 20;
+      pdf.text(`Projektgruppensprecher*in: ${sprecher}`, 20, y); y += 10;
+      pdf.text(`Endprodukt: ${produkt}`, 20, y); y += 10;
+      pdf.text("Beschreibung:", 20, y); y += 10;
+      pdf.text(beschreibung, 30, y, { maxWidth: 160 });
+
+      pdf.save(`Projektvertrag_${gruppe}.pdf`);
+    });
+  </script>
 </body>
 </html>
