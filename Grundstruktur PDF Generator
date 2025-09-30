@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Projektvertrag Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>📑 Projektvertrag Generator</h1>
+  <p>Fügt hier euren <b>exportierten Text</b> aus dem H5P-Dokumentationswerkzeug ein:</p>
+
+  <textarea id="inputText" placeholder="Hier Text einfügen..."></textarea>
+  <br>
+  <button id="generatePdfBtn">📄 PDF erzeugen</button>
+
+  <script>
+    document.getElementById("generatePdfBtn").addEventListener("click", function () {
+      const input = document.getElementById("inputText").value;
+
+      if (!input.trim()) {
+        alert("Bitte zuerst den Text einfügen!");
+        return;
+      }
+
+      // Text verarbeiten
+      const lines = input.split("\n").filter(line => line.trim() !== "");
+
+      // Gruppennamen auslesen (erste Zeile oder 'Name der Projekt Gruppe')
+      let groupName = "Gruppe";
+      const groupLine = lines.find(l => l.toLowerCase().includes("projekt gruppe"));
+      if (groupLine) {
+        groupName = groupLine.split(":").pop().trim().replace(/\s+/g, "_");
+      }
+
+      // PDF generieren
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+      pdf.setFontSize(16);
+      pdf.text("Projektvertrag", 20, 20);
+
+      pdf.setFontSize(12);
+      let y = 40;
+      lines.forEach(line => {
+        pdf.text(line, 20, y);
+        y += 10;
+      });
+
+      // Datei speichern
+      pdf.save(`Projektvertrag_${groupName}.pdf`);
+    });
+  </script>
+</body>
+</html>
