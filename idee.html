@@ -76,81 +76,24 @@
 
   <div id="board"></div>
 
-  <script>
-    let stationCount = 0;
-    const maxStations = 12;
-    const board = document.getElementById("board");
-    const counter = document.getElementById("count");
-    const addBtn = document.getElementById("addStation");
+<script>
+  let stationCount = 0;
+  const maxStations = 12;
 
-    addBtn.addEventListener("click", () => {
-      if (stationCount >= maxStations) {
-        alert("Maximal 12 Stationen erlaubt!");
-        return;
-      }
+  document.getElementById("addStation").addEventListener("click", () => {
+    stationCount++;
+    document.getElementById("count").textContent = stationCount + " / " + maxStations;
 
-      stationCount++;
-      counter.textContent = stationCount + " / " + maxStations;
-
-      const station = document.createElement("div");
-      station.className = "station";
-
-      // Position in der Mitte des Bildschirms
-      station.style.left = (window.innerWidth / 2 - 160) + "px";
-      station.style.top  = (window.innerHeight / 2 - 60) + "px";
-
-      // Titel + Eingabefeld
-      const title = document.createElement("h4");
-      title.textContent = "Station " + stationCount;
-
-      const textarea = document.createElement("textarea");
-      textarea.rows = 3;
-      textarea.placeholder = "Schritt notieren...";
-
-      station.appendChild(title);
-      station.appendChild(textarea);
-
-      board.appendChild(station);
-      makeDraggable(station);
-    });
-
-    function makeDraggable(el) {
-      let offsetX, offsetY, isDown = false;
-
-      // --- Maussteuerung ---
-      el.addEventListener("mousedown", e => {
-        isDown = true;
-        offsetX = e.clientX - el.offsetLeft;
-        offsetY = e.clientY - el.offsetTop;
-        el.style.zIndex = Date.now();
-      });
-
-      document.addEventListener("mouseup", () => { isDown = false; });
-
-      document.addEventListener("mousemove", e => {
-        if (!isDown) return;
-        el.style.left = (e.clientX - offsetX) + "px";
-        el.style.top = (e.clientY - offsetY) + "px";
-      });
-
-      // --- Touchsteuerung ---
-      el.addEventListener("touchstart", e => {
-        isDown = true;
-        const touch = e.touches[0];
-        offsetX = touch.clientX - el.offsetLeft;
-        offsetY = touch.clientY - el.offsetTop;
-        el.style.zIndex = Date.now();
-      });
-
-      document.addEventListener("touchend", () => { isDown = false; });
-
-      document.addEventListener("touchmove", e => {
-        if (!isDown) return;
-        const touch = e.touches[0];
-        el.style.left = (touch.clientX - offsetX) + "px";
-        el.style.top = (touch.clientY - offsetY) + "px";
-      });
-    }
-  </script>
+    const box = document.createElement("div");
+    box.textContent = "Station " + stationCount;
+    box.style.position = "absolute";
+    box.style.left = "200px";
+    box.style.top = (100 + stationCount * 40) + "px";
+    box.style.background = "white";
+    box.style.padding = "10px";
+    box.style.border = "1px solid black";
+    document.getElementById("board").appendChild(box);
+  });
+</script>  
 </body>
 </html>
