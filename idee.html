@@ -2,93 +2,118 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>💡 Idee – Projekt 5-7 Rot</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="projekt.css">
-  <script src="common.js" defer></script>
+  <title>Planungsboard Prototyp</title>
   <style>
     body {
-      font-family: 'Comic Neue', sans-serif;
-      padding: 2rem;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: url("A_seamless,_two-dimensional_digital_vector_illustr.png") repeat;
+      background-size: auto; /* wichtig: kachelt sich ohne Skalierung */
+      font-family: Arial, sans-serif;
+      overflow: hidden;
     }
-    .step {
-      display: none;
+
+    #board {
+      position: relative;
+      width: 100%;
+      height: 100%;
     }
-    .step.active {
-      display: block;
-    }
-    .creativity-booster {
-      margin-top: 1rem;
-      font-style: italic;
-    }
-    .idea-item {
-      background-color: #f0f8ff;
-      padding: 0.5rem 1rem;
-      margin: 0.25rem 0;
+
+    .station {
+      position: absolute;
+      width: 150px;
+      min-height: 50px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ccc;
       border-radius: 8px;
+      padding: 8px;
+      cursor: move;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
     }
-    .idea-item.selected {
-      background-color: #c0f2e4;
+
+    .station textarea {
+      width: 100%;
+      border: none;
+      resize: none;
+      background: transparent;
+      font-size: 14px;
+      font-family: inherit;
     }
-    .progress-container {
-      margin-bottom: 2rem;
+
+    #controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 5px 10px;
+      margin: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <section class="section">
-    <!-- Schritt 1 -->
-    <div class="step active" id="step1">
-      <h1 class="title">🎯 Schritt 1: Themenfeld eingeben</h1>
-      <p class="subtitle">Was ist das Thema deines Projekts?</p>
-      <div class="field">
-        <div class="control">
-          <input class="input" id="themenfeld" type="text" placeholder="z.B. Wasserverbrauch, Tiere, Plastik...">
-        </div>
-      </div>
-      <button id="start-btn" class="button is-primary" disabled>🚀 Starte Ideensammlung</button>
-    </div>
+  <div id="controls">
+    <button id="addStation">+ Neue Station</button>
+    <span id="count">0 / 12</span>
+  </div>
 
-    <!-- Schritt 2 -->
-    <div class="step" id="step2">
-      <h1 class="title">💡 Schritt 2: Sammle deine Ideen</h1>
-      <p><strong>Themenfeld:</strong> <span id="themenfeld-display"></span></p>
-      <div class="notification is-info" id="timer">⏰ Zeit: 5:00</div>
-      <button class="button is-warning" id="booster-btn">✨ Kreativitäts-Booster holen</button>
-      <p class="creativity-booster" id="creativity-booster"></p>
+  <div id="board"></div>
 
-      <div class="field mt-4">
-        <div class="control">
-          <textarea class="textarea" id="neue-idee" placeholder="Gib hier deine Idee ein..." rows="2"></textarea>
-        </div>
-      </div>
-      <button class="button is-success" id="add-idee-btn">➕ Idee hinzufügen</button>
-      <button class="button is-danger" id="finish-btn">✅ Fertig</button>
+  <script>
+    let stationCount = 0;
+    const maxStations = 12;
+    const board = document.getElementById("board");
+    const counter = document.getElementById("count");
+    const addBtn = document.getElementById("addStation");
 
-      <div class="mt-4" id="ideas-display" style="display: none;">
-        <h3 class="subtitle">Deine Ideen:</h3>
-        <div id="ideas-container"></div>
-      </div>
-    </div>
+    addBtn.addEventListener("click", () => {
+      if (stationCount >= maxStations) {
+        alert("Maximal 12 Stationen erlaubt!");
+        return;
+      }
 
-    <!-- Schritt 3 -->
-    <div class="step" id="step3">
-      <h1 class="title">✅ Schritt 3: Wähle deine besten Ideen</h1>
-      <p><strong>Themenfeld:</strong> <span id="themenfeld-final"></span></p>
-      <p>Wähle bis zu <strong>3 Ideen</strong> aus:</p>
-      <div id="final-ideas-list" class="mt-3"></div>
-      <button class="button is-primary mt-4" id="generate-btn" style="display: none;">🤖 Prompt generieren</button>
+      stationCount++;
+      counter.textContent = stationCount + " / " + maxStations;
 
-      <div id="prompt-section" style="display: none;" class="mt-4">
-        <h3 class="subtitle">🧠 Dein Prompt wurde generiert:</h3>
-        <div class="box" id="generated-prompt"></div>
-        <button class="button is-info" id="copy-btn">📋 Prompt kopieren</button>
-      </div>
+      const station = document.createElement("div");
+      station.className = "station";
+      station.style.left = Math.random() * (window.innerWidth - 200) + "px";
+      station.style.top = Math.random() * (window.innerHeight - 150) + "px";
 
-      <button class="button is-light mt-5" id="restart-btn">🔄 Neues Themenfeld starten</button>
-    </div>
-  </section>
+      const textarea = document.createElement("textarea");
+      textarea.rows = 3;
+      textarea.placeholder = "Schritt " + stationCount;
+      station.appendChild(textarea);
+
+      board.appendChild(station);
+
+      makeDraggable(station);
+    });
+
+    function makeDraggable(el) {
+      let offsetX, offsetY, isDown = false;
+
+      el.addEventListener("mousedown", e => {
+        isDown = true;
+        offsetX = e.clientX - el.offsetLeft;
+        offsetY = e.clientY - el.offsetTop;
+      });
+
+      document.addEventListener("mouseup", () => { isDown = false; });
+
+      document.addEventListener("mousemove", e => {
+        if (!isDown) return;
+        el.style.left = (e.clientX - offsetX) + "px";
+        el.style.top = (e.clientY - offsetY) + "px";
+      });
+    }
+  </script>
 </body>
 </html>
