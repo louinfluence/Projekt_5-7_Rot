@@ -22,8 +22,8 @@
 
     .station {
       position: absolute;
-      width: 320px;
-      min-height: 120px;
+      width: 320px;      /* ← Box-Breite */
+      min-height: 120px; /* ← Box-Höhe */
       background: rgba(255, 255, 255, 0.95);
       border: 2px solid #333;
       border-radius: 8px;
@@ -95,16 +95,21 @@
       const station = document.createElement("div");
       station.className = "station";
 
-      // Startposition in der Mitte
-      station.style.left = (window.innerWidth / 2 - 80) + "px";
-      station.style.top = (window.innerHeight / 2 - 40) + "px";
+      // Boxgröße dynamisch aus CSS lesen
+      const style = getComputedStyle(station);
+      const boxWidth = parseInt(style.width);
+      const boxHeight = parseInt(style.minHeight);
+
+      // Position in der Mitte setzen
+      station.style.left = (window.innerWidth / 2 - boxWidth / 2) + "px";
+      station.style.top = (window.innerHeight / 2 - boxHeight / 2) + "px";
 
       // Titel + Eingabefeld
       const title = document.createElement("h4");
-      title.textContent = "Station " + stationCount;
+      title.textContent = "Station " + stationCount + " / " + maxStations;
 
       const textarea = document.createElement("textarea");
-      textarea.rows = 3;
+      textarea.rows = 4;
       textarea.placeholder = "Schritt notieren...";
 
       station.appendChild(title);
