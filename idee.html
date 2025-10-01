@@ -9,7 +9,7 @@
       padding: 0;
       height: 100vh;
       background: url("IMG_0052.png") repeat;
-      background-size: auto; /* wichtig: kachelt sich ohne Skalierung */
+      background-size: auto;
       font-family: Arial, sans-serif;
       overflow: hidden;
     }
@@ -22,14 +22,23 @@
 
     .station {
       position: absolute;
-      width: 150px;
-      min-height: 50px;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid #ccc;
+      width: 160px;
+      min-height: 60px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #333;
       border-radius: 8px;
-      padding: 8px;
+      padding: 5px;
       cursor: move;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .station h4 {
+      margin: 0 0 5px 0;
+      font-size: 14px;
+      text-align: center;
+      background: #f0f0f0;
+      border-radius: 4px;
+      padding: 2px;
     }
 
     .station textarea {
@@ -37,7 +46,7 @@
       border: none;
       resize: none;
       background: transparent;
-      font-size: 14px;
+      font-size: 13px;
       font-family: inherit;
     }
 
@@ -45,10 +54,11 @@
       position: absolute;
       top: 10px;
       left: 10px;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.7);
       color: white;
       padding: 10px;
       border-radius: 6px;
+      font-size: 14px;
     }
 
     button {
@@ -83,20 +93,25 @@
       counter.textContent = stationCount + " / " + maxStations;
 
       const station = document.createElement("div");
-			station.className = "station";
+      station.className = "station";
 
-			// Position in der Mitte
-			station.style.left = (window.innerWidth / 2 - 75) + "px"; 
-			station.style.top = (window.innerHeight / 2 - 25) + "px";
+      // Position in der Mitte
+      station.style.left = (window.innerWidth / 2 - 80) + "px";
+      station.style.top = (window.innerHeight / 2 - 40) + "px";
 
-			const textarea = document.createElement("textarea");
-			textarea.rows = 3;
-			textarea.placeholder = "Schritt " + stationCount;
-			station.appendChild(textarea);
+      // Titel + Eingabefeld
+      const title = document.createElement("h4");
+      title.textContent = "Station " + stationCount;
 
-board.appendChild(station);
+      const textarea = document.createElement("textarea");
+      textarea.rows = 3;
+      textarea.placeholder = "Schritt notieren...";
 
-makeDraggable(station);
+      station.appendChild(title);
+      station.appendChild(textarea);
+
+      board.appendChild(station);
+      makeDraggable(station);
     });
 
     function makeDraggable(el) {
@@ -106,6 +121,7 @@ makeDraggable(station);
         isDown = true;
         offsetX = e.clientX - el.offsetLeft;
         offsetY = e.clientY - el.offsetTop;
+        el.style.zIndex = Date.now(); // nach vorne holen
       });
 
       document.addEventListener("mouseup", () => { isDown = false; });
