@@ -113,25 +113,44 @@
       board.appendChild(station);
       makeDraggable(station);
     });
-
     function makeDraggable(el) {
-      let offsetX, offsetY, isDown = false;
+  let offsetX, offsetY, isDown = false;
 
-      el.addEventListener("mousedown", e => {
-        isDown = true;
-        offsetX = e.clientX - el.offsetLeft;
-        offsetY = e.clientY - el.offsetTop;
-        el.style.zIndex = Date.now(); // nach vorne holen
-      });
+  // Maus
+  el.addEventListener("mousedown", e => {
+    isDown = true;
+    offsetX = e.clientX - el.offsetLeft;
+    offsetY = e.clientY - el.offsetTop;
+    el.style.zIndex = Date.now();
+  });
 
-      document.addEventListener("mouseup", () => { isDown = false; });
+  document.addEventListener("mouseup", () => { isDown = false; });
 
-      document.addEventListener("mousemove", e => {
-        if (!isDown) return;
-        el.style.left = (e.clientX - offsetX) + "px";
-        el.style.top = (e.clientY - offsetY) + "px";
-      });
-    }
+  document.addEventListener("mousemove", e => {
+    if (!isDown) return;
+    el.style.left = (e.clientX - offsetX) + "px";
+    el.style.top = (e.clientY - offsetY) + "px";
+  });
+
+  // Touch
+  el.addEventListener("touchstart", e => {
+    isDown = true;
+    const touch = e.touches[0];
+    offsetX = touch.clientX - el.offsetLeft;
+    offsetY = touch.clientY - el.offsetTop;
+    el.style.zIndex = Date.now();
+  });
+
+  document.addEventListener("touchend", () => { isDown = false; });
+
+  document.addEventListener("touchmove", e => {
+    if (!isDown) return;
+    const touch = e.touches[0];
+    el.style.left = (touch.clientX - offsetX) + "px";
+    el.style.top = (touch.clientY - offsetY) + "px";
+  });
+}
+
   </script>
 </body>
 </html>
