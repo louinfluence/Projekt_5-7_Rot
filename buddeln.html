@@ -6,44 +6,22 @@
   <title>KI als Lernbegleiterin</title>
   <link rel="stylesheet" href="projekt.css">
   <script>
-    // Funktion zum automatischen Laden des Fobizz-Chats
-    function loadFobizzChat() {
-      const themaInput = document.getElementById('thema').value.trim();
-      if (!themaInput) {
-        alert("Bitte gib zuerst dein Thema ein.");
-        return;
-      }
+  
+function openFobizzChat() {
+  const thema = document.getElementById('thema').value.trim();
+  if (!thema) return alert("Bitte gib zuerst dein Thema ein.");
 
-      const baseUrl = "https://go.fobizz.com/?token=37f29558d555602e";
-      const prompt = encodeURIComponent(
-        `Beginne einen sokratischen Dialog zum folgenden Thema: '${themaInput}'. Entwickeln von Forscherfragen usw.. 
-        Stelle mir eine erste kluge, vertiefende Frage. Warte dann auf meine Antwort. Erst danach stellst du die nächste Frage – offen, nachdenklich, anregend. 
-        Gib keine Antworten, sondern unterstütze mich dabei, durch deine Fragen eigene Einsichten zu entwickeln. 
-        Wiederhole diesen Prozess, bis ich den Dialog beende.`
-      );
+  const prompt = encodeURIComponent(
+    `Beginne einen sokratischen Dialog zum folgenden Thema: '${thema}'. Entwickeln von Forscherfragen usw.. 
+    Stelle mir eine erste kluge, vertiefende Frage. Warte dann auf meine Antwort. 
+    Gib keine Antworten, sondern unterstütze mich dabei, eigene Einsichten zu entwickeln.`
+  );
 
-      const fullUrl = `${baseUrl}&prompt=${prompt}`;
+  const url = `https://go.fobizz.com/?token=37f29558d555602e&prompt=${prompt}`;
+  window.open(url, '_blank');
+}
 
-      const frame = document.getElementById('fobizzFrame');
-      frame.src = fullUrl;
 
-      // Sichtbarkeit steuern
-      document.getElementById('fobizzContainer').style.display = "block";
-      document.getElementById('fallbackButton').style.display = "none";
-    }
-
-    // Automatischer Versuch nach Seitenaufruf
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        try {
-          const themaValue = document.getElementById('thema').value.trim();
-          if (themaValue) loadFobizzChat();
-        } catch (e) {
-          console.warn("Automatisches Laden des Fobizz-Chats fehlgeschlagen.");
-          document.getElementById('fallbackButton').style.display = "block";
-        }
-      }, 1000);
-    });
   </script>
 </head>
 <body>
