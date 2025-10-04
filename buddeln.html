@@ -7,10 +7,8 @@
   <link rel="stylesheet" href="projekt.css">
 
   <style>
-    /* Ergänzende Styles für das Hinweisfeld */
-    #copiedHint {
-      display: none;
-      margin-top: 1.5rem;
+    .instruction-card {
+      margin-bottom: 2rem;
       padding: 1.5rem;
       border-radius: 14px;
       background: linear-gradient(135deg, #f5f9ff, #e8f0ff);
@@ -19,17 +17,21 @@
       animation: fadeIn 0.4s ease-in-out;
     }
 
-    #copiedHint h3 {
+    .instruction-card h2 {
       margin-top: 0;
       color: #2a3b8f;
       font-size: 1.2rem;
       margin-bottom: 0.6rem;
     }
 
-    #copiedHint p {
+    .instruction-card p, .instruction-card li {
       font-size: 1rem;
       line-height: 1.5;
       color: #222;
+    }
+
+    .instruction-card ol {
+      margin: 0.5rem 0 0 1.2rem;
     }
 
     @keyframes fadeIn {
@@ -57,11 +59,11 @@ Wiederhole diesen Prozess, bis ich den Dialog beende.`;
 
     navigator.clipboard.writeText(fullPrompt)
       .then(() => {
-        document.getElementById('copiedHint').style.display = "block";
+        alert("Der Start-Prompt wurde kopiert. Fobizz öffnet sich jetzt in einem neuen Tab.");
         window.open("https://go.fobizz.com/?token=37f29558d555602e", "_blank");
       })
       .catch(err => {
-        alert("Kopieren hat nicht funktioniert. Bitte versuche es manuell.");
+        alert("Kopieren hat nicht funktioniert. Bitte versuche es manuell (Strg + C).");
         console.error(err);
       });
   }
@@ -70,28 +72,47 @@ Wiederhole diesen Prozess, bis ich den Dialog beende.`;
 
 <body>
   <header>
-    <h1>💬 KI als Lernbegleiterin</h1>
+    <h1>💬 Mit der KI gemeinsam Forscherfragen entwickeln</h1>
   </header>
 
   <main class="container">
+
+    <!-- Schritt-für-Schritt-Anleitung -->
+    <section class="instruction-card">
+      <h2>🧭 So funktioniert’s</h2>
+      <p>Du wirst gleich mit einer KI sprechen, die dir hilft, Forscherfragen zu entwickeln. Gehe Schritt für Schritt vor:</p>
+      <ol>
+        <li>Gib unten dein Thema ein (z. B. <em>Nachhaltige Energie</em>).</li>
+        <li>Klicke auf <strong>„KI-Dialog starten“</strong>.</li>
+        <li>Dein Start-Prompt wird automatisch <strong>kopiert</strong>.</li>
+        <li>Fobizz öffnet sich in einem neuen Tab.</li>
+        <li>Füge den kopierten Text (<kbd>Strg + V</kbd> / <kbd>Cmd + V</kbd>) in das Chatfeld ein.</li>
+        <li>Starte den Dialog mit der KI.</li>
+      </ol>
+    </section>
+
+    <!-- Themenfeld -->
     <section class="step-card">
       <h2>1. Dein Thema</h2>
-      <p>Gib das Thema ein, zu dem du mit der KI über Forscherfragen sprechen möchtest.</p>
+      <p>Wähle das Thema, über das du mit der KI sprechen möchtest.</p>
       <input type="text" id="thema" placeholder="z. B. Nachhaltige Energie" class="input-field">
       <button onclick="copyPromptAndOpenFobizz()" class="primary-btn">KI-Dialog starten</button>
-
-      <div id="copiedHint">
-        <h3>🧠 Nächste Schritte</h3>
-        <p>
-          Dein Start-Prompt wurde <strong>in die Zwischenablage kopiert</strong>.<br><br>
-          <strong>So geht’s weiter:</strong><br>
-          1️⃣ Fobizz hat sich in einem neuen Tab geöffnet.<br>
-          2️⃣ Wähle dort den Chat-Assistenten <em>„Digitale Lernbegleiterin“</em> aus.<br>
-          3️⃣ Füge (<kbd>Strg + V</kbd> oder <kbd>Cmd + V</kbd>) den kopierten Text ins Chatfeld ein.<br>
-          4️⃣ Starte dann das Gespräch mit der KI.
-        </p>
-      </div>
     </section>
+
+    <!-- Arbeitsauftrag -->
+    <section class="step-card">
+      <h2>2. Arbeitsauftrag nach dem Gespräch</h2>
+      <p>Wenn du mit der KI gesprochen hast, dokumentiere deine wichtigsten Erkenntnisse:</p>
+      <ul>
+        <li>🟢 Notiere <strong>drei wichtige Punkte</strong> aus dem Gespräch mit der KI.</li>
+        <li>🟢 Schreibe auf, was du daraus gelernt oder verstanden hast.</li>
+        <li>🟢 Lade deine Notizen anschließend in die <a href="https://lms.lernen.hamburg/course/view.php?id=149492&section=7" target="_blank"><strong>Dokumentations-Kachel</strong></a> in Moodle hoch.</li>
+      </ul>
+      <p style="margin-top:1rem;">
+        Tipp: Du kannst deine Punkte zuerst in einem Textfeld oder auf einem Zettel sammeln, bevor du sie hochlädst.
+      </p>
+    </section>
+
   </main>
 </body>
 </html>
