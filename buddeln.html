@@ -19,11 +19,13 @@
       transition: background 0.6s ease, color 0.3s ease;
       background-attachment: fixed;
       background-size: cover;
+      overflow-x: hidden;
     }
 
     main.container {
       width: 100%;
       max-width: 800px;
+      position: relative;
     }
 
     header {
@@ -38,20 +40,24 @@
 
     /* --- Karten-Stil --- */
     .step-card {
+      position: absolute;
+      left: 0;
+      right: 0;
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(40px);
       pointer-events: none;
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      margin-bottom: 2rem;
+      transition: opacity 0.8s ease, transform 0.8s ease;
       padding: 1.5rem;
       border-radius: 14px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      margin-bottom: 2rem;
     }
 
-    .step-card.visible {
+    .step-card.active {
       opacity: 1;
       transform: translateY(0);
       pointer-events: auto;
+      position: relative;
     }
 
     .step-card h2 {
@@ -68,6 +74,7 @@
       opacity: 0.8;
       animation: pulse 1.5s infinite;
       color: inherit;
+      user-select: none;
     }
 
     @keyframes pulse {
@@ -145,24 +152,26 @@ Wiederhole diesen Prozess, bis ich den Dialog beende.`;
         });
     }
 
-    // Sichtbarkeit der Karten nacheinander steuern
+    // Karten-Logik mit Ausblenden der alten Karte
     document.addEventListener("DOMContentLoaded", () => {
       const cards = document.querySelectorAll(".step-card");
       let current = 0;
+      cards[current].classList.add("active");
 
-      // Erste Karte sofort anzeigen
-      cards[0].classList.add("visible");
+      function showNextCard() {
+        if (current < cards.length - 1) {
+          // aktuelle Karte ausblenden
+          cards[current].classList.remove("active");
+          current++;
+          // nächste Karte anzeigen
+          cards[current].classList.add("active");
+          cards[current].scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }
 
-      // Klick / Touch zeigt nächste Karte
       cards.forEach(card => {
-        card.addEventListener("click", () => {
-          if (current < cards.length - 1) {
-            current++;
-            cards[current].classList.add("visible");
-            // Scroll sanft zur neuen Karte
-            cards[current].scrollIntoView({ behavior: "smooth", block: "center" });
-          }
-        });
+        card.addEventListener("click", showNextCard);
+        card.addEventListener("touchstart", showNextCard);
       });
     });
   </script>
@@ -178,7 +187,7 @@ Wiederhole diesen Prozess, bis ich den Dialog beende.`;
     <!-- 1. Buddelfragen -->
     <section class="step-card" style="text-align:center;">
       <h2>💭 Buddelfragen</h2>
-      <p>Stellt euch für die folgene Aufgabe vor: ihr <strong>„buddelt euch mit euren Fragen“</strong> immer tiefer ins Thema hinein.<br>
+      <p>Stellt euch für die folgende Aufgabe vor: ihr <strong>„buddelt euch mit euren Fragen“</strong> immer tiefer ins Thema hinein.<br>
          Jede gute Frage hilft euch, neue Antworten zu entdecken!</p>
       <img src="buddel.png" alt="Strichmännchen, das eine Buddelfrage stellt" 
            style="max-width: 280px; border-radius: 12px; margin-top: 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
