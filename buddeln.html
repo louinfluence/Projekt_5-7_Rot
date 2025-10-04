@@ -5,25 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KI als Lernbegleiterin</title>
   <link rel="stylesheet" href="projekt.css">
+
+  <style>
+    /* Ergänzende Styles für das Hinweisfeld */
+    #copiedHint {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f5f9ff, #e8f0ff);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      border-left: 5px solid #5a7bf7;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    #copiedHint h3 {
+      margin-top: 0;
+      color: #2a3b8f;
+      font-size: 1.2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    #copiedHint p {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #222;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
   <script>
-  
-function openFobizzChat() {
-  const thema = document.getElementById('thema').value.trim();
-  if (!thema) return alert("Bitte gib zuerst dein Thema ein.");
+  const PROMPT_TEMPLATE = `Beginne einen sokratischen Dialog zum folgenden Thema: '{THEMA}'. 
+Entwickeln von Forscherfragen usw.
+Stelle mir eine erste kluge, vertiefende Frage. Warte dann auf meine Antwort.
+Erst danach stellst du die nächste Frage – offen, nachdenklich, anregend.
+Gib keine Antworten, sondern unterstütze mich dabei, durch deine Fragen eigene Einsichten zu entwickeln.
+Wiederhole diesen Prozess, bis ich den Dialog beende.`;
 
-  const prompt = encodeURIComponent(
-    `Beginne einen sokratischen Dialog zum folgenden Thema: '${thema}'. Entwickeln von Forscherfragen usw.. 
-    Stelle mir eine erste kluge, vertiefende Frage. Warte dann auf meine Antwort. 
-    Gib keine Antworten, sondern unterstütze mich dabei, eigene Einsichten zu entwickeln.`
-  );
+  function copyPromptAndOpenFobizz() {
+    const thema = document.getElementById('thema').value.trim();
+    if (!thema) {
+      alert("Bitte gib zuerst dein Thema ein.");
+      return;
+    }
 
-  const url = `https://go.fobizz.com/?token=37f29558d555602e&prompt=${prompt}`;
-  window.open(url, '_blank');
-}
+    const fullPrompt = PROMPT_TEMPLATE.replace('{THEMA}', thema);
 
-
+    navigator.clipboard.writeText(fullPrompt)
+      .then(() => {
+        document.getElementById('copiedHint').style.display = "block";
+        window.open("https://go.fobizz.com/?token=37f29558d555602e", "_blank");
+      })
+      .catch(err => {
+        alert("Kopieren hat nicht funktioniert. Bitte versuche es manuell.");
+        console.error(err);
+      });
+  }
   </script>
 </head>
+
 <body>
   <header>
     <h1>💬 KI als Lernbegleiterin</h1>
@@ -34,17 +78,20 @@ function openFobizzChat() {
       <h2>1. Dein Thema</h2>
       <p>Gib das Thema ein, zu dem du mit der KI über Forscherfragen sprechen möchtest.</p>
       <input type="text" id="thema" placeholder="z. B. Nachhaltige Energie" class="input-field">
-      <button onclick="openFobizzChat()" class="primary-btn">KI-Dialog starten</button>
-    </section>
+      <button onclick="copyPromptAndOpenFobizz()" class="primary-btn">KI-Dialog starten</button>
 
-    <section id="fobizzContainer" style="display:none; margin-top: 2rem;">
-      <iframe id="fobizzFrame" title="Fobizz KI Chat" width="100%" height="600px" style="border:none; border-radius: 10px;"></iframe>
+      <div id="copiedHint">
+        <h3>🧠 Nächste Schritte</h3>
+        <p>
+          Dein Start-Prompt wurde <strong>in die Zwischenablage kopiert</strong>.<br><br>
+          <strong>So geht’s weiter:</strong><br>
+          1️⃣ Fobizz hat sich in einem neuen Tab geöffnet.<br>
+          2️⃣ Wähle dort den Chat-Assistenten <em>„Digitale Lernbegleiterin“</em> aus.<br>
+          3️⃣ Füge (<kbd>Strg + V</kbd> oder <kbd>Cmd + V</kbd>) den kopierten Text ins Chatfeld ein.<br>
+          4️⃣ Starte dann das Gespräch mit der KI.
+        </p>
+      </div>
     </section>
-
-    <div id="fallbackButton" style="display:none; text-align:center; margin-top:1rem;">
-      <p>Der automatische Start hat nicht funktioniert.</p>
-      <button onclick="openFobizzChat()" class="secondary-btn">Manuell starten</button>
-    </div>
   </main>
 </body>
 </html>
