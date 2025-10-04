@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KI als Lernbegleiterin</title>
+  <title>Buddelfragen & KI-Lernbegleiterin</title>
   <link rel="stylesheet" href="projekt.css">
 
   <style>
-    /* === Grundlayout zentralisieren === */
+    /* --- Grundlayout zentralisiert --- */
     body {
       display: flex;
       justify-content: center;
@@ -36,141 +36,135 @@
       margin-bottom: 0.5rem;
     }
 
-    /* === Karten-Stil beibehalten === */
-    .instruction-card, .step-card {
+    /* --- Karten-Stil --- */
+    .step-card {
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: opacity 0.6s ease, transform 0.6s ease;
       margin-bottom: 2rem;
       padding: 1.5rem;
       border-radius: 14px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      animation: fadeIn 0.4s ease-in-out;
     }
 
-    .instruction-card h2, .step-card h2 {
+    .step-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .step-card h2 {
       margin-top: 0;
       font-size: 1.2rem;
       margin-bottom: 0.6rem;
     }
 
-    .instruction-card p, .step-card p, .instruction-card li, .step-card li {
-      font-size: 1rem;
-      line-height: 1.6;
+    /* --- Tipp-Indikator --- */
+    .continue-tip {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      animation: pulse 1.5s infinite;
+      color: inherit;
     }
 
-    .instruction-card ol, .step-card ul {
-      margin-left: 1.2rem;
+    @keyframes pulse {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* === Light Mode === */
+    /* --- Light Mode --- */
     @media (prefers-color-scheme: light) {
       body {
         background: linear-gradient(135deg, #e9f0ff 0%, #f8f9fb 100%);
         color: #222;
       }
-
-      .instruction-card {
-        background: linear-gradient(135deg, #f5f9ff, #e8f0ff);
-        border-left: 5px solid #5a7bf7;
-      }
-
       .step-card {
         background: #fff;
         border-left: 5px solid #6c89f7;
       }
-
-      a {
-        color: #294bf6;
-      }
+      a { color: #294bf6; }
     }
 
-    /* === Dark Mode === */
+    /* --- Dark Mode --- */
     @media (prefers-color-scheme: dark) {
       body {
         background: linear-gradient(135deg, #0e1420 0%, #1a1f2c 100%);
         color: #f1f1f1;
       }
-
-      .instruction-card {
-        background: linear-gradient(135deg, #1b1e26, #232835);
-        border-left: 5px solid #8ba3ff;
-      }
-
       .step-card {
         background: #1a1f2c;
         border-left: 5px solid #7a95ff;
       }
-
-      a {
-        color: #9cb3ff;
-      }
-
       input, button {
         background: #2a3242;
         color: #fff;
         border: 1px solid #3b4355;
       }
-
-      input::placeholder {
-        color: #bbb;
-      }
+      input::placeholder { color: #bbb; }
+      a { color: #9cb3ff; }
     }
 
-    /* === iPad & Tablet-Optimierung === */
+    /* --- iPad Optimierung --- */
     @media (max-width: 1024px) {
-      body {
-        padding: 1rem;
-      }
-
-      header h1 {
-        font-size: 1.6rem;
-      }
-
-      .instruction-card, .step-card {
-        padding: 1.2rem;
-      }
-
-      .step-card img {
-        max-width: 220px;
-      }
-
-      button.primary-btn {
-        font-size: 1rem;
-        padding: 0.6rem 1.2rem;
-      }
+      body { padding: 1rem; }
+      header h1 { font-size: 1.6rem; }
+      .step-card { padding: 1.2rem; }
+      .step-card img { max-width: 220px; }
     }
   </style>
 
   <script>
-  const PROMPT_TEMPLATE = `Beginne einen sokratischen Dialog zum folgenden Thema: '{THEMA}'. 
+    const PROMPT_TEMPLATE = `Beginne einen sokratischen Dialog zum folgenden Thema: '{THEMA}'. 
 Entwickeln von Forscherfragen usw.
 Stelle mir eine erste kluge, vertiefende Frage. Warte dann auf meine Antwort.
 Erst danach stellst du die nächste Frage – offen, nachdenklich, anregend.
 Gib keine Antworten, sondern unterstütze mich dabei, durch deine Fragen eigene Einsichten zu entwickeln.
 Wiederhole diesen Prozess, bis ich den Dialog beende.`;
 
-  function copyPromptAndOpenFobizz() {
-    const thema = document.getElementById('thema').value.trim();
-    if (!thema) {
-      alert("Bitte gib zuerst dein Thema ein.");
-      return;
+    function copyPromptAndOpenFobizz() {
+      const thema = document.getElementById('thema').value.trim();
+      if (!thema) {
+        alert("Bitte gib zuerst dein Thema ein.");
+        return;
+      }
+
+      const fullPrompt = PROMPT_TEMPLATE.replace('{THEMA}', thema);
+
+      navigator.clipboard.writeText(fullPrompt)
+        .then(() => {
+          alert("Der Start-Prompt wurde kopiert. Fobizz öffnet sich jetzt in einem neuen Tab.");
+          window.open("https://go.fobizz.com/?token=37f29558d555602e", "_blank");
+        })
+        .catch(err => {
+          alert("Kopieren hat nicht funktioniert. Bitte versuche es manuell (Strg + C).");
+          console.error(err);
+        });
     }
 
-    const fullPrompt = PROMPT_TEMPLATE.replace('{THEMA}', thema);
+    // Sichtbarkeit der Karten nacheinander steuern
+    document.addEventListener("DOMContentLoaded", () => {
+      const cards = document.querySelectorAll(".step-card");
+      let current = 0;
 
-    navigator.clipboard.writeText(fullPrompt)
-      .then(() => {
-        alert("Der Start-Prompt wurde kopiert. Fobizz öffnet sich jetzt in einem neuen Tab.");
-        window.open("https://go.fobizz.com/?token=37f29558d555602e", "_blank");
-      })
-      .catch(err => {
-        alert("Kopieren hat nicht funktioniert. Bitte versuche es manuell (Strg + C).");
-        console.error(err);
+      // Erste Karte sofort anzeigen
+      cards[0].classList.add("visible");
+
+      // Klick / Touch zeigt nächste Karte
+      cards.forEach(card => {
+        card.addEventListener("click", () => {
+          if (current < cards.length - 1) {
+            current++;
+            cards[current].classList.add("visible");
+            // Scroll sanft zur neuen Karte
+            cards[current].scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        });
       });
-  }
+    });
   </script>
 </head>
 
@@ -181,42 +175,19 @@ Wiederhole diesen Prozess, bis ich den Dialog beende.`;
 
   <main class="container">
 
-    <!-- Schritt-für-Schritt-Anleitung -->
-    <section class="instruction-card">
-      <h2>🧭 So funktioniert’s</h2>
-      <p>Du wirst gleich mit einer KI sprechen, die dir hilft, Forscherfragen zu entwickeln. Gehe Schritt für Schritt vor:</p>
-      <ol>
-        <li>Gib unten dein Thema ein (z. B. <em>Nachhaltige Energie</em>).</li>
-        <li>Klicke auf <strong>„KI-Dialog starten“</strong>.</li>
-        <li>Dein Start-Prompt wird automatisch <strong>kopiert</strong>.</li>
-        <li>Fobizz öffnet sich in einem neuen Tab.</li>
-        <li>Füge den kopierten Text (<kbd>Strg + V</kbd> / <kbd>Cmd + V</kbd>) in das Chatfeld ein.</li>
-        <li>Starte den Dialog mit der KI.</li>
-      </ol>
-    </section>
-
-    <!-- Themenfeld -->
-    <section class="step-card">
-      <h2>1. Dein Thema</h2>
-      <p>Wähle das Thema, über das du mit der KI sprechen möchtest.</p>
-      <input type="text" id="thema" placeholder="z. B. Nachhaltige Energie" class="input-field">
-      <button onclick="copyPromptAndOpenFobizz()" class="primary-btn">KI-Dialog starten</button>
-    </section>
-
-    <!-- Buddelfragen Illustration -->
+    <!-- 1. Buddelfragen -->
     <section class="step-card" style="text-align:center;">
       <h2>💭 Buddelfragen</h2>
-      <p>
-        Stell dir für die folgene Aufgabe vor: ihr <strong>„buddelt euch mit euren Fragen</strong> immer tiefer ins Thema hinein.  
-        Jede gute Frage hilft euch, neue Antworten zu entdecken!
-      </p>
+      <p>Stellt euch für die folgene Aufgabe vor: ihr <strong>„buddelt euch mit euren Fragen“</strong> immer tiefer ins Thema hinein.<br>
+         Jede gute Frage hilft euch, neue Antworten zu entdecken!</p>
       <img src="buddel.png" alt="Strichmännchen, das eine Buddelfrage stellt" 
            style="max-width: 280px; border-radius: 12px; margin-top: 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+      <div class="continue-tip">👇 Tippe, um fortzufahren</div>
     </section>
 
-    <!-- Arbeitsauftrag -->
+    <!-- 2. Arbeitsauftrag -->
     <section class="step-card">
-      <h2>2. Arbeitsauftrag nach dem Gespräch</h2>
+      <h2>📝 Arbeitsauftrag</h2>
       <p>Wenn du mit der KI gesprochen hast, dokumentiere deine wichtigsten Erkenntnisse:</p>
       <ul>
         <li>🟢 Notiere <strong>drei wichtige Punkte</strong> aus dem Gespräch mit der KI.</li>
@@ -227,9 +198,24 @@ Wiederhole diesen Prozess, bis ich den Dialog beende.`;
           </a> in Moodle hoch.
         </li>
       </ul>
-      <p style="margin-top:1rem;">
-        💡 <em>Tipp:</em> Du kannst deine Punkte zuerst in einem Textfeld oder auf einem Zettel sammeln, bevor du sie hochlädst.
-      </p>
+      <p style="margin-top:1rem;">💡 <em>Tipp:</em> Du kannst deine Punkte zuerst in einem Textfeld oder auf einem Zettel sammeln, bevor du sie hochlädst.</p>
+      <div class="continue-tip">👇 Tippe, um fortzufahren</div>
+    </section>
+
+    <!-- 3. Anleitung & Prompt -->
+    <section class="step-card">
+      <h2>🚀 Los geht’s</h2>
+      <p>Jetzt bist du bereit, mit der KI zu sprechen. Folge diesen Schritten:</p>
+      <ol>
+        <li>Gib unten dein Thema ein (z. B. <em>Nachhaltige Energie</em>).</li>
+        <li>Klicke auf <strong>„KI-Dialog starten“</strong>.</li>
+        <li>Der Start-Prompt wird automatisch kopiert.</li>
+        <li>Fobizz öffnet sich in einem neuen Tab.</li>
+        <li>Füge den Text (<kbd>Strg + V</kbd> / <kbd>Cmd + V</kbd>) ins Chatfeld ein.</li>
+        <li>Starte den Dialog mit der KI.</li>
+      </ol>
+      <input type="text" id="thema" placeholder="z. B. Nachhaltige Energie" class="input-field" style="margin-top:1rem;">
+      <button onclick="copyPromptAndOpenFobizz()" class="primary-btn" style="margin-top:0.5rem;">KI-Dialog starten</button>
     </section>
 
   </main>
