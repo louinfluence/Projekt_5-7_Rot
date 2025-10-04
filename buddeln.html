@@ -136,15 +136,45 @@
       .step-card { padding: 1.2rem; }
       .step-card img { max-width: 220px; }
     }
+
+    /* --- Zurück-Link mit Puls-Effekt --- */
+.return-tip {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.return-tip a {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  color: inherit;
+  border: 1px solid currentColor;
+  animation: pulseGlow 1.8s infinite;
+  transition: all 0.3s ease;
+}
+
+.return-tip a:hover {
+  background-color: rgba(100, 150, 255, 0.15);
+  transform: scale(1.03);
+}
+
+@keyframes pulseGlow {
+  0% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.5; transform: scale(1); }
+}
+
   </style>
 
   <script>
     const PROMPT_TEMPLATE = `Beginne einen sokratischen Dialog zum folgenden Thema: '{THEMA}'. 
-Entwickeln von Forscherfragen usw.
-Stelle mir eine erste kluge, vertiefende Frage. Warte dann auf meine Antwort.
-Erst danach stellst du die nächste Frage – offen, nachdenklich, anregend.
-Gib keine Antworten, sondern unterstütze mich dabei, durch deine Fragen eigene Einsichten zu entwickeln.
-Wiederhole diesen Prozess, bis ich den Dialog beende.`;
+    Stelle mir eine erste kluge, vertiefende Frage. Warte dann auf meine Antwort.
+    Erst danach stellst du die nächste Frage – offen, nachdenklich, anregend.
+    Gib keine Antworten, sondern unterstütze mich dabei, durch deine Fragen eigene Einsichten zu entwickeln.
+    Wiederhole diesen Prozess, bis ich den Dialog beende.`;
 
     function copyPromptAndOpenFobizz() {
       const thema = document.getElementById('thema').value.trim();
@@ -211,9 +241,9 @@ Wiederhole diesen Prozess, bis ich den Dialog beende.`;
     <!-- 2. Arbeitsauftrag -->
     <section class="step-card">
       <h2>📝 Arbeitsauftrag</h2>
-      <p>Wenn du mit der KI gesprochen hast, dokumentiere deine wichtigsten Erkenntnisse:</p>
+      <p>Wenn ihr mit der KI gesprochen habt, dokumentiert eure wichtigsten Erkenntnisse:</p>
       <ul>
-        <li>🟢 Notiere <strong>drei wichtige Punkte</strong> aus dem Gespräch mit der KI.</li>
+        <li>🟢 Notiert <strong>drei wichtige Punkte</strong> aus dem Gespräch mit der KI.</li>
         <li>🟢 Schreibe auf, was du daraus gelernt oder verstanden hast.</li>
         <li>🟢 Lade deine Notizen anschließend in die 
           <a href="https://lms.lernen.hamburg/course/view.php?id=149492&section=7" target="_blank">
@@ -226,20 +256,28 @@ Wiederhole diesen Prozess, bis ich den Dialog beende.`;
     </section>
 
     <!-- 3. Anleitung & Prompt -->
-    <section class="step-card">
-      <h2>🚀 Los geht’s</h2>
-      <p>Jetzt bist du bereit, mit der KI zu sprechen. Folge diesen Schritten:</p>
-      <ol>
-        <li>Gib unten dein Thema ein (z. B. <em>Nachhaltige Energie</em>).</li>
-        <li>Klicke auf <strong>„KI-Dialog starten“</strong>.</li>
-        <li>Der Start-Prompt wird automatisch kopiert.</li>
-        <li>Fobizz öffnet sich in einem neuen Tab.</li>
-        <li>Füge den Text (<kbd>Strg + V</kbd> / <kbd>Cmd + V</kbd>) ins Chatfeld ein.</li>
-        <li>Starte den Dialog mit der KI.</li>
-      </ol>
-      <input type="text" id="thema" placeholder="z. B. Nachhaltige Energie" class="input-field" style="margin-top:1rem;">
-      <button onclick="copyPromptAndOpenFobizz()" class="primary-btn" style="margin-top:0.5rem;">KI-Dialog starten</button>
-    </section>
+<section class="step-card">
+  <h2>🚀 Los geht’s</h2>
+  <p>Jetzt seid ihr bereit, mit der KI zu sprechen. Folge diesen Schritten:</p>
+  <ol>
+    <li>Gebt unten euer Thema ein (z. B. <em>Nachhaltige Energie</em>).</li>
+    <li>Klickt auf <strong>„KI-Dialog starten“</strong>.</li>
+    <li>Der Start-Prompt wird automatisch kopiert.</li>
+    <li>Fobizz öffnet sich in einem neuen Tab.</li>
+    <li>Füge den Text ein und starte den Dialog mit der KI.</li>
+  </ol>
+
+  <input type="text" id="thema" placeholder="z. B. Nachhaltige Energie" class="input-field" style="margin-top:1rem;">
+  <button onclick="copyPromptAndOpenFobizz()" class="primary-btn" style="margin-top:0.5rem;">KI-Dialog starten</button>
+
+  <!-- 💡 Neuer Hinweis-Button -->
+  <div class="return-tip">
+    <a href="https://lms.lernen.hamburg/mod/resource/view.php?id=10663248" target="_blank">
+      ↩️ Zurück zum Projekt-Tool
+    </a>
+  </div>
+</section>
+
 
   </main>
 </body>
