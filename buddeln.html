@@ -34,7 +34,7 @@ function openFobizzChat() {
       <h2>1. Dein Thema</h2>
       <p>Gib das Thema ein, zu dem du mit der KI über Forscherfragen sprechen möchtest.</p>
       <input type="text" id="thema" placeholder="z. B. Nachhaltige Energie" class="input-field">
-      <button onclick="loadFobizzChat()" class="primary-btn">KI-Dialog starten</button>
+      <button onclick="openFobizzChat()" class="primary-btn">KI-Dialog starten</button>
     </section>
 
     <section id="fobizzContainer" style="display:none; margin-top: 2rem;">
@@ -43,7 +43,7 @@ function openFobizzChat() {
 
     <div id="fallbackButton" style="display:none; text-align:center; margin-top:1rem;">
       <p>Der automatische Start hat nicht funktioniert.</p>
-      <button onclick="loadFobizzChat()" class="secondary-btn">Manuell starten</button>
+      <button onclick="openFobizzChat()" class="secondary-btn">Manuell starten</button>
     </div>
   </main>
 </body>
