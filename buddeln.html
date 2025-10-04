@@ -7,36 +7,140 @@
   <link rel="stylesheet" href="projekt.css">
 
   <style>
-    .instruction-card {
+    /* === Grundlayout zentralisieren === */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      font-family: system-ui, sans-serif;
+      transition: background 0.6s ease, color 0.3s ease;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+    main.container {
+      width: 100%;
+      max-width: 800px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* === Karten-Stil beibehalten === */
+    .instruction-card, .step-card {
       margin-bottom: 2rem;
       padding: 1.5rem;
       border-radius: 14px;
-      background: linear-gradient(135deg, #f5f9ff, #e8f0ff);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      border-left: 5px solid #5a7bf7;
       animation: fadeIn 0.4s ease-in-out;
     }
 
-    .instruction-card h2 {
+    .instruction-card h2, .step-card h2 {
       margin-top: 0;
-      color: #2a3b8f;
       font-size: 1.2rem;
       margin-bottom: 0.6rem;
     }
 
-    .instruction-card p, .instruction-card li {
+    .instruction-card p, .step-card p, .instruction-card li, .step-card li {
       font-size: 1rem;
-      line-height: 1.5;
-      color: #222;
+      line-height: 1.6;
     }
 
-    .instruction-card ol {
-      margin: 0.5rem 0 0 1.2rem;
+    .instruction-card ol, .step-card ul {
+      margin-left: 1.2rem;
     }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-5px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === Light Mode === */
+    @media (prefers-color-scheme: light) {
+      body {
+        background: linear-gradient(135deg, #e9f0ff 0%, #f8f9fb 100%);
+        color: #222;
+      }
+
+      .instruction-card {
+        background: linear-gradient(135deg, #f5f9ff, #e8f0ff);
+        border-left: 5px solid #5a7bf7;
+      }
+
+      .step-card {
+        background: #fff;
+        border-left: 5px solid #6c89f7;
+      }
+
+      a {
+        color: #294bf6;
+      }
+    }
+
+    /* === Dark Mode === */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: linear-gradient(135deg, #0e1420 0%, #1a1f2c 100%);
+        color: #f1f1f1;
+      }
+
+      .instruction-card {
+        background: linear-gradient(135deg, #1b1e26, #232835);
+        border-left: 5px solid #8ba3ff;
+      }
+
+      .step-card {
+        background: #1a1f2c;
+        border-left: 5px solid #7a95ff;
+      }
+
+      a {
+        color: #9cb3ff;
+      }
+
+      input, button {
+        background: #2a3242;
+        color: #fff;
+        border: 1px solid #3b4355;
+      }
+
+      input::placeholder {
+        color: #bbb;
+      }
+    }
+
+    /* === iPad & Tablet-Optimierung === */
+    @media (max-width: 1024px) {
+      body {
+        padding: 1rem;
+      }
+
+      header h1 {
+        font-size: 1.6rem;
+      }
+
+      .instruction-card, .step-card {
+        padding: 1.2rem;
+      }
+
+      .step-card img {
+        max-width: 220px;
+      }
+
+      button.primary-btn {
+        font-size: 1rem;
+        padding: 0.6rem 1.2rem;
+      }
     }
   </style>
 
@@ -103,8 +207,8 @@ Wiederhole diesen Prozess, bis ich den Dialog beende.`;
     <section class="step-card" style="text-align:center;">
       <h2>💭 Buddelfragen</h2>
       <p>
-        Wenn du mit der KI sprichst, stell dir vor, du <strong>„buddelt“ mit deinen Fragen</strong> immer tiefer ins Thema.  
-        Jede gute Frage hilft dir, neue Antworten zu entdecken!
+        Stell dir für die folgene Aufgabe vor: ihr <strong>„buddelt euch mit euren Fragen</strong> immer tiefer ins Thema hinein.  
+        Jede gute Frage hilft euch, neue Antworten zu entdecken!
       </p>
       <img src="buddel.png" alt="Strichmännchen, das eine Buddelfrage stellt" 
            style="max-width: 280px; border-radius: 12px; margin-top: 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
