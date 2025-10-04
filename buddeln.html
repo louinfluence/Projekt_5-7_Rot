@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KI als Lernbegleiterin</title>
+  <link rel="stylesheet" href="projekt.css">
+  <script>
+    // Funktion zum automatischen Laden des Fobizz-Chats
+    function loadFobizzChat() {
+      const themaInput = document.getElementById('thema').value.trim();
+      if (!themaInput) {
+        alert("Bitte gib zuerst dein Thema ein.");
+        return;
+      }
+
+      const baseUrl = "https://go.fobizz.com/?token=37f29558d555602e";
+      const prompt = encodeURIComponent(
+        `Beginne einen sokratischen Dialog zum folgenden Thema: '${themaInput}'. Entwickeln von Forscherfragen usw.. 
+        Stelle mir eine erste kluge, vertiefende Frage. Warte dann auf meine Antwort. Erst danach stellst du die nächste Frage – offen, nachdenklich, anregend. 
+        Gib keine Antworten, sondern unterstütze mich dabei, durch deine Fragen eigene Einsichten zu entwickeln. 
+        Wiederhole diesen Prozess, bis ich den Dialog beende.`
+      );
+
+      const fullUrl = `${baseUrl}&prompt=${prompt}`;
+
+      const frame = document.getElementById('fobizzFrame');
+      frame.src = fullUrl;
+
+      // Sichtbarkeit steuern
+      document.getElementById('fobizzContainer').style.display = "block";
+      document.getElementById('fallbackButton').style.display = "none";
+    }
+
+    // Automatischer Versuch nach Seitenaufruf
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        try {
+          const themaValue = document.getElementById('thema').value.trim();
+          if (themaValue) loadFobizzChat();
+        } catch (e) {
+          console.warn("Automatisches Laden des Fobizz-Chats fehlgeschlagen.");
+          document.getElementById('fallbackButton').style.display = "block";
+        }
+      }, 1000);
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <h1>💬 KI als Lernbegleiterin</h1>
+  </header>
+
+  <main class="container">
+    <section class="step-card">
+      <h2>1. Dein Thema</h2>
+      <p>Gib das Thema ein, zu dem du mit der KI über Forscherfragen sprechen möchtest.</p>
+      <input type="text" id="thema" placeholder="z. B. Nachhaltige Energie" class="input-field">
+      <button onclick="loadFobizzChat()" class="primary-btn">KI-Dialog starten</button>
+    </section>
+
+    <section id="fobizzContainer" style="display:none; margin-top: 2rem;">
+      <iframe id="fobizzFrame" title="Fobizz KI Chat" width="100%" height="600px" style="border:none; border-radius: 10px;"></iframe>
+    </section>
+
+    <div id="fallbackButton" style="display:none; text-align:center; margin-top:1rem;">
+      <p>Der automatische Start hat nicht funktioniert.</p>
+      <button onclick="loadFobizzChat()" class="secondary-btn">Manuell starten</button>
+    </div>
+  </main>
+</body>
+</html>
