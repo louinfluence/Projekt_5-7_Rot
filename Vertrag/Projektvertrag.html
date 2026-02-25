@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📄 Projektvertrag ausfüllen</title>
+
+  <!-- PDF-Lib -->
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+  <link rel="stylesheet" href="projektvertrag.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="title">📄 Projektvertrag</div>
+      <div class="subtitle">Fülle die Felder aus – am Ende bekommst du ein fertiges PDF zum Download.</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Vorlage</h2>
+      <p class="hint">
+        Diese Seite legt Text in dein bestehendes PDF. Die Vorlage muss im selben Ordner liegen:
+        <code>Projektvertrag Standard 5-7.pdf</code>
+      </p>
+
+      <div class="row">
+        <label class="filehint">
+          Optional: anderes PDF auswählen
+          <input type="file" id="pdfFile" accept="application/pdf" />
+        </label>
+
+        <button class="btn secondary" type="button" id="useDefaultBtn">
+          Standard-PDF verwenden
+        </button>
+      </div>
+
+      <div class="status" id="statusBox" aria-live="polite">
+        ✅ Bereit. Fülle die Felder aus und klicke „PDF erstellen“.
+      </div>
+    </section>
+
+    <form id="vertragForm" class="card">
+      <h2>Seite 1 – Projektvertrag</h2>
+
+      <div class="grid2">
+        <label>
+          Projekt
+          <input type="text" name="projekt" required placeholder="z.B. Nachhaltige Schule" />
+        </label>
+
+        <label>
+          Lerngruppe
+          <input type="text" name="lerngruppe" placeholder="z.B. 6b / Jg. 6" />
+        </label>
+
+        <label>
+          Datum
+          <input type="text" name="datum" placeholder="z.B. 25.02.2026" />
+        </label>
+
+        <label>
+          Lehrer*in
+          <input type="text" name="lehrer" placeholder="Name der begleitenden Lehrkraft" />
+        </label>
+      </div>
+
+      <label>
+        Projektteam (Namen)
+        <textarea name="projektteam" rows="3" placeholder="Name 1, Name 2, Name 3 …"></textarea>
+      </label>
+
+      <div class="grid3">
+        <label>
+          Projektteamsprecher*in
+          <input type="text" name="sprecher" />
+        </label>
+
+        <label>
+          Compliance-Manager*in
+          <input type="text" name="compliance" />
+        </label>
+
+        <label>
+          Zeitwächter*in
+          <input type="text" name="zeitwaechter" />
+        </label>
+      </div>
+
+      <label>
+        Welches Produkt soll am Ende vorliegen?
+        <textarea name="produkt" rows="2" placeholder="z.B. Podcast-Folge, Modell, Plakatserie, Website …"></textarea>
+      </label>
+
+      <label>
+        Beschreibe dein Projekt ausführlich (ca. 100 Wörter)
+        <textarea name="beschreibung" rows="6" placeholder="Worum geht’s, was macht ihr, für wen, warum?"></textarea>
+      </label>
+
+      <label>
+        Bezug zu Lernbereichen/Fächern
+        <textarea name="bezug" rows="4" placeholder="z.B. Deutsch: Interview, NaWi: Recherche, Kunst: Gestaltung …"></textarea>
+      </label>
+
+      <div class="grid2">
+        <label>
+          Datum der Projektpräsentation
+          <input type="text" name="praesentation" placeholder="z.B. 12.03.2026" />
+        </label>
+
+        <label>
+          (Optional) Dateiname-Zusatz
+          <input type="text" name="dateiZusatz" placeholder="z.B. GruppeA" />
+        </label>
+      </div>
+
+      <hr class="sep">
+
+      <h2>Seite 2 – Projektlogbuch (Kurzform)</h2>
+      <p class="hint">Trage bis zu 10 Einträge ein. Du kannst leere Zeilen lassen.</p>
+
+      <div class="tableLike">
+        <div class="tHead">
+          <div>Aufgabe</div><div>Wer?</div><div>Erledigt?</div>
+        </div>
+        <div class="tBody" id="logbuchRows"></div>
+      </div>
+
+      <hr class="sep">
+
+      <h2>Seite 3 – Forschungsfragen</h2>
+      <p class="hint">Bis zu 8 Fragen. „Wie beantworten wir das?“ ist optional.</p>
+
+      <div class="tableLike">
+        <div class="tHead">
+          <div>Forschungsfrage</div><div>Wie beantworten wir das?</div><div>Erledigt?</div>
+        </div>
+        <div class="tBody" id="forschungsRows"></div>
+      </div>
+
+      <hr class="sep">
+
+      <h2>Seite 5/6/7 – Reflexion (Kurzantworten)</h2>
+      <div class="grid2">
+        <label>Was hat gut geklappt?
+          <textarea name="ref_gut" rows="3"></textarea>
+        </label>
+        <label>Was war schwierig?
+          <textarea name="ref_schwierig" rows="3"></textarea>
+        </label>
+        <label>Was haben wir gelernt?
+          <textarea name="ref_gelernt" rows="3"></textarea>
+        </label>
+        <label>Was würden wir nächstes Mal anders machen?
+          <textarea name="ref_anders" rows="3"></textarea>
+        </label>
+      </div>
+
+      <h2>Seite 8 – Notizen</h2>
+      <label>
+        Notizen (optional)
+        <textarea name="notizen" rows="6" placeholder="Alles, was noch wichtig ist …"></textarea>
+      </label>
+
+      <div class="actions">
+        <button class="btn" type="button" id="exportPdfBtn">📥 PDF erstellen</button>
+        <button class="btn secondary" type="reset">Zurücksetzen</button>
+      </div>
+    </form>
+  </main>
+
+  <script src="projektvertrag.js"></script>
+</body>
+</html>
