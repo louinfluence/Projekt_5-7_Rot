@@ -1,10 +1,26 @@
 /* projektvertrag.js
    - Lädt ein PDF (Standard oder Upload)
-   - Schreibt Text an feste Positionen (Overlay)
+   - Schreibt Text an feste Positionen (Overlay) mit pdf-lib
    - Speichert als neues PDF
+   - Inkl. globalem Feintuning + Auto-Skalierung (falls Seite nicht exakt 595x842pt ist)
 */
 
+/* =========================
+   Konfiguration
+========================= */
+
 const DEFAULT_PDF_PATH = "Projektvertrag Standard 5-7.pdf";
+
+// PDF-Design-Größe, auf die die Koordinaten unten optimiert sind (A4 in pt)
+const DESIGN = { w: 595, h: 842 };
+
+// Globales Feintuning (pt). Wenn alles noch leicht daneben liegt:
+// z.B. dx: +2 (rechts), dy: -2 (runter)
+const TUNE_ALL = { dx: 0, dy: 0 };
+
+/* =========================
+   DOM
+========================= */
 
 const statusBox = document.getElementById("statusBox");
 const pdfFileInput = document.getElementById("pdfFile");
@@ -12,211 +28,250 @@ const useDefaultBtn = document.getElementById("useDefaultBtn");
 const exportBtn = document.getElementById("exportPdfBtn");
 const formEl = document.getElementById("vertragForm");
 
-// Dynamische Tabellen (Logbuch + Forschungsfragen)
 const logbuchRowsEl = document.getElementById("logbuchRows");
 const forschungsRowsEl = document.getElementById("forschungsRows");
 
-initDynamicRows();
+let selectedPdfBytes = null; // User-PDF (ArrayBuffer) oder null
 
-let selectedPdfBytes = null; // wenn User eine Datei auswählt
+/* =========================
+   Positions (optimiert für deine Vorlage)
+   - Einheit: PDF-Punkte (pt)
+   - Ursprung: unten links
+========================= */
 
-useDefaultBtn.addEventListener("click", async () => {
-  selectedPdfBytes = null;
-  setStatus("✅ Standard-PDF ausgewählt. Du kannst jetzt exportieren.");
-});
-
-pdfFileInput.addEventListener("change", async (e) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
-  selectedPdfBytes = await file.arrayBuffer();
-  setStatus(`✅ Eigene PDF-Datei gewählt: ${file.name}`);
-});
-
-exportBtn.addEventListener("click", async () => {
-  try {
-    exportBtn.disabled = true;
-    exportBtn.textContent = "⏳ PDF wird erstellt…";
-
-    const pdfBytes = selectedPdfBytes || await fetchPdf(DEFAULT_PDF_PATH);
-    const outBytes = await fillPdf(pdfBytes, getFormData());
-
-    const groupName = (getValue("projektteam") || getValue("projekt") || "Projekt")
-      .trim()
-      .replace(/\s+/g, "_")
-      .replace(/[^\w\-ÄÖÜäöüß]/g, "");
-
-    const suffix = (getValue("dateiZusatz") || "").trim().replace(/\s+/g, "_");
-    const fileName = `Projektvertrag_${groupName}${suffix ? "_" + suffix : ""}.pdf`;
-
-    downloadBytes(outBytes, fileName);
-    setStatus("✅ Fertig! Das PDF wurde heruntergeladen.");
-  } catch (err) {
-    console.error(err);
-    setStatus("❌ Fehler beim Erstellen des PDFs. Schau in die Konsole (F12).", true);
-    alert("Beim Erstellen des PDFs ist etwas schiefgelaufen. (Details in der Konsole)");
-  } finally {
-    exportBtn.disabled = false;
-    exportBtn.textContent = "📥 PDF erstellen";
-  }
-});
-
-/* -------------------------
-   PDF-Overlay Positionen
-   Einheit: PDF-Punkte (pt)
-   Origin: unten links
-   Seite A4: 595 x 842
---------------------------*/
-
-// Seite 1 (Index 0)
 const POS = {
+  // Seite 1 (Index 0)
   p1: {
-    projekt:        { x: 140, y: 760, maxWidth: 410, size: 12 },
-    lerngruppe:     { x: 140, y: 704, maxWidth: 290, size: 11 },
-    datum:          { x: 455, y: 704, maxWidth: 120, size: 11 },
-    projektteam:    { x: 140, y: 684, maxWidth: 290, size: 10, lineHeight: 12 },
-    lehrer:         { x: 455, y: 684, maxWidth: 120, size: 10 },
+    projekt:        { x: 170, y: 744, maxWidth: 390, size: 14 },
+    lerngruppe:     { x: 170, y: 707, maxWidth: 260, size: 12 },
+    datum:          { x: 470, y: 707, maxWidth: 110, size: 12 },
 
-    sprecher:       { x: 170, y: 635, maxWidth: 380, size: 11 },
-    compliance:     { x: 190, y: 608, maxWidth: 360, size: 11 },
-    zeitwaechter:   { x: 165, y: 582, maxWidth: 385, size: 11 },
+    projektteam:    { x: 170, y: 675, maxWidth: 265, size: 10, lineHeight: 12 },
+    lehrer:         { x: 470, y: 675, maxWidth: 110, size: 10 },
 
-    produkt:        { x: 70,  y: 495, maxWidth: 510, size: 11, lineHeight: 13 },
-    beschreibung:   { x: 70,  y: 410, maxWidth: 510, size: 10, lineHeight: 13 },
-    bezug:          { x: 70,  y: 250, maxWidth: 510, size: 10, lineHeight: 13 },
-    praesentation:  { x: 70,  y: 175, maxWidth: 510, size: 11 }
+    sprecher:       { x: 300, y: 625, maxWidth: 260, size: 11 },
+    compliance:     { x: 285, y: 600, maxWidth: 275, size: 11 },
+    zeitwaechter:   { x: 240, y: 575, maxWidth: 320, size: 11 },
+
+    produkt:        { x: 110, y: 500, maxWidth: 470, size: 11, lineHeight: 14 },
+    beschreibung:   { x: 110, y: 425, maxWidth: 470, size: 10, lineHeight: 13 },
+    bezug:          { x: 110, y: 250, maxWidth: 470, size: 10, lineHeight: 13 },
+    praesentation:  { x: 110, y: 150, maxWidth: 470, size: 11 }
   },
 
-  // Seite 2: Projektlogbuch (Index 1) - 10 Zeilen
+  // Seite 2 (Index 1): Projektlogbuch – 10 Zeilen
   p2: {
-    startY: 760,
-    rowH: 50,
+    startY: 735,
+    rowH: 48,
     cols: {
-      aufgabe: { x: 70,  w: 290, size: 10, lineHeight: 12 },
-      wer:     { x: 365, w: 120, size: 10, lineHeight: 12 },
-      done:    { x: 495, w: 70,  size: 10, lineHeight: 12 }
+      aufgabe: { x: 110, w: 300, size: 10, lineHeight: 12 },
+      wer:     { x: 420, w: 110, size: 10, lineHeight: 12 },
+      done:    { x: 540, w: 45,  size: 10, lineHeight: 12 }
     }
   },
 
-  // Seite 3: Forschungsfragen (Index 2) - 8 Zeilen
+  // Seite 3 (Index 2): Forschungsfragen – 8 Zeilen
   p3: {
-    startY: 760,
-    rowH: 62,
+    startY: 735,
+    rowH: 58,
     cols: {
-      frage:   { x: 70,  w: 260, size: 10, lineHeight: 12 },
-      wie:     { x: 335, w: 180, size: 10, lineHeight: 12 },
-      done:    { x: 520, w: 50,  size: 10, lineHeight: 12 }
+      frage:   { x: 110, w: 250, size: 10, lineHeight: 12 },
+      wie:     { x: 370, w: 175, size: 10, lineHeight: 12 },
+      done:    { x: 550, w: 35,  size: 10, lineHeight: 12 }
     }
   },
 
-  // Seite 5/6/7 grob (Index 4/5/6) – Kurzantworten an sinnvollen Stellen
-  // Hinweis: Diese Seiten haben viele Linien – wir setzen je Frage einen Block.
+  // Seite 5 (Index 4)
   p5: {
-    gut:       { x: 70, y: 640, maxWidth: 510, size: 10, lineHeight: 13 },
-    schwierig:  { x: 70, y: 520, maxWidth: 510, size: 10, lineHeight: 13 },
-  },
-  p6: {
-    gelernt:    { x: 70, y: 640, maxWidth: 510, size: 10, lineHeight: 13 },
-    anders:     { x: 70, y: 520, maxWidth: 510, size: 10, lineHeight: 13 },
+    gut:       { x: 110, y: 640, maxWidth: 470, size: 10, lineHeight: 13 },
+    schwierig:  { x: 110, y: 520, maxWidth: 470, size: 10, lineHeight: 13 }
   },
 
-  // Seite 8 Notizen (Index 7)
+  // Seite 6 (Index 5)
+  p6: {
+    gelernt:    { x: 110, y: 640, maxWidth: 470, size: 10, lineHeight: 13 },
+    anders:     { x: 110, y: 520, maxWidth: 470, size: 10, lineHeight: 13 }
+  },
+
+  // Seite 8 (Index 7)
   p8: {
-    notizen:    { x: 70, y: 760, maxWidth: 510, size: 10, lineHeight: 13 }
+    notizen:    { x: 110, y: 760, maxWidth: 470, size: 10, lineHeight: 13 }
   }
 };
 
-/* -------------------------
-   PDF-Fill Logik
---------------------------*/
+/* =========================
+   Init
+========================= */
+
+if (logbuchRowsEl && forschungsRowsEl) initDynamicRows();
+
+if (useDefaultBtn) {
+  useDefaultBtn.addEventListener("click", () => {
+    selectedPdfBytes = null;
+    if (pdfFileInput) pdfFileInput.value = "";
+    setStatus("✅ Standard-PDF ausgewählt. Du kannst jetzt exportieren.");
+  });
+}
+
+if (pdfFileInput) {
+  pdfFileInput.addEventListener("change", async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    selectedPdfBytes = await file.arrayBuffer();
+    setStatus(`✅ Eigene PDF-Datei gewählt: ${file.name}`);
+  });
+}
+
+if (exportBtn) {
+  exportBtn.addEventListener("click", async () => {
+    try {
+      if (!formEl) throw new Error("Formular nicht gefunden.");
+
+      // HTML5-Validierung
+      if (!formEl.reportValidity()) return;
+
+      lockExport(true);
+
+      const templateBytes = selectedPdfBytes || await fetchPdf(DEFAULT_PDF_PATH);
+      const outBytes = await fillPdf(templateBytes, getFormData());
+
+      const groupNameRaw =
+        getValue("dateiZusatz") ||
+        getValue("projektteam") ||
+        getValue("projekt") ||
+        "Projekt";
+
+      const fileName = `Projektvertrag_${sanitizeFileName(groupNameRaw)}.pdf`;
+      downloadBytes(outBytes, fileName);
+
+      setStatus("✅ Fertig! Das PDF wurde heruntergeladen.");
+    } catch (err) {
+      console.error(err);
+      setStatus("❌ Fehler beim Erstellen des PDFs. Schau in die Konsole (F12).", true);
+      alert("Beim Erstellen des PDFs ist etwas schiefgelaufen. (Details in der Konsole)");
+    } finally {
+      lockExport(false);
+    }
+  });
+}
+
+setStatus("✅ Bereit. Fülle die Felder aus und klicke „PDF erstellen“.");
+
+/* =========================
+   PDF-Fill
+========================= */
 
 async function fillPdf(templateBytes, data) {
-  const { PDFDocument, StandardFonts, rgb } = PDFLib;
+  if (!window.PDFLib) throw new Error("PDFLib nicht geladen.");
+  const { PDFDocument, StandardFonts, rgb } = window.PDFLib;
 
   const pdfDoc = await PDFDocument.load(templateBytes);
-  const helv = await pdfDoc.embedFont(StandardFonts.Helvetica);
-  const helvBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-
-  const pages = pdfDoc.getPages();
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
   const color = rgb(0, 0, 0);
 
-  // Seite 1
+  const pages = pdfDoc.getPages();
+
+  // Seite 1 (Index 0)
   if (pages[0]) {
     const p = pages[0];
-    drawText(p, helv, data.projekt, POS.p1.projekt, color);
-    drawText(p, helv, data.lerngruppe, POS.p1.lerngruppe, color);
-    drawText(p, helv, data.datum, POS.p1.datum, color);
-    drawTextBox(p, helv, data.projektteam, POS.p1.projektteam, color);
+    const scale = getScaleForPage(p);
 
-    drawText(p, helv, data.lehrer, POS.p1.lehrer, color);
-    drawText(p, helv, data.sprecher, POS.p1.sprecher, color);
-    drawText(p, helv, data.compliance, POS.p1.compliance, color);
-    drawText(p, helv, data.zeitwaechter, POS.p1.zeitwaechter, color);
+    drawText(p, font, data.projekt,        scaleCfg(POS.p1.projekt, scale), color);
+    drawText(p, font, data.lerngruppe,     scaleCfg(POS.p1.lerngruppe, scale), color);
+    drawText(p, font, data.datum,          scaleCfg(POS.p1.datum, scale), color);
+    drawTextBox(p, font, data.projektteam, scaleCfg(POS.p1.projektteam, scale), color);
 
-    drawTextBox(p, helv, data.produkt, POS.p1.produkt, color);
-    drawTextBox(p, helv, data.beschreibung, POS.p1.beschreibung, color);
-    drawTextBox(p, helv, data.bezug, POS.p1.bezug, color);
-    drawText(p, helv, data.praesentation, POS.p1.praesentation, color);
+    drawText(p, font, data.lehrer,         scaleCfg(POS.p1.lehrer, scale), color);
+    drawText(p, font, data.sprecher,       scaleCfg(POS.p1.sprecher, scale), color);
+    drawText(p, font, data.compliance,     scaleCfg(POS.p1.compliance, scale), color);
+    drawText(p, font, data.zeitwaechter,   scaleCfg(POS.p1.zeitwaechter, scale), color);
+
+    drawTextBox(p, font, data.produkt,       scaleCfg(POS.p1.produkt, scale), color);
+    drawTextBox(p, font, data.beschreibung,  scaleCfg(POS.p1.beschreibung, scale), color);
+    drawTextBox(p, font, data.bezug,         scaleCfg(POS.p1.bezug, scale), color);
+    drawText(p, font, data.praesentation,    scaleCfg(POS.p1.praesentation, scale), color);
   }
 
-  // Seite 2 – Logbuch
+  // Seite 2 (Index 1) Logbuch
   if (pages[1]) {
     const p = pages[1];
-    const startY = POS.p2.startY;
+    const scale = getScaleForPage(p);
+
+    const startY = scaleVal(POS.p2.startY, scale.sy);
+    const rowH = scaleVal(POS.p2.rowH, scale.sy);
+
+    const colAufgabe = scaleCol(POS.p2.cols.aufgabe, scale);
+    const colWer = scaleCol(POS.p2.cols.wer, scale);
+    const colDone = scaleCol(POS.p2.cols.done, scale);
 
     data.logbuch.forEach((row, i) => {
-      const y = startY - i * POS.p2.rowH;
-      drawTextBox(p, helv, row.aufgabe, { x: POS.p2.cols.aufgabe.x, y, maxWidth: POS.p2.cols.aufgabe.w, size: POS.p2.cols.aufgabe.size, lineHeight: POS.p2.cols.aufgabe.lineHeight }, color);
-      drawTextBox(p, helv, row.wer,     { x: POS.p2.cols.wer.x,     y, maxWidth: POS.p2.cols.wer.w,     size: POS.p2.cols.wer.size,     lineHeight: POS.p2.cols.wer.lineHeight }, color);
-      drawTextBox(p, helv, row.done,    { x: POS.p2.cols.done.x,    y, maxWidth: POS.p2.cols.done.w,    size: POS.p2.cols.done.size,    lineHeight: POS.p2.cols.done.lineHeight }, color);
+      const y = startY - i * rowH;
+      drawTextBox(p, font, row.aufgabe, { x: colAufgabe.x, y, maxWidth: colAufgabe.w, size: colAufgabe.size, lineHeight: colAufgabe.lineHeight }, color);
+      drawTextBox(p, font, row.wer,     { x: colWer.x,     y, maxWidth: colWer.w,     size: colWer.size,     lineHeight: colWer.lineHeight }, color);
+      drawTextBox(p, font, row.done,    { x: colDone.x,    y, maxWidth: colDone.w,    size: colDone.size,    lineHeight: colDone.lineHeight }, color);
     });
   }
 
-  // Seite 3 – Forschungsfragen
+  // Seite 3 (Index 2) Forschungsfragen
   if (pages[2]) {
     const p = pages[2];
-    const startY = POS.p3.startY;
+    const scale = getScaleForPage(p);
+
+    const startY = scaleVal(POS.p3.startY, scale.sy);
+    const rowH = scaleVal(POS.p3.rowH, scale.sy);
+
+    const colFrage = scaleCol(POS.p3.cols.frage, scale);
+    const colWie = scaleCol(POS.p3.cols.wie, scale);
+    const colDone = scaleCol(POS.p3.cols.done, scale);
 
     data.forschungsfragen.forEach((row, i) => {
-      const y = startY - i * POS.p3.rowH;
-      drawTextBox(p, helv, row.frage, { x: POS.p3.cols.frage.x, y, maxWidth: POS.p3.cols.frage.w, size: POS.p3.cols.frage.size, lineHeight: POS.p3.cols.frage.lineHeight }, color);
-      drawTextBox(p, helv, row.wie,   { x: POS.p3.cols.wie.x,   y, maxWidth: POS.p3.cols.wie.w,   size: POS.p3.cols.wie.size,   lineHeight: POS.p3.cols.wie.lineHeight }, color);
-      drawTextBox(p, helv, row.done,  { x: POS.p3.cols.done.x,  y, maxWidth: POS.p3.cols.done.w,  size: POS.p3.cols.done.size,  lineHeight: POS.p3.cols.done.lineHeight }, color);
+      const y = startY - i * rowH;
+      drawTextBox(p, font, row.frage, { x: colFrage.x, y, maxWidth: colFrage.w, size: colFrage.size, lineHeight: colFrage.lineHeight }, color);
+      drawTextBox(p, font, row.wie,   { x: colWie.x,   y, maxWidth: colWie.w,   size: colWie.size,   lineHeight: colWie.lineHeight }, color);
+      drawTextBox(p, font, row.done,  { x: colDone.x,  y, maxWidth: colDone.w,  size: colDone.size,  lineHeight: colDone.lineHeight }, color);
     });
   }
 
-  // Seite 5 (Index 4) – Reflexion Teil 1
+  // Seite 5 (Index 4) Reflexion 1
   if (pages[4]) {
     const p = pages[4];
-    drawTextBox(p, helv, data.ref_gut, POS.p5.gut, color);
-    drawTextBox(p, helv, data.ref_schwierig, POS.p5.schwierig, color);
+    const scale = getScaleForPage(p);
+    drawTextBox(p, font, data.ref_gut,      scaleCfg(POS.p5.gut, scale), color);
+    drawTextBox(p, font, data.ref_schwierig,scaleCfg(POS.p5.schwierig, scale), color);
   }
 
-  // Seite 6 (Index 5) – Reflexion Teil 2
+  // Seite 6 (Index 5) Reflexion 2
   if (pages[5]) {
     const p = pages[5];
-    drawTextBox(p, helv, data.ref_gelernt, POS.p6.gelernt, color);
-    drawTextBox(p, helv, data.ref_anders, POS.p6.anders, color);
+    const scale = getScaleForPage(p);
+    drawTextBox(p, font, data.ref_gelernt,  scaleCfg(POS.p6.gelernt, scale), color);
+    drawTextBox(p, font, data.ref_anders,   scaleCfg(POS.p6.anders, scale), color);
   }
 
-  // Seite 8 (Index 7) – Notizen
+  // Seite 8 (Index 7) Notizen
   if (pages[7]) {
     const p = pages[7];
-    drawTextBox(p, helv, data.notizen, POS.p8.notizen, color);
+    const scale = getScaleForPage(p);
+    drawTextBox(p, font, data.notizen, scaleCfg(POS.p8.notizen, scale), color);
   }
 
   return await pdfDoc.save();
 }
 
-/* -------------------------
-   Helpers: Text, Wrapping, Download
---------------------------*/
+/* =========================
+   Zeichnen + Umbruch
+========================= */
 
 function drawText(page, font, text, cfg, color) {
   const value = (text || "").toString().trim();
   if (!value) return;
+
+  const dx = (cfg.dx || 0) + TUNE_ALL.dx;
+  const dy = (cfg.dy || 0) + TUNE_ALL.dy;
+
   page.drawText(value, {
-    x: cfg.x,
-    y: cfg.y,
+    x: cfg.x + dx,
+    y: cfg.y + dy,
     size: cfg.size ?? 11,
     font,
     color
@@ -227,15 +282,19 @@ function drawTextBox(page, font, text, cfg, color) {
   const value = (text || "").toString().trim();
   if (!value) return;
 
+  const dx = (cfg.dx || 0) + TUNE_ALL.dx;
+  const dy = (cfg.dy || 0) + TUNE_ALL.dy;
+
   const size = cfg.size ?? 10;
   const lineHeight = cfg.lineHeight ?? (size + 3);
   const maxWidth = cfg.maxWidth ?? 400;
 
   const lines = wrapText(value, font, size, maxWidth);
+
   lines.forEach((line, idx) => {
     page.drawText(line, {
-      x: cfg.x,
-      y: cfg.y - idx * lineHeight,
+      x: cfg.x + dx,
+      y: (cfg.y + dy) - idx * lineHeight,
       size,
       font,
       color
@@ -244,26 +303,30 @@ function drawTextBox(page, font, text, cfg, color) {
 }
 
 function wrapText(text, font, size, maxWidth) {
-  const words = text.replace(/\r/g, "").split(/\s+/);
+  const words = text.replace(/\r/g, "").split(/\s+/).filter(Boolean);
   const lines = [];
   let current = "";
 
   for (const w of words) {
     const test = current ? current + " " + w : w;
     const width = font.widthOfTextAtSize(test, size);
+
     if (width <= maxWidth) {
       current = test;
+      continue;
+    }
+
+    if (current) lines.push(current);
+
+    // Wort zu lang -> hart umbrechen
+    if (font.widthOfTextAtSize(w, size) > maxWidth) {
+      lines.push(...breakLongWord(w, font, size, maxWidth));
+      current = "";
     } else {
-      if (current) lines.push(current);
-      // sehr langes Wort: hart umbrechen
-      if (font.widthOfTextAtSize(w, size) > maxWidth) {
-        lines.push(...breakLongWord(w, font, size, maxWidth));
-        current = "";
-      } else {
-        current = w;
-      }
+      current = w;
     }
   }
+
   if (current) lines.push(current);
   return lines;
 }
@@ -271,12 +334,13 @@ function wrapText(text, font, size, maxWidth) {
 function breakLongWord(word, font, size, maxWidth) {
   const parts = [];
   let buf = "";
+
   for (const ch of word) {
     const test = buf + ch;
     if (font.widthOfTextAtSize(test, size) <= maxWidth) {
       buf = test;
     } else {
-      parts.push(buf);
+      if (buf) parts.push(buf);
       buf = ch;
     }
   }
@@ -284,31 +348,50 @@ function breakLongWord(word, font, size, maxWidth) {
   return parts;
 }
 
-async function fetchPdf(path) {
-  const res = await fetch(path);
-  if (!res.ok) throw new Error(`PDF nicht gefunden unter: ${path}`);
-  return await res.arrayBuffer();
+/* =========================
+   Skalierung (robuster bei minimal anderen Seitenmaßen)
+========================= */
+
+function getScaleForPage(page) {
+  const { width, height } = page.getSize();
+  const sx = width / DESIGN.w;
+  const sy = height / DESIGN.h;
+  const sFont = Math.min(sx, sy);
+  return { sx, sy, sFont };
 }
 
-function downloadBytes(bytes, filename) {
-  const blob = new Blob([bytes], { type: "application/pdf" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
+function scaleVal(v, f) {
+  return typeof v === "number" ? v * f : v;
 }
 
-function setStatus(msg, isError=false) {
-  statusBox.textContent = msg;
-  statusBox.style.borderLeftColor = isError ? "#c23232" : "var(--ok)";
-  statusBox.style.background = isError ? "#fff2f2" : "#f3fbf6";
+function scaleCfg(cfg, scale) {
+  return {
+    ...cfg,
+    x: scaleVal(cfg.x, scale.sx),
+    y: scaleVal(cfg.y, scale.sy),
+    maxWidth: scaleVal(cfg.maxWidth, scale.sx),
+    size: scaleVal(cfg.size, scale.sFont),
+    lineHeight: scaleVal(cfg.lineHeight, scale.sy),
+    dx: scaleVal(cfg.dx || 0, scale.sx),
+    dy: scaleVal(cfg.dy || 0, scale.sy)
+  };
 }
+
+function scaleCol(col, scale) {
+  return {
+    x: scaleVal(col.x, scale.sx),
+    w: scaleVal(col.w, scale.sx),
+    size: scaleVal(col.size, scale.sFont),
+    lineHeight: scaleVal(col.lineHeight, scale.sy)
+  };
+}
+
+/* =========================
+   Formdaten
+========================= */
 
 function getValue(name) {
+  if (!formEl) return "";
   return (new FormData(formEl).get(name) || "").toString();
 }
 
@@ -319,8 +402,8 @@ function getFormData() {
   for (let i = 0; i < 10; i++) {
     logbuch.push({
       aufgabe: (fd.get(`log_aufgabe_${i}`) || "").toString(),
-      wer: (fd.get(`log_wer_${i}`) || "").toString(),
-      done: (fd.get(`log_done_${i}`) || "").toString(),
+      wer:     (fd.get(`log_wer_${i}`) || "").toString(),
+      done:    (fd.get(`log_done_${i}`) || "").toString()
     });
   }
 
@@ -328,41 +411,42 @@ function getFormData() {
   for (let i = 0; i < 8; i++) {
     forschungsfragen.push({
       frage: (fd.get(`fq_frage_${i}`) || "").toString(),
-      wie: (fd.get(`fq_wie_${i}`) || "").toString(),
-      done: (fd.get(`fq_done_${i}`) || "").toString(),
+      wie:   (fd.get(`fq_wie_${i}`) || "").toString(),
+      done:  (fd.get(`fq_done_${i}`) || "").toString()
     });
   }
 
   return {
-    projekt: (fd.get("projekt") || "").toString(),
-    lerngruppe: (fd.get("lerngruppe") || "").toString(),
-    datum: (fd.get("datum") || "").toString(),
-    lehrer: (fd.get("lehrer") || "").toString(),
-    projektteam: (fd.get("projektteam") || "").toString(),
-    sprecher: (fd.get("sprecher") || "").toString(),
-    compliance: (fd.get("compliance") || "").toString(),
-    zeitwaechter: (fd.get("zeitwaechter") || "").toString(),
-    produkt: (fd.get("produkt") || "").toString(),
-    beschreibung: (fd.get("beschreibung") || "").toString(),
-    bezug: (fd.get("bezug") || "").toString(),
-    praesentation: (fd.get("praesentation") || "").toString(),
-    dateiZusatz: (fd.get("dateiZusatz") || "").toString(),
+    projekt:        (fd.get("projekt") || "").toString(),
+    lerngruppe:     (fd.get("lerngruppe") || "").toString(),
+    datum:          (fd.get("datum") || "").toString(),
+    lehrer:         (fd.get("lehrer") || "").toString(),
+    projektteam:    (fd.get("projektteam") || "").toString(),
+
+    sprecher:       (fd.get("sprecher") || "").toString(),
+    compliance:     (fd.get("compliance") || "").toString(),
+    zeitwaechter:   (fd.get("zeitwaechter") || "").toString(),
+
+    produkt:        (fd.get("produkt") || "").toString(),
+    beschreibung:   (fd.get("beschreibung") || "").toString(),
+    bezug:          (fd.get("bezug") || "").toString(),
+    praesentation:  (fd.get("praesentation") || "").toString(),
 
     logbuch,
     forschungsfragen,
 
-    ref_gut: (fd.get("ref_gut") || "").toString(),
-    ref_schwierig: (fd.get("ref_schwierig") || "").toString(),
-    ref_gelernt: (fd.get("ref_gelernt") || "").toString(),
-    ref_anders: (fd.get("ref_anders") || "").toString(),
+    ref_gut:        (fd.get("ref_gut") || "").toString(),
+    ref_schwierig:  (fd.get("ref_schwierig") || "").toString(),
+    ref_gelernt:    (fd.get("ref_gelernt") || "").toString(),
+    ref_anders:     (fd.get("ref_anders") || "").toString(),
 
-    notizen: (fd.get("notizen") || "").toString()
+    notizen:        (fd.get("notizen") || "").toString()
   };
 }
 
-/* -------------------------
-   UI: Rows erzeugen
---------------------------*/
+/* =========================
+   UI: Dynamische Zeilen
+========================= */
 
 function initDynamicRows() {
   // Logbuch: 10 Zeilen
@@ -371,7 +455,7 @@ function initDynamicRows() {
     logbuchRowsEl.appendChild(makeRow([
       inputCell(`log_aufgabe_${i}`, "Aufgabe…"),
       inputCell(`log_wer_${i}`, "Wer?"),
-      inputCell(`log_done_${i}`, "ja/nein"),
+      inputCell(`log_done_${i}`, "ja/nein")
     ]));
   }
 
@@ -381,7 +465,7 @@ function initDynamicRows() {
     forschungsRowsEl.appendChild(makeRow([
       inputCell(`fq_frage_${i}`, "Forschungsfrage…"),
       inputCell(`fq_wie_${i}`, "Wie beantworten wir das?"),
-      inputCell(`fq_done_${i}`, "ja/nein"),
+      inputCell(`fq_done_${i}`, "ja/nein")
     ]));
   }
 }
@@ -400,4 +484,51 @@ function inputCell(name, placeholder) {
   inp.placeholder = placeholder;
   wrap.appendChild(inp);
   return wrap;
+}
+
+/* =========================
+   Helfer: Fetch/Download/Status
+========================= */
+
+async function fetchPdf(path) {
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`PDF nicht gefunden unter: ${path}`);
+  return await res.arrayBuffer();
+}
+
+function downloadBytes(bytes, filename) {
+  const blob = new Blob([bytes], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+}
+
+function setStatus(msg, isError = false) {
+  if (!statusBox) return;
+  statusBox.textContent = msg;
+  statusBox.style.borderLeftColor = isError ? "#c23232" : "var(--ok)";
+  statusBox.style.background = isError ? "#fff2f2" : "#f3fbf6";
+}
+
+function lockExport(locked) {
+  if (!exportBtn) return;
+  exportBtn.disabled = locked;
+  exportBtn.textContent = locked ? "⏳ PDF wird erstellt…" : "📥 PDF erstellen";
+}
+
+function sanitizeFileName(name) {
+  return (name || "Projekt")
+    .toString()
+    .trim()
+    .replace(/\s+/g, "_")
+    .replace(/[^\w\-ÄÖÜäöüß]/g, "")
+    .slice(0, 80) || "Projekt";
 }
