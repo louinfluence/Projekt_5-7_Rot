@@ -1,8 +1,9 @@
-/* projektvertrag.js
-   - Lädt ein PDF (Standard oder Upload)
-   - Schreibt Text an feste Positionen (Overlay) mit pdf-lib
-   - Speichert als neues PDF
-   - Inkl. globalem Feintuning + Auto-Skalierung (falls Seite nicht exakt 595x842pt ist)
+/* projektvertrag.js (Seite 1 only)
+   - Lädt PDF (Standard oder Upload)
+   - Füllt NUR Seite 1 (Overlay-Text in Vorlage) mit pdf-lib
+   - Text sitzt auf den Linien (feste Zeilenabstände passend zur Vorlage)
+   - Single-Line Felder: Auto-Font-Fit (schrumpft, wenn zu lang)
+   - Multi-Line Felder: Wrap + maxLines + "…" wenn zu lang
 */
 
 /* =========================
@@ -11,12 +12,15 @@
 
 const DEFAULT_PDF_PATH = "Projektvertrag Standard 5-7.pdf";
 
-// PDF-Design-Größe, auf die die Koordinaten unten optimiert sind (A4 in pt)
+// A4-Designgröße (pt) – Koordinaten sind darauf optimiert
 const DESIGN = { w: 595, h: 842 };
 
-// Globales Feintuning (pt). Wenn alles noch leicht daneben liegt:
-// z.B. dx: +2 (rechts), dy: -2 (runter)
+// Globales Feintuning (pt)
+// Wenn am Ende ALLES minimal verschoben ist: z.B. dx:+2 / dy:-2
 const TUNE_ALL = { dx: 0, dy: 0 };
+
+// Debug: Marker/Boxen einzeichnen (true zum Kalibrieren)
+const DEBUG_DRAW = false;
 
 /* =========================
    DOM
@@ -28,88 +32,64 @@ const useDefaultBtn = document.getElementById("useDefaultBtn");
 const exportBtn = document.getElementById("exportPdfBtn");
 const formEl = document.getElementById("vertragForm");
 
-const logbuchRowsEl = document.getElementById("logbuchRows");
-const forschungsRowsEl = document.getElementById("forschungsRows");
-
-let selectedPdfBytes = null; // User-PDF (ArrayBuffer) oder null
+let selectedPdfBytes = null;
 
 /* =========================
-   Positions (optimiert für deine Vorlage)
+   Positions (Seite 1)
    - Einheit: PDF-Punkte (pt)
    - Ursprung: unten links
+   - y ist Baseline (Text sitzt auf Linie)
 ========================= */
 
-const POS = {
-  // Seite 1 (Index 0)
-  p1: {
-    projekt:        { x: 170, y: 744, maxWidth: 390, size: 14 },
-    lerngruppe:     { x: 170, y: 707, maxWidth: 260, size: 12 },
-    datum:          { x: 470, y: 707, maxWidth: 110, size: 12 },
+/*
+  Tipp zur Vorlage:
+  - Kopfbox: keine Linien -> wir setzen optisch "mittig" in den Zeilenbereich.
+  - Rollen: jeweils auf die vorgedruckte Linie
+  - Textblöcke: exakt Zeilenabstand ~25pt (passt zu den Linien auf der Vorlage)
+*/
 
-    projektteam:    { x: 170, y: 675, maxWidth: 265, size: 10, lineHeight: 12 },
-    lehrer:         { x: 470, y: 675, maxWidth: 110, size: 10 },
+const P1 = {
+  // Kopfbox (oben)
+  projekt:     { x: 155, y: 742, maxWidth: 405, size: 14, minSize: 10 }, // single-line fit
+  lerngruppe:  { x: 170, y: 705, maxWidth: 250, size: 11, minSize: 9 },
+  datum:       { x: 460, y: 705, maxWidth: 120, size: 11, minSize: 9 },
 
-    sprecher:       { x: 300, y: 625, maxWidth: 260, size: 11 },
-    compliance:     { x: 285, y: 600, maxWidth: 275, size: 11 },
-    zeitwaechter:   { x: 240, y: 575, maxWidth: 320, size: 11 },
+  // Projektteam (im linken Bereich der Kopfbox)
+  projektteam: { x: 170, y: 688, maxWidth: 250, size: 10, lineHeight: 12, maxLines: 2 },
 
-    produkt:        { x: 110, y: 500, maxWidth: 470, size: 11, lineHeight: 14 },
-    beschreibung:   { x: 110, y: 425, maxWidth: 470, size: 10, lineHeight: 13 },
-    bezug:          { x: 110, y: 250, maxWidth: 470, size: 10, lineHeight: 13 },
-    praesentation:  { x: 110, y: 150, maxWidth: 470, size: 11 }
-  },
+  // Lehrer*in (rechter Bereich)
+  lehrer:      { x: 460, y: 688, maxWidth: 120, size: 10, minSize: 8 },
 
-  // Seite 2 (Index 1): Projektlogbuch – 10 Zeilen
-  p2: {
-    startY: 735,
-    rowH: 48,
-    cols: {
-      aufgabe: { x: 110, w: 300, size: 10, lineHeight: 12 },
-      wer:     { x: 420, w: 110, size: 10, lineHeight: 12 },
-      done:    { x: 540, w: 45,  size: 10, lineHeight: 12 }
-    }
-  },
+  // Rollen – jeweils auf die Linie
+  sprecher:    { x: 255, y: 620, maxWidth: 325, size: 11, minSize: 9 },
+  compliance:  { x: 285, y: 595, maxWidth: 295, size: 11, minSize: 9 },
+  zeit:        { x: 235, y: 570, maxWidth: 345, size: 11, minSize: 9 },
 
-  // Seite 3 (Index 2): Forschungsfragen – 8 Zeilen
-  p3: {
-    startY: 735,
-    rowH: 58,
-    cols: {
-      frage:   { x: 110, w: 250, size: 10, lineHeight: 12 },
-      wie:     { x: 370, w: 175, size: 10, lineHeight: 12 },
-      done:    { x: 550, w: 35,  size: 10, lineHeight: 12 }
-    }
-  },
+  // Projektziel – 2 Linien (y=492 & y=467)
+  produkt:     { x: 110, firstLineY: 492, lineGap: 25, maxLines: 2, maxWidth: 470, size: 11 },
 
-  // Seite 5 (Index 4)
-  p5: {
-    gut:       { x: 110, y: 640, maxWidth: 470, size: 10, lineHeight: 13 },
-    schwierig:  { x: 110, y: 520, maxWidth: 470, size: 10, lineHeight: 13 }
-  },
+  // Beschreibung – 5 Linien (y=417,392,367,342,317)
+  beschreibung:{ x: 110, firstLineY: 417, lineGap: 25, maxLines: 5, maxWidth: 470, size: 10 },
 
-  // Seite 6 (Index 5)
-  p6: {
-    gelernt:    { x: 110, y: 640, maxWidth: 470, size: 10, lineHeight: 13 },
-    anders:     { x: 110, y: 520, maxWidth: 470, size: 10, lineHeight: 13 }
-  },
+  // Bezug – 4 Linien (y=267,242,217,192)
+  bezug:       { x: 110, firstLineY: 267, lineGap: 25, maxLines: 4, maxWidth: 470, size: 10 },
 
-  // Seite 8 (Index 7)
-  p8: {
-    notizen:    { x: 110, y: 760, maxWidth: 470, size: 10, lineHeight: 13 }
-  }
+  // Datum der Projektpräsentation – 1 Linie (y=142)
+  praes:       { x: 110, y: 145, maxWidth: 470, size: 11, minSize: 9 }
 };
 
-/* =========================
-   Init
-========================= */
+// Baseline-Offset bei Linienfeldern: Text sitzt minimal über der Linie
+const LINE_BASELINE_OFFSET = 3;
 
-if (logbuchRowsEl && forschungsRowsEl) initDynamicRows();
+/* =========================
+   Events
+========================= */
 
 if (useDefaultBtn) {
   useDefaultBtn.addEventListener("click", () => {
     selectedPdfBytes = null;
     if (pdfFileInput) pdfFileInput.value = "";
-    setStatus("✅ Standard-PDF ausgewählt. Du kannst jetzt exportieren.");
+    setStatus("✅ Standard-PDF ausgewählt. Seite 1 wird präzise befüllt.");
   });
 }
 
@@ -127,24 +107,17 @@ if (exportBtn) {
     try {
       if (!formEl) throw new Error("Formular nicht gefunden.");
 
-      // HTML5-Validierung
       if (!formEl.reportValidity()) return;
 
       lockExport(true);
 
       const templateBytes = selectedPdfBytes || await fetchPdf(DEFAULT_PDF_PATH);
-      const outBytes = await fillPdf(templateBytes, getFormData());
+      const outBytes = await fillPage1(templateBytes, getFormDataPage1());
 
-      const groupNameRaw =
-        getValue("dateiZusatz") ||
-        getValue("projektteam") ||
-        getValue("projekt") ||
-        "Projekt";
+      const nameForFile = dataForFilename();
+      downloadBytes(outBytes, `Projektvertrag_${sanitizeFileName(nameForFile)}.pdf`);
 
-      const fileName = `Projektvertrag_${sanitizeFileName(groupNameRaw)}.pdf`;
-      downloadBytes(outBytes, fileName);
-
-      setStatus("✅ Fertig! Das PDF wurde heruntergeladen.");
+      setStatus("✅ Fertig! Seite 1 ist sauber formatiert und das PDF wurde heruntergeladen.");
     } catch (err) {
       console.error(err);
       setStatus("❌ Fehler beim Erstellen des PDFs. Schau in die Konsole (F12).", true);
@@ -155,13 +128,13 @@ if (exportBtn) {
   });
 }
 
-setStatus("✅ Bereit. Fülle die Felder aus und klicke „PDF erstellen“.");
+setStatus("✅ Bereit. (Aktuell wird nur Seite 1 befüllt – dafür richtig sauber.)");
 
 /* =========================
-   PDF-Fill
+   PDF Fill (Seite 1)
 ========================= */
 
-async function fillPdf(templateBytes, data) {
+async function fillPage1(templateBytes, data) {
   if (!window.PDFLib) throw new Error("PDFLib nicht geladen.");
   const { PDFDocument, StandardFonts, rgb } = window.PDFLib;
 
@@ -170,116 +143,88 @@ async function fillPdf(templateBytes, data) {
   const color = rgb(0, 0, 0);
 
   const pages = pdfDoc.getPages();
+  if (!pages[0]) throw new Error("Seite 1 nicht gefunden.");
 
-  // Seite 1 (Index 0)
-  if (pages[0]) {
-    const p = pages[0];
-    const scale = getScaleForPage(p);
+  const page = pages[0];
 
-    drawText(p, font, data.projekt,        scaleCfg(POS.p1.projekt, scale), color);
-    drawText(p, font, data.lerngruppe,     scaleCfg(POS.p1.lerngruppe, scale), color);
-    drawText(p, font, data.datum,          scaleCfg(POS.p1.datum, scale), color);
-    drawTextBox(p, font, data.projektteam, scaleCfg(POS.p1.projektteam, scale), color);
+  // Skalierung, falls Seite minimal andere Maße hat
+  const scale = getScaleForPage(page);
 
-    drawText(p, font, data.lehrer,         scaleCfg(POS.p1.lehrer, scale), color);
-    drawText(p, font, data.sprecher,       scaleCfg(POS.p1.sprecher, scale), color);
-    drawText(p, font, data.compliance,     scaleCfg(POS.p1.compliance, scale), color);
-    drawText(p, font, data.zeitwaechter,   scaleCfg(POS.p1.zeitwaechter, scale), color);
-
-    drawTextBox(p, font, data.produkt,       scaleCfg(POS.p1.produkt, scale), color);
-    drawTextBox(p, font, data.beschreibung,  scaleCfg(POS.p1.beschreibung, scale), color);
-    drawTextBox(p, font, data.bezug,         scaleCfg(POS.p1.bezug, scale), color);
-    drawText(p, font, data.praesentation,    scaleCfg(POS.p1.praesentation, scale), color);
+  // Optional Debug: Zeige Marker
+  if (DEBUG_DRAW) {
+    drawDebugCross(page, scalePt(50, scale.sx), scalePt(800, scale.sy));
   }
 
-  // Seite 2 (Index 1) Logbuch
-  if (pages[1]) {
-    const p = pages[1];
-    const scale = getScaleForPage(p);
+  // --- Kopfbox ---
+  drawSingleLineFit(page, font, data.projekt, scaleCfg(P1.projekt, scale), color);
+  drawSingleLineFit(page, font, data.lerngruppe, scaleCfg(P1.lerngruppe, scale), color);
+  drawSingleLineFit(page, font, data.datum, scaleCfg(P1.datum, scale), color);
 
-    const startY = scaleVal(POS.p2.startY, scale.sy);
-    const rowH = scaleVal(POS.p2.rowH, scale.sy);
+  drawMultilineBox(page, font, data.projektteam, scaleCfg(P1.projektteam, scale), color);
 
-    const colAufgabe = scaleCol(POS.p2.cols.aufgabe, scale);
-    const colWer = scaleCol(POS.p2.cols.wer, scale);
-    const colDone = scaleCol(POS.p2.cols.done, scale);
+  drawSingleLineFit(page, font, data.lehrer, scaleCfg(P1.lehrer, scale), color);
 
-    data.logbuch.forEach((row, i) => {
-      const y = startY - i * rowH;
-      drawTextBox(p, font, row.aufgabe, { x: colAufgabe.x, y, maxWidth: colAufgabe.w, size: colAufgabe.size, lineHeight: colAufgabe.lineHeight }, color);
-      drawTextBox(p, font, row.wer,     { x: colWer.x,     y, maxWidth: colWer.w,     size: colWer.size,     lineHeight: colWer.lineHeight }, color);
-      drawTextBox(p, font, row.done,    { x: colDone.x,    y, maxWidth: colDone.w,    size: colDone.size,    lineHeight: colDone.lineHeight }, color);
-    });
-  }
+  // --- Rollen (auf Linie) ---
+  drawSingleLineFit(page, font, data.sprecher, scaleCfg(P1.sprecher, scale), color);
+  drawSingleLineFit(page, font, data.compliance, scaleCfg(P1.compliance, scale), color);
+  drawSingleLineFit(page, font, data.zeit, scaleCfg(P1.zeit, scale), color);
 
-  // Seite 3 (Index 2) Forschungsfragen
-  if (pages[2]) {
-    const p = pages[2];
-    const scale = getScaleForPage(p);
+  // --- Linienfelder (exakt Zeile für Zeile) ---
+  drawLinedText(page, font, data.produkt, scaleLinedCfg(P1.produkt, scale), color);
+  drawLinedText(page, font, data.beschreibung, scaleLinedCfg(P1.beschreibung, scale), color);
+  drawLinedText(page, font, data.bezug, scaleLinedCfg(P1.bezug, scale), color);
 
-    const startY = scaleVal(POS.p3.startY, scale.sy);
-    const rowH = scaleVal(POS.p3.rowH, scale.sy);
+  // --- Präsentationsdatum ---
+  drawSingleLineFit(page, font, data.praesentation, scaleCfg(P1.praes, scale), color);
 
-    const colFrage = scaleCol(POS.p3.cols.frage, scale);
-    const colWie = scaleCol(POS.p3.cols.wie, scale);
-    const colDone = scaleCol(POS.p3.cols.done, scale);
-
-    data.forschungsfragen.forEach((row, i) => {
-      const y = startY - i * rowH;
-      drawTextBox(p, font, row.frage, { x: colFrage.x, y, maxWidth: colFrage.w, size: colFrage.size, lineHeight: colFrage.lineHeight }, color);
-      drawTextBox(p, font, row.wie,   { x: colWie.x,   y, maxWidth: colWie.w,   size: colWie.size,   lineHeight: colWie.lineHeight }, color);
-      drawTextBox(p, font, row.done,  { x: colDone.x,  y, maxWidth: colDone.w,  size: colDone.size,  lineHeight: colDone.lineHeight }, color);
-    });
-  }
-
-  // Seite 5 (Index 4) Reflexion 1
-  if (pages[4]) {
-    const p = pages[4];
-    const scale = getScaleForPage(p);
-    drawTextBox(p, font, data.ref_gut,      scaleCfg(POS.p5.gut, scale), color);
-    drawTextBox(p, font, data.ref_schwierig,scaleCfg(POS.p5.schwierig, scale), color);
-  }
-
-  // Seite 6 (Index 5) Reflexion 2
-  if (pages[5]) {
-    const p = pages[5];
-    const scale = getScaleForPage(p);
-    drawTextBox(p, font, data.ref_gelernt,  scaleCfg(POS.p6.gelernt, scale), color);
-    drawTextBox(p, font, data.ref_anders,   scaleCfg(POS.p6.anders, scale), color);
-  }
-
-  // Seite 8 (Index 7) Notizen
-  if (pages[7]) {
-    const p = pages[7];
-    const scale = getScaleForPage(p);
-    drawTextBox(p, font, data.notizen, scaleCfg(POS.p8.notizen, scale), color);
+  // Debug: Felder markieren
+  if (DEBUG_DRAW) {
+    debugMarkField(page, scaleCfg(P1.projekt, scale));
+    debugMarkField(page, scaleCfg(P1.lerngruppe, scale));
+    debugMarkField(page, scaleCfg(P1.datum, scale));
+    debugMarkField(page, scaleCfg(P1.projektteam, scale));
+    debugMarkField(page, scaleCfg(P1.lehrer, scale));
+    debugMarkField(page, scaleCfg(P1.sprecher, scale));
+    debugMarkField(page, scaleCfg(P1.compliance, scale));
+    debugMarkField(page, scaleCfg(P1.zeit, scale));
   }
 
   return await pdfDoc.save();
 }
 
 /* =========================
-   Zeichnen + Umbruch
+   Draw Helpers
 ========================= */
 
-function drawText(page, font, text, cfg, color) {
-  const value = (text || "").toString().trim();
+// Single-line, schrumpft bis es in maxWidth passt
+function drawSingleLineFit(page, font, text, cfg, color) {
+  const value = clean(text);
   if (!value) return;
 
   const dx = (cfg.dx || 0) + TUNE_ALL.dx;
   const dy = (cfg.dy || 0) + TUNE_ALL.dy;
 
+  const maxWidth = cfg.maxWidth ?? 400;
+  let size = cfg.size ?? 11;
+  const minSize = cfg.minSize ?? 8;
+
+  // Fit loop
+  while (size > minSize && font.widthOfTextAtSize(value, size) > maxWidth) {
+    size -= 0.5;
+  }
+
   page.drawText(value, {
     x: cfg.x + dx,
     y: cfg.y + dy,
-    size: cfg.size ?? 11,
+    size,
     font,
     color
   });
 }
 
-function drawTextBox(page, font, text, cfg, color) {
-  const value = (text || "").toString().trim();
+// Multiline innerhalb einer Box (kein Linienraster), mit maxLines + Ellipsis
+function drawMultilineBox(page, font, text, cfg, color) {
+  const value = clean(text);
   if (!value) return;
 
   const dx = (cfg.dx || 0) + TUNE_ALL.dx;
@@ -288,13 +233,44 @@ function drawTextBox(page, font, text, cfg, color) {
   const size = cfg.size ?? 10;
   const lineHeight = cfg.lineHeight ?? (size + 3);
   const maxWidth = cfg.maxWidth ?? 400;
+  const maxLines = cfg.maxLines ?? 3;
 
-  const lines = wrapText(value, font, size, maxWidth);
+  let lines = wrapText(value, font, size, maxWidth);
+  lines = clipLines(lines, maxLines);
 
   lines.forEach((line, idx) => {
     page.drawText(line, {
       x: cfg.x + dx,
       y: (cfg.y + dy) - idx * lineHeight,
+      size,
+      font,
+      color
+    });
+  });
+}
+
+// Multiline auf vorgedruckten Linien (fixer lineGap!)
+function drawLinedText(page, font, text, cfg, color) {
+  const value = clean(text);
+  if (!value) return;
+
+  const dx = (cfg.dx || 0) + TUNE_ALL.dx;
+  const dy = (cfg.dy || 0) + TUNE_ALL.dy;
+
+  const size = cfg.size ?? 10;
+  const maxWidth = cfg.maxWidth ?? 450;
+  const lineGap = cfg.lineGap ?? 25;
+  const maxLines = cfg.maxLines ?? 4;
+
+  let lines = wrapText(value, font, size, maxWidth);
+  lines = clipLines(lines, maxLines);
+
+  const baseY = cfg.firstLineY + LINE_BASELINE_OFFSET;
+
+  lines.forEach((line, idx) => {
+    page.drawText(line, {
+      x: cfg.x + dx,
+      y: (baseY + dy) - idx * lineGap,
       size,
       font,
       color
@@ -326,7 +302,6 @@ function wrapText(text, font, size, maxWidth) {
       current = w;
     }
   }
-
   if (current) lines.push(current);
   return lines;
 }
@@ -348,8 +323,27 @@ function breakLongWord(word, font, size, maxWidth) {
   return parts;
 }
 
+function clipLines(lines, maxLines) {
+  if (lines.length <= maxLines) return lines;
+  const clipped = lines.slice(0, maxLines);
+  // Ellipsis auf letzter Zeile (wenn Platz)
+  clipped[maxLines - 1] = addEllipsis(clipped[maxLines - 1]);
+  return clipped;
+}
+
+function addEllipsis(line) {
+  const trimmed = line.trim();
+  if (!trimmed) return trimmed;
+  // schon mit Punkt? egal, wir setzen …
+  return trimmed.replace(/[.…\s]+$/, "") + " …";
+}
+
+function clean(v) {
+  return (v || "").toString().trim();
+}
+
 /* =========================
-   Skalierung (robuster bei minimal anderen Seitenmaßen)
+   Skalierung (falls PDF minimal anders ist)
 ========================= */
 
 function getScaleForPage(page) {
@@ -360,62 +354,44 @@ function getScaleForPage(page) {
   return { sx, sy, sFont };
 }
 
-function scaleVal(v, f) {
-  return typeof v === "number" ? v * f : v;
+function scalePt(v, s) {
+  return typeof v === "number" ? v * s : v;
 }
 
 function scaleCfg(cfg, scale) {
   return {
     ...cfg,
-    x: scaleVal(cfg.x, scale.sx),
-    y: scaleVal(cfg.y, scale.sy),
-    maxWidth: scaleVal(cfg.maxWidth, scale.sx),
-    size: scaleVal(cfg.size, scale.sFont),
-    lineHeight: scaleVal(cfg.lineHeight, scale.sy),
-    dx: scaleVal(cfg.dx || 0, scale.sx),
-    dy: scaleVal(cfg.dy || 0, scale.sy)
+    x: scalePt(cfg.x, scale.sx),
+    y: scalePt(cfg.y, scale.sy),
+    maxWidth: scalePt(cfg.maxWidth ?? 0, scale.sx),
+    size: scalePt(cfg.size ?? 11, scale.sFont),
+    minSize: scalePt(cfg.minSize ?? 8, scale.sFont),
+    lineHeight: scalePt(cfg.lineHeight ?? 0, scale.sy),
+    dx: scalePt(cfg.dx || 0, scale.sx),
+    dy: scalePt(cfg.dy || 0, scale.sy)
   };
 }
 
-function scaleCol(col, scale) {
+function scaleLinedCfg(cfg, scale) {
   return {
-    x: scaleVal(col.x, scale.sx),
-    w: scaleVal(col.w, scale.sx),
-    size: scaleVal(col.size, scale.sFont),
-    lineHeight: scaleVal(col.lineHeight, scale.sy)
+    ...cfg,
+    x: scalePt(cfg.x, scale.sx),
+    firstLineY: scalePt(cfg.firstLineY, scale.sy),
+    lineGap: scalePt(cfg.lineGap, scale.sy),
+    maxWidth: scalePt(cfg.maxWidth, scale.sx),
+    size: scalePt(cfg.size, scale.sFont),
+    maxLines: cfg.maxLines,
+    dx: scalePt(cfg.dx || 0, scale.sx),
+    dy: scalePt(cfg.dy || 0, scale.sy)
   };
 }
 
 /* =========================
-   Formdaten
+   Formdata (Seite 1)
 ========================= */
 
-function getValue(name) {
-  if (!formEl) return "";
-  return (new FormData(formEl).get(name) || "").toString();
-}
-
-function getFormData() {
+function getFormDataPage1() {
   const fd = new FormData(formEl);
-
-  const logbuch = [];
-  for (let i = 0; i < 10; i++) {
-    logbuch.push({
-      aufgabe: (fd.get(`log_aufgabe_${i}`) || "").toString(),
-      wer:     (fd.get(`log_wer_${i}`) || "").toString(),
-      done:    (fd.get(`log_done_${i}`) || "").toString()
-    });
-  }
-
-  const forschungsfragen = [];
-  for (let i = 0; i < 8; i++) {
-    forschungsfragen.push({
-      frage: (fd.get(`fq_frage_${i}`) || "").toString(),
-      wie:   (fd.get(`fq_wie_${i}`) || "").toString(),
-      done:  (fd.get(`fq_done_${i}`) || "").toString()
-    });
-  }
-
   return {
     projekt:        (fd.get("projekt") || "").toString(),
     lerngruppe:     (fd.get("lerngruppe") || "").toString(),
@@ -425,69 +401,28 @@ function getFormData() {
 
     sprecher:       (fd.get("sprecher") || "").toString(),
     compliance:     (fd.get("compliance") || "").toString(),
-    zeitwaechter:   (fd.get("zeitwaechter") || "").toString(),
+    zeit:           (fd.get("zeitwaechter") || "").toString(),
 
     produkt:        (fd.get("produkt") || "").toString(),
     beschreibung:   (fd.get("beschreibung") || "").toString(),
     bezug:          (fd.get("bezug") || "").toString(),
-    praesentation:  (fd.get("praesentation") || "").toString(),
-
-    logbuch,
-    forschungsfragen,
-
-    ref_gut:        (fd.get("ref_gut") || "").toString(),
-    ref_schwierig:  (fd.get("ref_schwierig") || "").toString(),
-    ref_gelernt:    (fd.get("ref_gelernt") || "").toString(),
-    ref_anders:     (fd.get("ref_anders") || "").toString(),
-
-    notizen:        (fd.get("notizen") || "").toString()
+    praesentation:  (fd.get("praesentation") || "").toString()
   };
 }
 
-/* =========================
-   UI: Dynamische Zeilen
-========================= */
-
-function initDynamicRows() {
-  // Logbuch: 10 Zeilen
-  logbuchRowsEl.innerHTML = "";
-  for (let i = 0; i < 10; i++) {
-    logbuchRowsEl.appendChild(makeRow([
-      inputCell(`log_aufgabe_${i}`, "Aufgabe…"),
-      inputCell(`log_wer_${i}`, "Wer?"),
-      inputCell(`log_done_${i}`, "ja/nein")
-    ]));
-  }
-
-  // Forschungsfragen: 8 Zeilen
-  forschungsRowsEl.innerHTML = "";
-  for (let i = 0; i < 8; i++) {
-    forschungsRowsEl.appendChild(makeRow([
-      inputCell(`fq_frage_${i}`, "Forschungsfrage…"),
-      inputCell(`fq_wie_${i}`, "Wie beantworten wir das?"),
-      inputCell(`fq_done_${i}`, "ja/nein")
-    ]));
-  }
-}
-
-function makeRow(cells) {
-  const row = document.createElement("div");
-  row.className = "tRow";
-  cells.forEach(c => row.appendChild(c));
-  return row;
-}
-
-function inputCell(name, placeholder) {
-  const wrap = document.createElement("div");
-  const inp = document.createElement("input");
-  inp.name = name;
-  inp.placeholder = placeholder;
-  wrap.appendChild(inp);
-  return wrap;
+function dataForFilename() {
+  // schöner Dateiname: Zusatz > Projektteam > Projekt > fallback
+  const fd = new FormData(formEl);
+  return (
+    (fd.get("dateiZusatz") || "").toString().trim() ||
+    (fd.get("projektteam") || "").toString().trim() ||
+    (fd.get("projekt") || "").toString().trim() ||
+    "Projekt"
+  );
 }
 
 /* =========================
-   Helfer: Fetch/Download/Status
+   Fetch / Download / UI
 ========================= */
 
 async function fetchPdf(path) {
@@ -531,4 +466,23 @@ function sanitizeFileName(name) {
     .replace(/\s+/g, "_")
     .replace(/[^\w\-ÄÖÜäöüß]/g, "")
     .slice(0, 80) || "Projekt";
+}
+
+/* =========================
+   Debug (optional)
+========================= */
+
+function drawDebugCross(page, x, y) {
+  const { rgb } = window.PDFLib;
+  const c = rgb(1, 0, 0);
+  page.drawLine({ start: { x: x - 6, y }, end: { x: x + 6, y }, thickness: 0.8, color: c });
+  page.drawLine({ start: { x, y: y - 6 }, end: { x, y: y + 6 }, thickness: 0.8, color: c });
+}
+
+function debugMarkField(page, cfg) {
+  if (!DEBUG_DRAW) return;
+  const { rgb } = window.PDFLib;
+  const c = rgb(0.2, 0.6, 1);
+  // kleine Markierung am Startpunkt
+  page.drawCircle({ x: cfg.x, y: cfg.y, size: 2.2, color: c, borderColor: c, borderWidth: 0.5 });
 }
