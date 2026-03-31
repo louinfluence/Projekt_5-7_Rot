@@ -141,3 +141,5 @@ input:focus, textarea:focus{border-color: #ffb79b; box-shadow: 0 0 0 3px rgba(23
 .tRow > div{background:#fff}
 .tBody .tRow:last-child > div{border-bottom:none}
 .tRow input{margin-top:0;border-radius:10px}
+.tCell-check{display:flex;align-items:center;justify-content:center}
+.tCell-check input[type="checkbox"]{width:auto;margin:0;cursor:pointer}
