@@ -1,731 +1,570 @@
-<!doctype html>
+   <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Schulveranstaltung – Interaktives Gantt (13.02–15.02)</title>
-
-  <!-- vis-timeline (Standalone) -->
-  <script src="https://unpkg.com/vis-timeline@latest/standalone/umd/vis-timeline-graph2d.min.js"></script>
-  <link href="https://unpkg.com/vis-timeline@latest/styles/vis-timeline-graph2d.min.css" rel="stylesheet" />
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digitale Lernbegleiterin – Kursübersicht</title>
   <style>
-    :root { color-scheme: light dark; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-
-    header{
-      position: sticky; top: 0; z-index: 10;
-      padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,.15);
-      background: Canvas;
-      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
-    }
-    header h1 { font-size: 16px; margin: 0 10px 0 0; font-weight: 700; }
-
-    .btn{
-      border: 1px solid rgba(0,0,0,.2);
-      background: rgba(0,0,0,.03);
-      padding: 8px 10px;
-      border-radius: 10px;
-      cursor: pointer;
-      user-select: none;
-    }
-    .btn:hover { filter: brightness(0.98); }
-    .btn:active { transform: translateY(1px); }
-    .btn.danger { border-color: rgba(220,0,0,.35); }
-    .btn.primary { border-color: rgba(0,90,255,.35); }
-
-    .small { font-size: 12px; opacity: .8; }
-
-    #wrap { padding: 10px; }
-    #timeline{
-      height: calc(100vh - 132px);
-      border: 1px solid rgba(0,0,0,.15);
-      border-radius: 14px;
-      overflow: hidden;
-      background: Canvas;
-    }
-
-    /* ---------------------------------------------
-       FIX: Text nicht abschneiden (auch bei schmalen Balken)
-       --------------------------------------------- */
-    .vis-timeline .vis-item{ overflow: visible !important; }
-    .vis-timeline .vis-item .vis-item-content{
-      overflow: visible !important;
-      text-overflow: unset !important;
-      white-space: nowrap !important;
-      padding: 2px 8px !important;
-    }
-
-    /* Date input wie Button */
-    #focusDate{
-      border: 1px solid rgba(0,0,0,.2);
-      border-radius: 10px;
-      background: rgba(0,0,0,.03);
-      color: inherit;
-      padding: 6px 10px;
-    }
-
-    /* ---------------------------------------------
-       FARBSYSTEM / PALETTEN
-       --------------------------------------------- */
-    /* Status (wir setzen className = "status-..." ) */
-    .vis-item.status-todo     { background: rgba(140,140,140,.25); border-color: rgba(140,140,140,.55); }
-    .vis-item.status-doing    { background: rgba(0,120,255,.22);   border-color: rgba(0,120,255,.55); }
-    .vis-item.status-wait     { background: rgba(255,170,0,.22);   border-color: rgba(255,170,0,.55); }
-    .vis-item.status-critical { background: rgba(255,60,60,.20);   border-color: rgba(255,60,60,.60); }
-    .vis-item.status-done     { background: rgba(40,170,90,.22);   border-color: rgba(40,170,90,.55); opacity: .85; }
-
-    /* Textformat (wir hängen zusätzliche Klassen an: fmt-bold/fmt-italic/fmt-underline) */
-    .vis-item.fmt-bold .vis-item-content { font-weight: 800; }
-    .vis-item.fmt-italic .vis-item-content { font-style: italic; }
-    .vis-item.fmt-underline .vis-item-content { text-decoration: underline; }
-
-    /* Gewerke-Farben (wir setzen am Item eine Klasse: wk-licht, wk-ton, ...) */
-    .vis-item.wk-orga    { box-shadow: inset 5px 0 0 rgba(120,120,120,.9); }
-    .vis-item.wk-buehne  { box-shadow: inset 5px 0 0 rgba(160,80,255,.9); }
-    .vis-item.wk-licht   { box-shadow: inset 5px 0 0 rgba(255,210,0,.95); }
-    .vis-item.wk-ton     { box-shadow: inset 5px 0 0 rgba(0,170,255,.9); }
-    .vis-item.wk-video   { box-shadow: inset 5px 0 0 rgba(0,220,170,.9); }
-    .vis-item.wk-catering{ box-shadow: inset 5px 0 0 rgba(255,120,0,.9); }
-    .vis-item.wk-front   { box-shadow: inset 5px 0 0 rgba(255,0,160,.85); }
-
-    /* Gruppen-Label farbig (rein optisch links) */
-    .vis-label.wk-orga    { border-left: 6px solid rgba(120,120,120,.9); }
-    .vis-label.wk-buehne  { border-left: 6px solid rgba(160,80,255,.9); }
-    .vis-label.wk-licht   { border-left: 6px solid rgba(255,210,0,.95); }
-    .vis-label.wk-ton     { border-left: 6px solid rgba(0,170,255,.9); }
-    .vis-label.wk-video   { border-left: 6px solid rgba(0,220,170,.9); }
-    .vis-label.wk-catering{ border-left: 6px solid rgba(255,120,0,.9); }
-    .vis-label.wk-front   { border-left: 6px solid rgba(255,0,160,.85); }
-
-    /* Modal */
-    dialog {
-      width: min(640px, 94vw);
-      border: 1px solid rgba(0,0,0,.2);
-      border-radius: 14px;
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #f9f9f9;
+      margin: 0;
       padding: 0;
-      background: Canvas;
-      color: CanvasText;
+      text-align: center;
     }
-    dialog::backdrop { background: rgba(0,0,0,.35); }
-    .modal-head { padding: 14px 14px 10px; border-bottom: 1px solid rgba(0,0,0,.12); }
-    .modal-head b { font-size: 15px; }
-    .modal-body { padding: 14px; display: grid; gap: 10px; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    label { display: grid; gap: 6px; font-size: 13px; }
 
-    input, select, textarea {
-      padding: 9px 10px;
+    header {
+      background: #eef7ff;
+      padding: 2rem 1rem;
+      border-bottom: 2px solid #ccc;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    header p {
+      color: #555;
+      margin-top: 0.5rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
       border-radius: 10px;
-      border: 1px solid rgba(0,0,0,.2);
-      background: rgba(0,0,0,.02);
-      color: inherit;
-    }
-    textarea { min-height: 72px; resize: vertical; }
-
-    .toggle-row{
-      display: flex; gap: 10px; flex-wrap: wrap;
-      align-items: center;
-      padding: 6px 0;
-    }
-    .pill{
-      display: inline-flex; align-items: center; gap: 8px;
-      border: 1px solid rgba(0,0,0,.2);
-      border-radius: 999px;
-      padding: 6px 10px;
-      background: rgba(0,0,0,.03);
+      padding: 1.5rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
       cursor: pointer;
-      user-select: none;
+      touch-action: manipulation;
     }
-    .pill input{ transform: scale(1.1); }
-    .modal-foot {
-      padding: 12px 14px;
-      border-top: 1px solid rgba(0,0,0,.12);
-      display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .spacer { flex: 1; }
-  </style>
-</head>
+    .card span {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
 
-<body>
-  <header>
-    <h1>Interaktives Gantt – Schulveranstaltung (13.02–15.02)</h1>
+    section {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    section.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-    <button class="btn primary" id="addBtn">+ Task hinzufügen</button>
-    <button class="btn danger" id="delBtn">Task löschen</button>
-    <button class="btn" id="resetBtn">Reset (Demo-Plan)</button>
-    <button class="btn" id="exportBtn">Export JSON</button>
+    footer {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #777;
+      padding: 1rem;
+    }
 
-    <label class="btn" style="display:inline-flex; gap:8px; align-items:center;">
-      Import JSON
-      <input id="importFile" type="file" accept="application/json" hidden>
-    </label>
+    .step {
+      display: none;
+      padding: 1rem;
+    }
+    .step.active {
+      display: block;
+    }
 
-    <span class="small">|</span>
+    .content {
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+      text-align: center;
+    }
 
-    <button class="btn" id="focusDayBtn">Fokus: 1 Tag</button>
-    <button class="btn" id="focus3DaysBtn">Fokus: 13.–15.02</button>
-    <button class="btn" id="focusAllBtn">Alles</button>
+    .content ul {
+      list-style: none;
+      padding: 0;
+    }
 
-    <input id="focusDate" type="date" />
-    <button class="btn" id="focusPickBtn">Datum fokussieren</button>
+    .content li {
+      margin-bottom: 1rem;
+    }
 
-    <span class="small">Tipp: Doppelklick zum Bearbeiten · Drag&Drop zum Verschieben · An Kanten ziehen zum Verlängern</span>
-  </header>
+    .content ol {
+      margin: 0.5rem 0;
+      padding-left: 1.2rem;
+    }
 
-  <div id="wrap">
-    <div id="timeline"></div>
+    input, textarea {
+      width: 90%;
+      max-width: 500px;
+      margin: 0.5rem auto;
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      display: block;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    button {
+      font-size: 1.1rem;
+      padding: 1rem 1.5rem;
+      min-width: 140px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .backBtn {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+
+    .idea-item {
+      background-color: #f0f8ff;
+      padding: 0.5rem 1rem;
+      margin: 0.25rem auto;
+      border-radius: 8px;
+      max-width: 600px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .idea-item.selected {
+      background-color: #c0f2e4;
+    }
+
+    .creativity-booster {
+      margin-top: 1rem;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .notification {
+      margin: 1rem auto;
+      max-width: 200px;
+      padding: 0.5rem;
+      background: #d9f2ff;
+      border: 1px solid #a0d6ff;
+      border-radius: 6px;
+    }
+
+    #prompt-section .box {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: 1rem auto;
+      white-space: pre-wrap;
+      text-align: left;
+      border: 1px solid #ccc;
+    }
+     <!-- Ideenbereich -->
+    <section id="idee">
+      <!-- Step 0 -->
+      <div class="step active" id="step0">
+        <h2>👋 Willkommen zur Ideen-Phase</h2>
+        <p>Bevor es losgeht, hier ein kurzer Überblick:</p>
+        <div class="content">
+          <ul>
+            <li><strong>🎯 Ziel:</strong> Projektideen zu deinem Oberthema entwickeln.</li>
+            <li><strong>🛠️ Ablauf:</strong>
+              <ol>
+                <li>Thema auswählen</li>
+                <li>Ideen sammeln (mit Timer & Boostern)</li>
+                <li>3 Favoriten auswählen</li>
+                <li>Prompt generieren</li>
+              </ol>
+            </li>
+            <li><strong>⏱️ Dauer:</strong> etwa 10–15 Minuten</li>
+            <li><strong>✅ Voraussetzung:</strong> Du arbeitest bereits in einer Gruppe.</li>
+          </ul>
+        </div>
+        <div class="button-row">
+          <button id="intro-btn">➡️ Weiter</button>
+        </div>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="step" id="step1">
+        <h2>🎯 Schritt 1: Thema eingeben</h2>
+        <input id="themenfeld" type="text" placeholder="z. B. Umwelt, Tiere, Plastik..." />
+        <div class="button-row">
+          <button id="start-btn" disabled>🚀 Start</button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step" id="step2">
+        <h2>💡 Schritt 2: Ideen sammeln</h2>
+        <p><strong>Thema:</strong> <span id="themenfeld-display"></span></p>
+        <div class="notification" id="timer">⏰ Zeit: 5:00</div>
+        <button id="booster-btn">✨ Kreativitäts-Booster holen</button>
+        <p class="creativity-booster" id="creativity-booster"></p>
+        <textarea id="neue-idee" placeholder="Gib eine Idee ein..." rows="2"></textarea>
+        <div class="button-row">
+          <button id="add-idee-btn">➕ Idee hinzufügen</button>
+          <button id="finish-btn">✅ Fertig</button>
+        </div>
+        <div id="ideas-display" style="display: none;">
+          <h3>Deine Ideen:</h3>
+          <div id="ideas-container"></div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step" id="step3">
+        <h2>✅ Schritt 3: Lieblingsideen wählen</h2>
+        <p><strong>Thema:</strong> <span id="themenfeld-final"></span></p>
+        <p>Wähle bis zu 3 Ideen:</p>
+        <div id="final-ideas-list"></div>
+        <div class="button-row">
+          <button id="generate-btn" style="display: none;">🤖 Prompt generieren</button>
+        </div>
+        <div id="prompt-section" style="display: none;">
+          <h3>🧠 Dein Prompt:</h3>
+          <div class="box" id="generated-prompt"></div>
+          <div class="button-row">
+            <button id="copy-btn">📋 Prompt kopieren</button>
+            <button id="copyAndGoBtn">🚀 Kopieren & ChatGPT</button>
+          </div>
+        </div>
+        <div class="button-row">
+        	<!-- Am besten vor dem Restart-Button -->
+			<button id="save-progress-btn">📥Fortschritt speichern</button>
+			<div class="button-row">
+  <button id="load-progress-btn">📤 Fortschritt laden</button>
+  <input type="file" id="load-input" accept=".json" style="display:none">
+</div>
+			<button id="restart-btn">🔄 Neu starten</button>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="backBtn">⬅️ Zurück zur Übersicht</button>
+      </div>
+    </section>
   </div>
+  
+    <footer>
+    Digitale Lernbegleiterin · Erstellt mit ❤️
+  </footer>
 
-  <!-- Edit Modal -->
-  <dialog id="editDialog">
-    <form method="dialog" id="editForm">
-      <div class="modal-head"><b id="modalTitle">Task bearbeiten</b></div>
-      <div class="modal-body">
-        <label>
-          Titel
-          <input id="f_content" required />
-        </label>
-
-        <div class="grid">
-          <label>
-            Start (YYYY-MM-DD HH:MM)
-            <input id="f_start" placeholder="2026-02-13 08:00" required />
-          </label>
-          <label>
-            Ende (YYYY-MM-DD HH:MM)
-            <input id="f_end" placeholder="2026-02-13 10:00" />
-          </label>
-        </div>
-
-        <div class="grid">
-          <label>
-            Gewerk (Zeile)
-            <select id="f_group"></select>
-          </label>
-
-          <label>
-            Status (Farbe)
-            <select id="f_status">
-              <option value="status-todo">ToDo</option>
-              <option value="status-doing">In Arbeit</option>
-              <option value="status-wait">Wartet</option>
-              <option value="status-critical">Kritisch</option>
-              <option value="status-done">Erledigt</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="grid">
-          <label>
-            Zusatz-Farbe (optional)
-            <input id="f_color" type="color" value="#4b9bff" />
-          </label>
-          <label>
-            Farbe nutzen?
-            <select id="f_colorMode">
-              <option value="none">Keine (Palette nutzen)</option>
-              <option value="bg">Hintergrund</option>
-              <option value="border">Rahmen</option>
-              <option value="both">Hintergrund + Rahmen</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="toggle-row">
-          <label class="pill"><input type="checkbox" id="f_bold"> Fett</label>
-          <label class="pill"><input type="checkbox" id="f_italic"> Kursiv</label>
-          <label class="pill"><input type="checkbox" id="f_underline"> Unterstrichen</label>
-        </div>
-
-        <label>
-          Notiz (Tooltip, optional)
-          <textarea id="f_note" placeholder="z.B. Ansprechpartner, Materialliste, Abhängigkeiten…"></textarea>
-        </label>
-      </div>
-
-      <div class="modal-foot">
-        <button class="btn" value="cancel">Abbrechen</button>
-        <span class="spacer"></span>
-        <button class="btn primary" id="saveBtn" value="default">Speichern</button>
-      </div>
-    </form>
-  </dialog>
+  
 
   <script>
-    // -----------------------------
-    // Storage Keys
-    // -----------------------------
-    const STORAGE_KEY = "school_gantt_v2";
-    const FOCUS_KEY   = "school_gantt_focus_v1";
+    let thema = '';
+    let ideen = [];
+    let sel = [];
 
-    // -----------------------------
-    // Helpers
-    // -----------------------------
-    function pad(n){ return String(n).padStart(2,"0"); }
-    function uid(){ return Math.random().toString(16).slice(2) + Date.now().toString(16); }
+    const cards = document.querySelectorAll(".card[data-target]");
+    const sections = document.querySelectorAll("section");
+    const backButtons = document.querySelectorAll(".backBtn");
 
-    function toLocalInput(dt) {
-      const d = (dt instanceof Date) ? dt : new Date(dt);
-      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-    }
-
-    function parseLocalInput(s) {
-      const m = String(s).trim().match(/^(\d{4})-(\d{2})-(\d{2})(?:\s+(\d{2}):(\d{2}))?$/);
-      if(!m) return null;
-      const Y=+m[1], Mo=+m[2]-1, D=+m[3], H=+(m[4]||"00"), Mi=+(m[5]||"00");
-      return new Date(Y, Mo, D, H, Mi, 0, 0);
-    }
-
-    function dt(y, m, d, h=0, min=0) { return new Date(y, m - 1, d, h, min, 0, 0); }
-
-    function download(filename, text) {
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([text], {type:"application/json"}));
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      URL.revokeObjectURL(a.href);
-      a.remove();
-    }
-
-    // -----------------------------
-    // Farb-/Klassen-System
-    // -----------------------------
-    const GROUP_TO_WK = {
-      orga: "wk-orga",
-      buehne: "wk-buehne",
-      licht: "wk-licht",
-      ton: "wk-ton",
-      video: "wk-video",
-      catering: "wk-catering",
-      front: "wk-front"
-    };
-
-    const STATUS_CLASSES = [
-      "status-todo","status-doing","status-wait","status-critical","status-done"
-    ];
-    const FORMAT_CLASSES = ["fmt-bold","fmt-italic","fmt-underline"];
-    const WK_CLASSES = Object.values(GROUP_TO_WK);
-
-    function splitClasses(className){
-      return String(className || "")
-        .split(/\s+/).map(s => s.trim()).filter(Boolean);
-    }
-
-    function joinClasses(arr){
-      return Array.from(new Set(arr)).join(" ").trim();
-    }
-
-    function removeAny(classes, blacklist){
-      return classes.filter(c => !blacklist.includes(c));
-    }
-
-    function buildClassName({groupId, status, bold, italic, underline, existingClassName}) {
-      let cls = splitClasses(existingClassName);
-
-      // remove old palette classes:
-      cls = removeAny(cls, [...STATUS_CLASSES, ...FORMAT_CLASSES, ...WK_CLASSES]);
-
-      // add wk from group:
-      const wk = GROUP_TO_WK[groupId] || null;
-      if (wk) cls.push(wk);
-
-      // add status:
-      if (status) cls.push(status);
-
-      // formats:
-      if (bold) cls.push("fmt-bold");
-      if (italic) cls.push("fmt-italic");
-      if (underline) cls.push("fmt-underline");
-
-      return joinClasses(cls);
-    }
-
-    function applyCustomColor(styleObj, hex, mode){
-      // styleObj is item.style string; we store as CSS string
-      // Clean any previous custom background/border we set
-      const cleaned = String(styleObj || "")
-        .replace(/background:\s*#[0-9a-fA-F]{3,8}\s*;?/g, "")
-        .replace(/border-color:\s*#[0-9a-fA-F]{3,8}\s*;?/g, "")
-        .trim();
-
-      if (!hex || mode === "none") return cleaned;
-
-      const parts = [];
-      if (cleaned) parts.push(cleaned.endsWith(";") ? cleaned : (cleaned + ";"));
-
-      if (mode === "bg" || mode === "both") parts.push(`background:${hex};`);
-      if (mode === "border" || mode === "both") parts.push(`border-color:${hex};`);
-
-      return parts.join(" ");
-    }
-
-    // -----------------------------
-    // Default data (Feb 2026)
-    // -----------------------------
-    const defaultGroups = [
-      { id: "orga", content: "Orga / Ablauf", className: "wk-orga" },
-      { id: "buehne", content: "Bühne / Aufbau", className: "wk-buehne" },
-      { id: "licht", content: "Licht", className: "wk-licht" },
-      { id: "ton", content: "Ton", className: "wk-ton" },
-      { id: "video", content: "Video / Stream", className: "wk-video" },
-      { id: "catering", content: "Catering", className: "wk-catering" },
-      { id: "front", content: "FOH / Einlass", className: "wk-front" }
-    ];
-
-    const defaultItems = [
-      { id: "t1", group: "orga", content: "Ablaufplan finalisieren", start: "2026-02-11 10:00", end: "2026-02-11 12:00", className: "status-critical fmt-bold" },
-      { id: "t2", group: "buehne", content: "Bühnenfläche markieren / Podeste", start: "2026-02-12 14:00", end: "2026-02-12 16:00", className: "status-todo" },
-      { id: "t3", group: "licht", content: "Licht Rig aufbauen", start: "2026-02-12 15:00", end: "2026-02-12 19:00", className: "status-doing" },
-      { id: "t4", group: "ton", content: "PA / Monitore stellen & verkabeln", start: "2026-02-12 15:30", end: "2026-02-12 19:00", className: "status-doing" },
-      { id: "t5", group: "video", content: "Beamer/LED/Stream Setup", start: "2026-02-12 16:00", end: "2026-02-12 19:00", className: "status-todo" },
-      { id: "t6", group: "ton", content: "Soundcheck", start: "2026-02-13 08:30", end: "2026-02-13 10:00", className: "status-critical fmt-bold" },
-      { id: "t7", group: "licht", content: "Lichtfokus & Presets", start: "2026-02-13 08:30", end: "2026-02-13 10:30", className: "status-wait" },
-      { id: "t8", group: "orga", content: "Generalprobe", start: "2026-02-13 10:30", end: "2026-02-13 12:00", className: "status-critical fmt-bold" },
-      { id: "t9", group: "front", content: "Einlass vorbereiten / Beschilderung", start: "2026-02-13 12:00", end: "2026-02-13 13:00", className: "status-todo" },
-      { id: "t10", group: "orga", content: "Veranstaltung – Tag 1", start: "2026-02-13 13:00", end: "2026-02-13 18:00", className: "status-doing fmt-bold" },
-      { id: "t11", group: "catering", content: "Catering – Tag 1", start: "2026-02-13 12:30", end: "2026-02-13 18:30", className: "status-doing" },
-      { id: "t12", group: "orga", content: "Veranstaltung – Tag 2", start: "2026-02-14 10:00", end: "2026-02-14 18:00", className: "status-doing fmt-bold" },
-      { id: "t13", group: "catering", content: "Catering – Tag 2", start: "2026-02-14 09:30", end: "2026-02-14 18:30", className: "status-doing" },
-      { id: "t14", group: "orga", content: "Veranstaltung – Tag 3 (Finale)", start: "2026-02-15 10:00", end: "2026-02-15 14:00", className: "status-critical fmt-bold fmt-underline" },
-      { id: "t15", group: "buehne", content: "Abbau Bühne / Technik", start: "2026-02-15 14:15", end: "2026-02-15 18:00", className: "status-critical fmt-bold" }
-    ];
-
-    // -----------------------------
-    // Load / Save
-    // -----------------------------
-    function loadModel() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return null;
-        const model = JSON.parse(raw);
-        if (!model || !Array.isArray(model.groups) || !Array.isArray(model.items)) return null;
-        return model;
-      } catch { return null; }
-    }
-
-    function saveModel(groups, items) {
-      const model = {
-        version: 2,
-        savedAt: new Date().toISOString(),
-        groups: groups.get(),
-        items: items.get()
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(model, null, 2));
-    }
-
-    function bootModel() {
-      const model = loadModel();
-
-      const groups = new vis.DataSet(model?.groups ?? defaultGroups);
-
-      const items = new vis.DataSet((model?.items ?? defaultItems).map(x => {
-        const start = parseLocalInput(x.start) || x.start;
-        const end = x.end ? (parseLocalInput(x.end) || x.end) : undefined;
-        // ensure wk class present:
-        const className = buildClassName({
-          groupId: x.group,
-          status: splitClasses(x.className).find(c => STATUS_CLASSES.includes(c)) || "status-todo",
-          bold: splitClasses(x.className).includes("fmt-bold"),
-          italic: splitClasses(x.className).includes("fmt-italic"),
-          underline: splitClasses(x.className).includes("fmt-underline"),
-          existingClassName: x.className
-        });
-        return { ...x, start, end, className };
-      }));
-
-      return { groups, items };
-    }
-
-    // -----------------------------
-    // Focus persistence
-    // -----------------------------
-    function saveFocus(start, end) {
-      localStorage.setItem(FOCUS_KEY, JSON.stringify({ start: start.toISOString(), end: end.toISOString() }));
-    }
-    function loadFocus() {
-      try {
-        const raw = localStorage.getItem(FOCUS_KEY);
-        if (!raw) return null;
-        const o = JSON.parse(raw);
-        return { start: new Date(o.start), end: new Date(o.end) };
-      } catch { return null; }
-    }
-
-    // -----------------------------
-    // Timeline init
-    // -----------------------------
-    const container = document.getElementById("timeline");
-    const { groups, items } = bootModel();
-
-    const options = {
-      stack: false,
-      groupHeightMode: "fixed",
-      zoomMin: 1000 * 60 * 30,           // 30 min
-      zoomMax: 1000 * 60 * 60 * 24 * 30, // 30 days
-      selectable: true,
-      multiselect: false,
-      showCurrentTime: true,
-      margin: { item: 10, axis: 5 },
-      editable: { add: true, updateTime: true, updateGroup: true, remove: true },
-
-      onAdd: function (item, callback) {
-        openEditor({ mode: "add", item: { ...item, id: uid(), type: "range" } }, (result) => {
-          if (!result) return callback(null);
-          callback(result);
-          saveModel(groups, items);
-        });
-      },
-      onUpdate: function (item, callback) {
-        openEditor({ mode: "edit", item: { ...item } }, (result) => {
-          if (!result) return callback(null);
-          callback(result);
-          saveModel(groups, items);
-        });
-      },
-      onRemove: function (item, callback) {
-        const ok = confirm(`Task wirklich löschen?\n\n${item.content}`);
-        callback(ok ? item : null);
-        if (ok) saveModel(groups, items);
-      }
-    };
-
-    const timeline = new vis.Timeline(container, items, groups, options);
-
-    // --- Fokus Funktionen
-    function focusOneDay(dateObj) {
-      const start = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 6, 0, 0, 0);
-      const end   = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 22, 0, 0, 0);
-      timeline.setWindow(start, end, { animation: true });
-      saveFocus(start, end);
-    }
-    function focusEventDays() {
-      const start = dt(2026, 2, 13, 6, 0);
-      const end   = dt(2026, 2, 15, 22, 0);
-      timeline.setWindow(start, end, { animation: true });
-      saveFocus(start, end);
-    }
-    function focusAll() {
-      const start = dt(2026, 2, 10, 8, 0);
-      const end   = dt(2026, 2, 16, 20, 0);
-      timeline.setWindow(start, end, { animation: true });
-      saveFocus(start, end);
-    }
-
-    // Start-Fokus
-    const savedFocus = loadFocus();
-    if (savedFocus) timeline.setWindow(savedFocus.start, savedFocus.end, { animation: false });
-    else focusEventDays();
-
-    // Persist on change
-    items.on("*", () => saveModel(groups, items));
-    groups.on("*", () => saveModel(groups, items));
-
-    // -----------------------------
-    // Toolbar actions
-    // -----------------------------
-    document.getElementById("addBtn").addEventListener("click", () => {
-      const selGroup = groups.getIds()[0] || "orga";
-      const now = new Date();
-      const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 0, 0);
-      const end = new Date(start.getTime() + 1000 * 60 * 60);
-
-      const newItem = {
-        id: uid(),
-        group: selGroup,
-        content: "Neuer Task",
-        start,
-        end,
-        type: "range",
-        className: buildClassName({
-          groupId: selGroup,
-          status: "status-todo",
-          bold: false, italic: false, underline: false,
-          existingClassName: ""
-        })
-      };
-
-      openEditor({ mode: "add", item: newItem }, (result) => {
-        if (!result) return;
-        items.add(result);
-        saveModel(groups, items);
-      });
-    });
-
-    document.getElementById("delBtn").addEventListener("click", () => {
-      const sel = timeline.getSelection();
-      if (!sel?.length) return alert("Bitte zuerst einen Task anklicken.");
-      const it = items.get(sel[0]);
-      const ok = confirm(`Task wirklich löschen?\n\n${it.content}`);
-      if (!ok) return;
-      items.remove(sel[0]);
-      saveModel(groups, items);
-    });
-
-    document.getElementById("resetBtn").addEventListener("click", () => {
-      const ok = confirm("Demo-Plan laden? Dabei werden deine gespeicherten Änderungen überschrieben (inkl. Fokus).");
-      if (!ok) return;
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem(FOCUS_KEY);
-      location.reload();
-    });
-
-    document.getElementById("exportBtn").addEventListener("click", () => {
-      const model = loadModel() ?? {
-        version: 2,
-        savedAt: new Date().toISOString(),
-        groups: groups.get(),
-        items: items.get().map(x => ({
-          ...x,
-          start: toLocalInput(x.start),
-          end: x.end ? toLocalInput(x.end) : ""
-        }))
-      };
-      download("schulveranstaltung-gantt.json", JSON.stringify(model, null, 2));
-    });
-
-    const importFile = document.getElementById("importFile");
-    importFile.addEventListener("change", async () => {
-      const file = importFile.files?.[0];
-      if (!file) return;
-      try {
-        const text = await file.text();
-        const model = JSON.parse(text);
-        if (!model || !Array.isArray(model.groups) || !Array.isArray(model.items)) {
-          alert("Ungültige JSON-Struktur.");
-          return;
+    cards.forEach(card => {
+      card.addEventListener("click", () => {
+        const target = card.getAttribute("data-target");
+        sections.forEach(sec => sec.classList.remove("active"));
+        document.getElementById(target)?.classList.add("active");
+        if (target === "idee") {
+          initIdeenWizard();
         }
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(model, null, 2));
-        location.reload();
-      } catch (e) {
-        alert("Import fehlgeschlagen: " + e.message);
-      } finally {
-        importFile.value = "";
+      });
+    });
+
+    backButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        sections.forEach(sec => sec.classList.remove("active"));
+        document.getElementById("index").classList.add("active");
+      });
+    });
+
+    function initIdeenWizard() {
+      const feld = document.getElementById('themenfeld');
+      if (!feld) return;
+      if (feld.dataset.init === "true") return;
+      feld.dataset.init = "true";
+
+      document.getElementById('intro-btn').addEventListener('click', () => step(1));
+
+      let rest = 300;
+      let timerId = null;
+
+      const boosters = [
+        '💭 Was würde Lisa Simpson dazu sagen?',
+        '💰 Wenn Geld keine Rolle spielt?',
+        '🌍 Wie in einem anderen Land?',
+        '🤖 Mit Hilfe von Robotern?',
+        '👶 Für Kindergartenkinder?',
+        '🎮 Als Spiel gedacht?',
+        '📱 Mit einer App?',
+        '🌱 Für die Umwelt?',
+        '⚡ Total verrückt?',
+        '🔮 In 10 Jahren?'
+      ];
+
+      function step(n) {
+        document.querySelectorAll('.step')
+          .forEach(s => s.classList.toggle('active', s.id === `step${n}`));
       }
-    });
 
-    // Fokus Buttons
-    document.getElementById("focusDayBtn").addEventListener("click", () => {
-      const w = timeline.getWindow();
-      const mid = new Date((w.start.getTime() + w.end.getTime()) / 2);
-      focusOneDay(mid);
-    });
-    document.getElementById("focus3DaysBtn").addEventListener("click", focusEventDays);
-    document.getElementById("focusAllBtn").addEventListener("click", focusAll);
+      function tick() {
+        document.getElementById('timer').textContent =
+          `⏰ Zeit: ${Math.floor(rest/60)}:${String(rest % 60).padStart(2, '0')}`;
+        if (rest > 0) {
+          rest--;
+          timerId = setTimeout(tick, 1000);
+        }
+      }
 
-    document.getElementById("focusPickBtn").addEventListener("click", () => {
-      const v = document.getElementById("focusDate").value;
-      if (!v) return alert("Bitte erst ein Datum auswählen.");
-      const m = v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-      if (!m) return alert("Ungültiges Datum.");
-      const d = new Date(+m[1], +m[2]-1, +m[3], 12, 0, 0, 0);
-      focusOneDay(d);
-    });
+      function renderIdeas() {
+        document.getElementById('ideas-display').style.display = ideen.length ? 'block' : 'none';
+        document.getElementById('ideas-container').innerHTML = ideen
+          .map((t, i) => `<div class="idea-item">${i+1}. ${t}</div>`).join('');
+      }
 
-    // -----------------------------
-    // Modal Editor (Palette)
-    // -----------------------------
-    const dlg = document.getElementById("editDialog");
-    const modalTitle = document.getElementById("modalTitle");
-    const f_content = document.getElementById("f_content");
-    const f_start = document.getElementById("f_start");
-    const f_end = document.getElementById("f_end");
-    const f_group = document.getElementById("f_group");
-    const f_status = document.getElementById("f_status");
-    const f_note = document.getElementById("f_note");
-    const f_bold = document.getElementById("f_bold");
-    const f_italic = document.getElementById("f_italic");
-    const f_underline = document.getElementById("f_underline");
-    const f_color = document.getElementById("f_color");
-    const f_colorMode = document.getElementById("f_colorMode");
+      function renderSelection() {
+        document.getElementById('themenfeld-final').textContent = thema;
+        document.getElementById('final-ideas-list').innerHTML = ideen
+          .map((t,i) => `
+            <div class="idea-item ${sel.includes(i)? 'selected' : ''}" data-i="${i}">
+              <input type="checkbox" ${sel.includes(i)? 'checked' : ''}> ${t}
+            </div>`).join('');
+        document.querySelectorAll('#final-ideas-list .idea-item')
+          .forEach(div => div.addEventListener('click', () => toggleIdea(+div.dataset.i, div)));
+        document.getElementById('generate-btn').style.display = sel.length ? 'inline-flex' : 'none';
+      }
 
-    function refreshGroupOptions(selectedId) {
-      f_group.innerHTML = "";
-      groups.get().forEach(g => {
-        const opt = document.createElement("option");
-        opt.value = g.id;
-        opt.textContent = g.content;
-        if (String(g.id) === String(selectedId)) opt.selected = true;
-        f_group.appendChild(opt);
+      function toggleIdea(i, div) {
+        const cb = div.querySelector('input');
+        if (sel.includes(i)) {
+          sel = sel.filter(x => x !== i);
+          div.classList.remove('selected');
+          cb.checked = false;
+        } else if (sel.length < 3) {
+          sel.push(i);
+          div.classList.add('selected');
+          cb.checked = true;
+        } else {
+          alert('Maximal 3 Ideen auswählen!');
+        }
+        document.getElementById('generate-btn').style.display = sel.length ? 'inline-flex' : 'none';
+      }
+
+      function generatePrompt() {
+        const prompt = `
+Du bist eine digitale Lernbegleiterin für eine Gruppe von Schüler:innen (10–13 Jahre). 
+Deine Aufgabe ist es, die Schüler:innen bei ihrem Projekt zu unterstützen, indem du 
+ihnen beim Nachdenken hilfst – aber nicht alle Antworten vorsagst. 
+
+Wichtig:
+- Sprich in einer einfachen, altersgerechten Sprache, die leicht zu verstehen ist. 
+- Stelle viele neugierige Fragen und rege zum Weiterdenken an. 
+- Vermeide lange Vorträge oder fertige Lösungen. 
+- Arbeite immer Schritt für Schritt: Eine Frage stellen, dann warten, dann nächste Frage. 
+
+Die Schüler:innen haben als **Oberthema** gewählt:  
+👉 ${thema}
+
+Sie haben außerdem diese **drei Ideen** besonders spannend gefunden:  
+👉 ${sel.map(i => ideen[i]).join('\n👉 ')}
+
+Bitte hilf ihnen jetzt, diese Ideen zu durchdenken. 
+Deine Rolle: Stelle Fragen, rege Diskussionen an und hilf ihnen, selbst die besten 
+Gedanken zu entwickeln. 
+
+Beginne mit einer freundlichen Begrüßung, nenne das Oberthema und frage dann nach, 
+welche der drei Ideen sie zuerst genauer anschauen möchten.
+        `.trim();
+
+        document.getElementById('generated-prompt').textContent = prompt;
+        document.getElementById('prompt-section').style.display = 'block';
+        document.getElementById('copyAndGoBtn').onclick = () => {
+          navigator.clipboard.writeText(prompt).then(() => {
+            alert("✅ Prompt kopiert!");
+            window.open("https://chat.openai.com", "_blank");
+          });
+        };
+      }
+
+      feld.addEventListener('keypress', e => {
+        if (e.key === 'Enter' && feld.value.trim()) {
+          e.preventDefault();
+          thema = feld.value.trim();
+          document.getElementById('themenfeld-display').textContent = thema;
+          step(2);
+          tick();
+        }
+      });
+
+      feld.addEventListener('input', () => {
+        document.getElementById('start-btn').disabled = !feld.value.trim();
+      });
+
+      document.getElementById('start-btn').addEventListener('click', () => {
+        thema = feld.value.trim();
+        document.getElementById('themenfeld-display').textContent = thema;
+        step(2);
+        tick();
+      });
+
+      document.getElementById('neue-idee').addEventListener('keypress', e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          document.getElementById('add-idee-btn').click();
+        }
+      });
+
+      document.getElementById('add-idee-btn').addEventListener('click', () => {
+        const text = document.getElementById('neue-idee').value.trim();
+        if (!text) return;
+        ideen.push(text);
+        document.getElementById('neue-idee').value = '';
+        renderIdeas();
+      });
+
+      document.getElementById('booster-btn').addEventListener('click', () => {
+        document.getElementById('creativity-booster').textContent =
+          boosters[Math.floor(Math.random()*boosters.length)];
+      });
+
+      document.getElementById('finish-btn').addEventListener('click', () => {
+        clearTimeout(timerId);
+        step(3);
+        renderSelection();
+      });
+
+      document.getElementById('generate-btn').addEventListener('click', generatePrompt);
+
+      document.getElementById('copy-btn').addEventListener('click', () => {
+        navigator.clipboard.writeText(document.getElementById('generated-prompt').textContent);
+      });
+	  
+	  document.getElementById('save-progress-btn').addEventListener('click', () => {
+  const daten = {
+    thema,
+    ideen,
+    favoriten: sel.map(i => ideen[i]),
+    timestamp: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(daten, null, 2)], { type: 'application/json' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `Projektideen_${thema || 'unbenannt'}.json`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});		
+	document.getElementById('load-progress-btn').addEventListener('click', () => {
+  document.getElementById('load-input').click();
+});
+
+document.getElementById('load-input').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    try {
+      const daten = JSON.parse(evt.target.result);
+      thema = daten.thema || '';
+      ideen = daten.ideen || [];
+      sel = daten.favoriten?.map(fav => ideen.indexOf(fav)).filter(i => i >= 0) || [];
+
+      // Werte in die Felder einsetzen
+      document.getElementById('themenfeld').value = thema;
+      document.getElementById('themenfeld-display').textContent = thema;
+      document.getElementById('themenfeld-final').textContent = thema;
+
+      // Interface vorbereiten
+      document.getElementById('start-btn').disabled = !thema;
+      step(3);
+      renderSelection();
+    } catch (err) {
+      alert("⚠️ Fehler beim Laden der Datei.");
+    }
+  };
+  reader.readAsText(file);
+});
+
+      document.getElementById('restart-btn').addEventListener('click', () => {
+        thema = ''; ideen = []; sel = []; rest = 300;
+        clearTimeout(timerId);
+               document.getElementById('creativity-booster').textContent = '';
+        document.getElementById('themenfeld').value = '';
+        document.getElementById('ideas-container').innerHTML = '';
+        document.getElementById('final-ideas-list').innerHTML = '';
+        document.getElementById('prompt-section').style.display = 'none';
+        document.getElementById('ideas-display').style.display = 'none';
+        document.getElementById('themenfeld-final').textContent = '';
+        document.getElementById('generated-prompt').textContent = '';
+        step(1);
       });
     }
+// === Forscherfragen-Logik ===
 
-    function getCurrentPaletteFromClassName(className){
-      const cls = splitClasses(className);
-      const status = cls.find(c => STATUS_CLASSES.includes(c)) || "status-todo";
-      const bold = cls.includes("fmt-bold");
-      const italic = cls.includes("fmt-italic");
-      const underline = cls.includes("fmt-underline");
-      return { status, bold, italic, underline };
+// Wenn die Forscherfragen-Kachel geöffnet wird
+cards.forEach(card => {
+  card.addEventListener("click", () => {
+    if (card.getAttribute("data-target") === "forscherfrage") {
+      initForscherfrage();
     }
+  });
+});
 
-    function openEditor(ctx, done) {
-      const { mode } = ctx;
-      const item = ctx.item;
+function initForscherfrage() {
+  const iframeContainer = document.getElementById("iframe-container");
+  const endMessage = document.getElementById("end-message");
+  const iframe = iframeContainer.querySelector("iframe");
 
-      modalTitle.textContent = (mode === "add") ? "Task hinzufügen" : "Task bearbeiten";
-      refreshGroupOptions(item.group ?? (groups.getIds()[0] || "orga"));
-
-      f_content.value = item.content ?? "";
-      f_start.value = toLocalInput(item.start ?? new Date());
-      f_end.value = item.end ? toLocalInput(item.end) : "";
-      f_note.value = item.title ?? "";
-
-      const pal = getCurrentPaletteFromClassName(item.className);
-      f_status.value = pal.status;
-      f_bold.checked = pal.bold;
-      f_italic.checked = pal.italic;
-      f_underline.checked = pal.underline;
-
-      // custom color defaults
-      f_colorMode.value = "none";
-      f_color.value = "#4b9bff";
-
-      const onClose = () => {
-        dlg.removeEventListener("close", onClose);
-        if (dlg.returnValue === "cancel") return done(null);
-
-        const start = parseLocalInput(f_start.value);
-        const end = f_end.value.trim() ? parseLocalInput(f_end.value) : null;
-
-        if (!start) { alert("Bitte Start korrekt angeben (YYYY-MM-DD HH:MM)."); return done(null); }
-        if (end && end < start) { alert("Ende darf nicht vor Start liegen."); return done(null); }
-
-        const groupId = f_group.value;
-        const status = f_status.value;
-
-        const className = buildClassName({
-          groupId,
-          status,
-          bold: f_bold.checked,
-          italic: f_italic.checked,
-          underline: f_underline.checked,
-          existingClassName: item.className
-        });
-
-        const style = applyCustomColor(item.style, f_color.value, f_colorMode.value);
-
-        const result = {
-          ...item,
-          content: f_content.value.trim() || "Ohne Titel",
-          start,
-          end: end || undefined,
-          group: groupId,
-          className,
-          style: style || undefined,
-          title: f_note.value.trim() || undefined,
-          type: "range"
-        };
-
-        done(result);
-      };
-
-      dlg.addEventListener("close", onClose);
-      dlg.showModal();
-      f_content.focus();
-      f_content.select();
+  // Lauscht auf Nachrichten aus der eingebetteten Seite (optional, falls sie am Ende ein Signal sendet)
+  window.addEventListener("message", (event) => {
+    if (event.data === "endOfBuddelTool") {
+      iframeContainer.style.display = "none";
+      endMessage.style.display = "block";
     }
+  });
+
+  // Falls kein Signal kommt, können wir es auch zeitbasiert testen (z. B. nach 10 Minuten)
+  // setTimeout(() => {
+  //   iframeContainer.style.display = "none";
+  //   endMessage.style.display = "block";
+  // }, 600000); // 10 Minuten
+
+  // „Zurück zur Startseite“-Button
+  const backToStart = document.getElementById("backToStart");
+  backToStart.addEventListener("click", (e) => {
+    e.preventDefault();
+    iframeContainer.style.display = "block";
+    endMessage.style.display = "none";
+    sections.forEach(sec => sec.classList.remove("active"));
+    document.getElementById("index").classList.add("active");
+  });
+}
   </script>
 </body>
 </html>
