@@ -1,9 +1,9 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Digitale Lernbegleiterin – Kursübersicht</title>
+  <title>Ideen-Phase – Projekt 5-7 Rot</title>
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
@@ -31,43 +31,6 @@
       max-width: 900px;
       margin: auto;
       padding: 2rem;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-    .card {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 1.5rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      cursor: pointer;
-      touch-action: manipulation;
-    }
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .card span {
-      font-size: 2.5rem;
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-
-    section {
-      display: none;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-    section.active {
-      display: block;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     footer {
@@ -183,134 +146,111 @@
       text-align: left;
       border: 1px solid #ccc;
     }
-     <!-- Ideenbereich -->
-    <section id="idee">
-      <!-- Step 0 -->
-      <div class="step active" id="step0">
-        <h2>👋 Willkommen zur Ideen-Phase</h2>
-        <p>Bevor es losgeht, hier ein kurzer Überblick:</p>
-        <div class="content">
-          <ul>
-            <li><strong>🎯 Ziel:</strong> Projektideen zu deinem Oberthema entwickeln.</li>
-            <li><strong>🛠️ Ablauf:</strong>
-              <ol>
-                <li>Thema auswählen</li>
-                <li>Ideen sammeln (mit Timer & Boostern)</li>
-                <li>3 Favoriten auswählen</li>
-                <li>Prompt generieren</li>
-              </ol>
-            </li>
-            <li><strong>⏱️ Dauer:</strong> etwa 10–15 Minuten</li>
-            <li><strong>✅ Voraussetzung:</strong> Du arbeitest bereits in einer Gruppe.</li>
-          </ul>
-        </div>
-        <div class="button-row">
-          <button id="intro-btn">➡️ Weiter</button>
-        </div>
-      </div>
 
-      <!-- Step 1 -->
-      <div class="step" id="step1">
-        <h2>🎯 Schritt 1: Thema eingeben</h2>
-        <input id="themenfeld" type="text" placeholder="z. B. Umwelt, Tiere, Plastik..." />
-        <div class="button-row">
-          <button id="start-btn" disabled>🚀 Start</button>
-        </div>
-      </div>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
 
-      <!-- Step 2 -->
-      <div class="step" id="step2">
-        <h2>💡 Schritt 2: Ideen sammeln</h2>
-        <p><strong>Thema:</strong> <span id="themenfeld-display"></span></p>
-        <div class="notification" id="timer">⏰ Zeit: 5:00</div>
-        <button id="booster-btn">✨ Kreativitäts-Booster holen</button>
-        <p class="creativity-booster" id="creativity-booster"></p>
-        <textarea id="neue-idee" placeholder="Gib eine Idee ein..." rows="2"></textarea>
-        <div class="button-row">
-          <button id="add-idee-btn">➕ Idee hinzufügen</button>
-          <button id="finish-btn">✅ Fertig</button>
-        </div>
-        <div id="ideas-display" style="display: none;">
-          <h3>Deine Ideen:</h3>
-          <div id="ideas-container"></div>
-        </div>
-      </div>
+  <header>
+    <h1>💡 Ideen-Phase</h1>
+    <p>Entwickle Projektideen zu deinem Thema</p>
+  </header>
 
-      <!-- Step 3 -->
-      <div class="step" id="step3">
-        <h2>✅ Schritt 3: Lieblingsideen wählen</h2>
-        <p><strong>Thema:</strong> <span id="themenfeld-final"></span></p>
-        <p>Wähle bis zu 3 Ideen:</p>
-        <div id="final-ideas-list"></div>
-        <div class="button-row">
-          <button id="generate-btn" style="display: none;">🤖 Prompt generieren</button>
-        </div>
-        <div id="prompt-section" style="display: none;">
-          <h3>🧠 Dein Prompt:</h3>
-          <div class="box" id="generated-prompt"></div>
-          <div class="button-row">
-            <button id="copy-btn">📋 Prompt kopieren</button>
-            <button id="copyAndGoBtn">🚀 Kopieren & ChatGPT</button>
-          </div>
-        </div>
-        <div class="button-row">
-        	<!-- Am besten vor dem Restart-Button -->
-			<button id="save-progress-btn">📥Fortschritt speichern</button>
-			<div class="button-row">
-  <button id="load-progress-btn">📤 Fortschritt laden</button>
-  <input type="file" id="load-input" accept=".json" style="display:none">
-</div>
-			<button id="restart-btn">🔄 Neu starten</button>
-        </div>
+  <div class="container">
+    <!-- Step 0 -->
+    <div class="step active" id="step0">
+      <h2>👋 Willkommen zur Ideen-Phase</h2>
+      <p>Bevor es losgeht, hier ein kurzer Überblick:</p>
+      <div class="content">
+        <ul>
+          <li><strong>🎯 Ziel:</strong> Projektideen zu deinem Oberthema entwickeln.</li>
+          <li><strong>🛠️ Ablauf:</strong>
+            <ol>
+              <li>Thema auswählen</li>
+              <li>Ideen sammeln (mit Timer &amp; Boostern)</li>
+              <li>3 Favoriten auswählen</li>
+              <li>Prompt generieren</li>
+            </ol>
+          </li>
+          <li><strong>⏱️ Dauer:</strong> etwa 10–15 Minuten</li>
+          <li><strong>✅ Voraussetzung:</strong> Du arbeitest bereits in einer Gruppe.</li>
+        </ul>
       </div>
-
       <div class="button-row">
-        <button class="backBtn">⬅️ Zurück zur Übersicht</button>
+        <button id="intro-btn">➡️ Weiter</button>
       </div>
-    </section>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step" id="step1">
+      <h2>🎯 Schritt 1: Thema eingeben</h2>
+      <input id="themenfeld" type="text" placeholder="z. B. Umwelt, Tiere, Plastik..." />
+      <div class="button-row">
+        <button id="start-btn" disabled>🚀 Start</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" id="step2">
+      <h2>💡 Schritt 2: Ideen sammeln</h2>
+      <p><strong>Thema:</strong> <span id="themenfeld-display"></span></p>
+      <div class="notification" id="timer">⏰ Zeit: 5:00</div>
+      <button id="booster-btn">✨ Kreativitäts-Booster holen</button>
+      <p class="creativity-booster" id="creativity-booster"></p>
+      <textarea id="neue-idee" placeholder="Gib eine Idee ein..." rows="2"></textarea>
+      <div class="button-row">
+        <button id="add-idee-btn">➕ Idee hinzufügen</button>
+        <button id="finish-btn">✅ Fertig</button>
+      </div>
+      <div id="ideas-display" style="display: none;">
+        <h3>Deine Ideen:</h3>
+        <div id="ideas-container"></div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step" id="step3">
+      <h2>✅ Schritt 3: Lieblingsideen wählen</h2>
+      <p><strong>Thema:</strong> <span id="themenfeld-final"></span></p>
+      <p>Wähle bis zu 3 Ideen:</p>
+      <div id="final-ideas-list"></div>
+      <div class="button-row">
+        <button id="generate-btn" style="display: none;">🤖 Prompt generieren</button>
+      </div>
+      <div id="prompt-section" style="display: none;">
+        <h3>🧠 Dein Prompt:</h3>
+        <div class="box" id="generated-prompt"></div>
+        <div class="button-row">
+          <button id="copy-btn">📋 Prompt kopieren</button>
+          <button id="copyAndGoBtn">🚀 Kopieren &amp; ChatGPT</button>
+        </div>
+      </div>
+      <div class="button-row">
+        <button id="save-progress-btn">📥 Fortschritt speichern</button>
+        <button id="load-progress-btn">📤 Fortschritt laden</button>
+        <input type="file" id="load-input" accept=".json" style="display:none">
+        <button id="restart-btn">🔄 Neu starten</button>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button class="backBtn">⬅️ Zurück zur Übersicht</button>
+    </div>
   </div>
-  
-    <footer>
+
+  <footer>
     Digitale Lernbegleiterin · Erstellt mit ❤️
   </footer>
 
-  
-
   <script>
-    let thema = '';
-    let ideen = [];
-    let sel = [];
-
-    const cards = document.querySelectorAll(".card[data-target]");
-    const sections = document.querySelectorAll("section");
-    const backButtons = document.querySelectorAll(".backBtn");
-
-    cards.forEach(card => {
-      card.addEventListener("click", () => {
-        const target = card.getAttribute("data-target");
-        sections.forEach(sec => sec.classList.remove("active"));
-        document.getElementById(target)?.classList.add("active");
-        if (target === "idee") {
-          initIdeenWizard();
-        }
-      });
-    });
-
-    backButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        sections.forEach(sec => sec.classList.remove("active"));
-        document.getElementById("index").classList.add("active");
-      });
-    });
-
-    function initIdeenWizard() {
-      const feld = document.getElementById('themenfeld');
-      if (!feld) return;
-      if (feld.dataset.init === "true") return;
-      feld.dataset.init = "true";
-
-      document.getElementById('intro-btn').addEventListener('click', () => step(1));
-
+    (() => {
+      let thema = '';
+      let ideen = [];
+      let sel = [];
       let rest = 300;
       let timerId = null;
 
@@ -334,7 +274,7 @@
 
       function tick() {
         document.getElementById('timer').textContent =
-          `⏰ Zeit: ${Math.floor(rest/60)}:${String(rest % 60).padStart(2, '0')}`;
+          `⏰ Zeit: ${Math.floor(rest / 60)}:${String(rest % 60).padStart(2, '0')}`;
         if (rest > 0) {
           rest--;
           timerId = setTimeout(tick, 1000);
@@ -344,15 +284,15 @@
       function renderIdeas() {
         document.getElementById('ideas-display').style.display = ideen.length ? 'block' : 'none';
         document.getElementById('ideas-container').innerHTML = ideen
-          .map((t, i) => `<div class="idea-item">${i+1}. ${t}</div>`).join('');
+          .map((t, i) => `<div class="idea-item">${i + 1}. ${t}</div>`).join('');
       }
 
       function renderSelection() {
         document.getElementById('themenfeld-final').textContent = thema;
         document.getElementById('final-ideas-list').innerHTML = ideen
-          .map((t,i) => `
-            <div class="idea-item ${sel.includes(i)? 'selected' : ''}" data-i="${i}">
-              <input type="checkbox" ${sel.includes(i)? 'checked' : ''}> ${t}
+          .map((t, i) => `
+            <div class="idea-item ${sel.includes(i) ? 'selected' : ''}" data-i="${i}">
+              <input type="checkbox" ${sel.includes(i) ? 'checked' : ''}> ${t}
             </div>`).join('');
         document.querySelectorAll('#final-ideas-list .idea-item')
           .forEach(div => div.addEventListener('click', () => toggleIdea(+div.dataset.i, div)));
@@ -376,195 +316,155 @@
       }
 
       function generatePrompt() {
-        const prompt = `
-Du bist eine digitale Lernbegleiterin für eine Gruppe von Schüler:innen (10–13 Jahre). 
-Deine Aufgabe ist es, die Schüler:innen bei ihrem Projekt zu unterstützen, indem du 
-ihnen beim Nachdenken hilfst – aber nicht alle Antworten vorsagst. 
+        const prompt = `Du bist eine digitale Lernbegleiterin für eine Gruppe von Schüler:innen (10–13 Jahre).
+Deine Aufgabe ist es, die Schüler:innen bei ihrem Projekt zu unterstützen, indem du
+ihnen beim Nachdenken hilfst – aber nicht alle Antworten vorsagst.
 
 Wichtig:
-- Sprich in einer einfachen, altersgerechten Sprache, die leicht zu verstehen ist. 
-- Stelle viele neugierige Fragen und rege zum Weiterdenken an. 
-- Vermeide lange Vorträge oder fertige Lösungen. 
-- Arbeite immer Schritt für Schritt: Eine Frage stellen, dann warten, dann nächste Frage. 
+- Sprich in einer einfachen, altersgerechten Sprache, die leicht zu verstehen ist.
+- Stelle viele neugierige Fragen und rege zum Weiterdenken an.
+- Vermeide lange Vorträge oder fertige Lösungen.
+- Arbeite immer Schritt für Schritt: Eine Frage stellen, dann warten, dann nächste Frage.
 
-Die Schüler:innen haben als **Oberthema** gewählt:  
+Die Schüler:innen haben als **Oberthema** gewählt:
 👉 ${thema}
 
-Sie haben außerdem diese **drei Ideen** besonders spannend gefunden:  
+Sie haben außerdem diese **drei Ideen** besonders spannend gefunden:
 👉 ${sel.map(i => ideen[i]).join('\n👉 ')}
 
-Bitte hilf ihnen jetzt, diese Ideen zu durchdenken. 
-Deine Rolle: Stelle Fragen, rege Diskussionen an und hilf ihnen, selbst die besten 
-Gedanken zu entwickeln. 
+Bitte hilf ihnen jetzt, diese Ideen zu durchdenken.
+Deine Rolle: Stelle Fragen, rege Diskussionen an und hilf ihnen, selbst die besten
+Gedanken zu entwickeln.
 
-Beginne mit einer freundlichen Begrüßung, nenne das Oberthema und frage dann nach, 
-welche der drei Ideen sie zuerst genauer anschauen möchten.
-        `.trim();
+Beginne mit einer freundlichen Begrüßung, nenne das Oberthema und frage dann nach,
+welche der drei Ideen sie zuerst genauer anschauen möchten.`.trim();
 
         document.getElementById('generated-prompt').textContent = prompt;
         document.getElementById('prompt-section').style.display = 'block';
         document.getElementById('copyAndGoBtn').onclick = () => {
           navigator.clipboard.writeText(prompt).then(() => {
-            alert("✅ Prompt kopiert!");
-            window.open("https://chat.openai.com", "_blank");
+            alert('✅ Prompt kopiert!');
+            window.open('https://chat.openai.com', '_blank');
           });
         };
       }
 
-      feld.addEventListener('keypress', e => {
-        if (e.key === 'Enter' && feld.value.trim()) {
-          e.preventDefault();
+      document.addEventListener('DOMContentLoaded', () => {
+        const feld = document.getElementById('themenfeld');
+
+        document.getElementById('intro-btn').addEventListener('click', () => step(1));
+
+        feld.addEventListener('input', () => {
+          document.getElementById('start-btn').disabled = !feld.value.trim();
+        });
+
+        feld.addEventListener('keypress', e => {
+          if (e.key === 'Enter' && feld.value.trim()) {
+            e.preventDefault();
+            document.getElementById('start-btn').click();
+          }
+        });
+
+        document.getElementById('start-btn').addEventListener('click', () => {
           thema = feld.value.trim();
           document.getElementById('themenfeld-display').textContent = thema;
           step(2);
           tick();
-        }
+        });
+
+        document.getElementById('neue-idee').addEventListener('keypress', e => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            document.getElementById('add-idee-btn').click();
+          }
+        });
+
+        document.getElementById('add-idee-btn').addEventListener('click', () => {
+          const text = document.getElementById('neue-idee').value.trim();
+          if (!text) return;
+          ideen.push(text);
+          document.getElementById('neue-idee').value = '';
+          renderIdeas();
+        });
+
+        document.getElementById('booster-btn').addEventListener('click', () => {
+          document.getElementById('creativity-booster').textContent =
+            boosters[Math.floor(Math.random() * boosters.length)];
+        });
+
+        document.getElementById('finish-btn').addEventListener('click', () => {
+          clearTimeout(timerId);
+          step(3);
+          renderSelection();
+        });
+
+        document.getElementById('generate-btn').addEventListener('click', generatePrompt);
+
+        document.getElementById('copy-btn').addEventListener('click', () => {
+          navigator.clipboard.writeText(document.getElementById('generated-prompt').textContent);
+        });
+
+        document.getElementById('save-progress-btn').addEventListener('click', () => {
+          const daten = {
+            thema,
+            ideen,
+            favoriten: sel.map(i => ideen[i]),
+            timestamp: new Date().toISOString()
+          };
+          const blob = new Blob([JSON.stringify(daten, null, 2)], { type: 'application/json' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = `Projektideen_${thema || 'unbenannt'}.json`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+
+        document.getElementById('load-progress-btn').addEventListener('click', () => {
+          document.getElementById('load-input').click();
+        });
+
+        document.getElementById('load-input').addEventListener('change', e => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = evt => {
+            try {
+              const daten = JSON.parse(evt.target.result);
+              thema = daten.thema || '';
+              ideen = daten.ideen || [];
+              sel = daten.favoriten?.map(fav => ideen.indexOf(fav)).filter(i => i >= 0) || [];
+              document.getElementById('themenfeld').value = thema;
+              document.getElementById('themenfeld-display').textContent = thema;
+              document.getElementById('start-btn').disabled = !thema;
+              step(3);
+              renderSelection();
+            } catch {
+              alert('⚠️ Fehler beim Laden der Datei.');
+            }
+          };
+          reader.readAsText(file);
+        });
+
+        document.getElementById('restart-btn').addEventListener('click', () => {
+          thema = ''; ideen = []; sel = []; rest = 300;
+          clearTimeout(timerId);
+          document.getElementById('creativity-booster').textContent = '';
+          document.getElementById('themenfeld').value = '';
+          document.getElementById('ideas-container').innerHTML = '';
+          document.getElementById('final-ideas-list').innerHTML = '';
+          document.getElementById('prompt-section').style.display = 'none';
+          document.getElementById('ideas-display').style.display = 'none';
+          document.getElementById('themenfeld-final').textContent = '';
+          document.getElementById('generated-prompt').textContent = '';
+          step(1);
+        });
+
+        document.querySelector('.backBtn').addEventListener('click', () => {
+          window.location.href = 'index.html';
+        });
       });
-
-      feld.addEventListener('input', () => {
-        document.getElementById('start-btn').disabled = !feld.value.trim();
-      });
-
-      document.getElementById('start-btn').addEventListener('click', () => {
-        thema = feld.value.trim();
-        document.getElementById('themenfeld-display').textContent = thema;
-        step(2);
-        tick();
-      });
-
-      document.getElementById('neue-idee').addEventListener('keypress', e => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          document.getElementById('add-idee-btn').click();
-        }
-      });
-
-      document.getElementById('add-idee-btn').addEventListener('click', () => {
-        const text = document.getElementById('neue-idee').value.trim();
-        if (!text) return;
-        ideen.push(text);
-        document.getElementById('neue-idee').value = '';
-        renderIdeas();
-      });
-
-      document.getElementById('booster-btn').addEventListener('click', () => {
-        document.getElementById('creativity-booster').textContent =
-          boosters[Math.floor(Math.random()*boosters.length)];
-      });
-
-      document.getElementById('finish-btn').addEventListener('click', () => {
-        clearTimeout(timerId);
-        step(3);
-        renderSelection();
-      });
-
-      document.getElementById('generate-btn').addEventListener('click', generatePrompt);
-
-      document.getElementById('copy-btn').addEventListener('click', () => {
-        navigator.clipboard.writeText(document.getElementById('generated-prompt').textContent);
-      });
-	  
-	  document.getElementById('save-progress-btn').addEventListener('click', () => {
-  const daten = {
-    thema,
-    ideen,
-    favoriten: sel.map(i => ideen[i]),
-    timestamp: new Date().toISOString()
-  };
-  const blob = new Blob([JSON.stringify(daten, null, 2)], { type: 'application/json' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = `Projektideen_${thema || 'unbenannt'}.json`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-});		
-	document.getElementById('load-progress-btn').addEventListener('click', () => {
-  document.getElementById('load-input').click();
-});
-
-document.getElementById('load-input').addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(evt) {
-    try {
-      const daten = JSON.parse(evt.target.result);
-      thema = daten.thema || '';
-      ideen = daten.ideen || [];
-      sel = daten.favoriten?.map(fav => ideen.indexOf(fav)).filter(i => i >= 0) || [];
-
-      // Werte in die Felder einsetzen
-      document.getElementById('themenfeld').value = thema;
-      document.getElementById('themenfeld-display').textContent = thema;
-      document.getElementById('themenfeld-final').textContent = thema;
-
-      // Interface vorbereiten
-      document.getElementById('start-btn').disabled = !thema;
-      step(3);
-      renderSelection();
-    } catch (err) {
-      alert("⚠️ Fehler beim Laden der Datei.");
-    }
-  };
-  reader.readAsText(file);
-});
-
-      document.getElementById('restart-btn').addEventListener('click', () => {
-        thema = ''; ideen = []; sel = []; rest = 300;
-        clearTimeout(timerId);
-               document.getElementById('creativity-booster').textContent = '';
-        document.getElementById('themenfeld').value = '';
-        document.getElementById('ideas-container').innerHTML = '';
-        document.getElementById('final-ideas-list').innerHTML = '';
-        document.getElementById('prompt-section').style.display = 'none';
-        document.getElementById('ideas-display').style.display = 'none';
-        document.getElementById('themenfeld-final').textContent = '';
-        document.getElementById('generated-prompt').textContent = '';
-        step(1);
-      });
-    }
-// === Forscherfragen-Logik ===
-
-// Wenn die Forscherfragen-Kachel geöffnet wird
-cards.forEach(card => {
-  card.addEventListener("click", () => {
-    if (card.getAttribute("data-target") === "forscherfrage") {
-      initForscherfrage();
-    }
-  });
-});
-
-function initForscherfrage() {
-  const iframeContainer = document.getElementById("iframe-container");
-  const endMessage = document.getElementById("end-message");
-  const iframe = iframeContainer.querySelector("iframe");
-
-  // Lauscht auf Nachrichten aus der eingebetteten Seite (optional, falls sie am Ende ein Signal sendet)
-  window.addEventListener("message", (event) => {
-    if (event.data === "endOfBuddelTool") {
-      iframeContainer.style.display = "none";
-      endMessage.style.display = "block";
-    }
-  });
-
-  // Falls kein Signal kommt, können wir es auch zeitbasiert testen (z. B. nach 10 Minuten)
-  // setTimeout(() => {
-  //   iframeContainer.style.display = "none";
-  //   endMessage.style.display = "block";
-  // }, 600000); // 10 Minuten
-
-  // „Zurück zur Startseite“-Button
-  const backToStart = document.getElementById("backToStart");
-  backToStart.addEventListener("click", (e) => {
-    e.preventDefault();
-    iframeContainer.style.display = "block";
-    endMessage.style.display = "none";
-    sections.forEach(sec => sec.classList.remove("active"));
-    document.getElementById("index").classList.add("active");
-  });
-}
+    })();
   </script>
 </body>
 </html>
