@@ -5,11 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>👋 Start – Projekt 5-7 Rot</title>
 
-  <!-- Styles & Fonts -->
+  <!-- Preconnect für CDNs -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Styles -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="projekt.css">
-  <link rel="stylesheet" href="school-colors.css">
+
+  <!-- Google Fonts: nicht render-blockierend laden -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap"></noscript>
 
   <!-- Scripts -->
   <script src="common.js" defer></script>
@@ -50,42 +58,42 @@
       <div class="card-grid">
         <a href="idee.html" class="card has-text-centered">
           <div class="card-content">
-            <img src="assets/images/arrow_cycle_blue.png" alt="Ideen-Kreispfeil" class="card-arrow">
+            <img src="assets/images/arrow_cycle_blue.png" alt="Ideen-Kreispfeil" class="card-arrow" width="80" height="60" decoding="async">
             <span>💡</span><br>Projektidee
           </div>
         </a>
 
         <a href="Vertrag/projektvertrag.html" class="card has-text-centered">
           <div class="card-content">
-            <img src="assets/images/arrow_cycle_green.png" alt="Planung" class="card-arrow">
+            <img src="assets/images/arrow_cycle_green.png" alt="Planung" class="card-arrow" width="80" height="60" loading="lazy" decoding="async">
             <span>📅</span><br>Planung
           </div>
         </a>
 
         <a href="forscherfrage.html" class="card has-text-centered">
           <div class="card-content">
-            <img src="assets/images/arrow_cycle_yellow.png" alt="Forscherfragen" class="card-arrow">
+            <img src="assets/images/arrow_cycle_yellow.png" alt="Forscherfragen" class="card-arrow" width="80" height="60" loading="lazy" decoding="async">
             <span>🔍</span><br>Forscherfragen
           </div>
         </a>
 
         <a href="nachhaltigkeit.html" class="card has-text-centered">
           <div class="card-content">
-            <img src="assets/images/arrow_cycle_yellow.png" alt="Nachhaltigkeit" class="card-arrow">
+            <img src="assets/images/arrow_cycle_yellow.png" alt="Nachhaltigkeit" class="card-arrow" width="80" height="60" loading="lazy" decoding="async">
             <span>🌱</span><br>Nachhaltigkeit
           </div>
         </a>
 
         <a href="produkt.html" class="card has-text-centered">
           <div class="card-content">
-            <img src="assets/images/arrow_cycle_red.png" alt="Produkte" class="card-arrow">
+            <img src="assets/images/arrow_cycle_red.png" alt="Produkte" class="card-arrow" width="80" height="60" loading="lazy" decoding="async">
             <span>🪧</span><br>Produkte
           </div>
         </a>
 
         <a href="rat.html" class="card has-text-centered">
           <div class="card-content">
-            <img src="assets/images/arrow_cycle_purple.png" alt="Projektrat" class="card-arrow">
+            <img src="assets/images/arrow_cycle_purple.png" alt="Projektrat" class="card-arrow" width="80" height="60" loading="lazy" decoding="async">
             <span>👆</span><br>Projektrat
           </div>
         </a>
